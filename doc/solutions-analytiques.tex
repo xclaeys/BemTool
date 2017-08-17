@@ -1,0 +1,380 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{a4wide,amsmath,amssymb,amsthm,color}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs}
+
+\newcommand{\nc}{\newcommand}
+\nc{\dsp}{\displaystyle}
+\nc{\mrm}{\mathrm}
+\nc{\mL}{\mathrm{L}}
+\nc{\mH}{\mathrm{H}}
+\nc{\mD}{\mathrm{D}}
+\nc{\mB}{\mathrm{B}}
+\nc{\R}{\mathbb{R}}
+\nc{\C}{\mathbb{C}}
+\nc{\lbr}{\lbrack}
+\nc{\rbr}{\rbrack}
+\nc{\bn}{\boldsymbol{n}}
+\nc{\bx}{\boldsymbol{x}}
+\nc{\by}{\boldsymbol{y}}
+\nc{\bu}{\boldsymbol{u}}
+\nc{\bv}{\boldsymbol{v}}
+
+\nc{\Green}{\mathscr{G}}
+\nc{\SL}{\mathrm{SL}}
+\nc{\DL}{\mathrm{DL}}
+\nc{\fre}{\mathfrak{e}}
+
+\nc{\mY}{\mrm{Y}}
+\nc{\vphi}{\varphi}
+\nc{\vtheta}{\vartheta}
+\nc{\dir}{\textsc{d}}
+\nc{\neu}{\textsc{n}}
+
+
+\renewcommand{\div}{\mrm{div}}
+\nc{\bfX}{\mathbf{X}}
+\nc{\mS}{\mrm{S}}
+
+
+
+
+\date{}
+\author{X.Claeys and P.Marchand}
+\title{Analytic expressions of potential operators\\ in circular and spherical geometries}
+
+\begin{document}
+
+\maketitle
+
+
+
+\quad\\
+This document aims at giving explicit  expressions for layer potentials for various classical 
+equations in circular and spherical geometries. These expressions will then be used to implement 
+reference solutions in the boundary element library \verb?BemTool?. More precisely, these reference 
+solutions will be stored under the form of routines located in the folder 
+\verb?bemtool3/miscellaneous/? of the library.
+
+
+
+\quad\\
+For each considered case, we specify a  domain $\Omega\subset \R^{d}$ with $d=2$ or $3$, and denote 
+$\Gamma = \partial\Omega$ its boundary. We denote $\gamma_{\textsc{d}}:\mH^{1}(\Omega)\to \mH^{1/2}(\Gamma)$ the 
+interior Dirichlet trace defined by $\gamma_{\textsc{d}}(u):= u\vert_{\Gamma}$ for any $u\in \mathscr{C}^{0}(\overline{\Omega})$, 
+and  $\gamma_{\neu}:\mH^{1}(\Delta,\Omega)\to \mH^{-1/2}(\Gamma)$ the interior Neumann trace defined by 
+$\gamma_{\neu}(u) := \bn\cdot\nabla u\vert_{\Gamma} = \partial_{r}u\vert_{\Gamma}$ where $\bn$ refers to
+the normal vector field ditrected toward the exterior of $\mD$. We define $\gamma_{\dir,c},\gamma_{\neu,c}$ in the
+same manner, except that the traces are taken from the exterior of $\Omega$. Finally, we set
+$$
+\begin{array}{ll}
+\{\gamma_{\dir}\}:= (\gamma_{\dir}+\gamma_{\dir,c})/2 &  \{\gamma_{\neu}\}:= (\gamma_{\neu}+\gamma_{\neu,c})/2\\[10pt]
+\lbrack\gamma_{\dir}\rbr:=\gamma_{\dir}-\gamma_{\dir,c} & \lbrack\gamma_{\neu}\rbr:=\gamma_{\neu}-\gamma_{\neu,c}.
+\end{array}
+$$
+Let us introduce the layer potentials associated to the interior of the disc $\mD$.
+For any trace $v\in\mH^{+1/2}(\Gamma), p\in\mH^{-1/2}(\Gamma)$, their explicit expression
+is given by:
+\begin{equation}\label{PotentialOperators}
+\begin{array}{l}
+\dsp{ \SL(p)(\bx):=\int_{\Gamma}\Green(\bx-\by)p(\by) d\sigma(\by), }\\[10pt]
+\dsp{ \DL(p)(\bx):=\int_{\Gamma}\bn(\by)\cdot(\nabla\Green)(\bx-\by)p(\by) d\sigma(\by). }
+\end{array}
+\end{equation}
+
+
+
+
+\section{Analytic solutions in 2-D}\label{AnalyticSolution2D}
+
+
+In this section $\Omega = \mD\subset \R^{2}$ is the disc of center $0$ and radius $r_{\star}>0$. 
+For a given point $\bx = (x_{1},x_{2})\in\R^{2}$, we shall write $(r,\theta)$ to refer to its polar 
+coordinates centered at $0$,
+$$
+\left\{\begin{array}{l}
+x_{1} = r\cos\theta,\\
+x_{2} = r\sin\theta.
+\end{array}\right.
+$$
+We shall use Fourier harmonics $\fre_{n}(\theta) := \exp(\imath n\theta)$ and 
+write $\fre_{n}(\bx/\vert\bx\vert):=\fre_{n}(\theta)$. We will only consider equation that admit 
+rotational symetry (Laplace and Helmholtz equations), which will at the end of the day implies 
+$$
+\begin{array}{l}
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\cdot\gamma_{*}\DL(\fre_{p}) d\sigma = \int_{\Gamma}\overline{\fre}_{n}
+\cdot\gamma_{*}\SL(\fre_{p}) d\sigma = 0 }\\ [10pt]
+\textrm{for}\;*=\dir,\neu,\quad \textrm{and}\;\;n\neq p.
+\end{array}
+$$
+We shall then deliver explicit expressions for the coefficients 
+$\int_{\Gamma}\overline{\fre}_{n}\cdot\{\gamma_{*}\}\DL(\fre_{n}) d\sigma$ and 
+$\int_{\Gamma}\overline{\fre}_{n}\cdot\{\gamma_{*}\}\SL(\fre_{n}) d\sigma$, 
+for arbitrary $n\in\mathbb{Z}$, and for $*=\dir,\neu$.
+
+
+
+
+
+
+
+\subsection{Laplace equation}\label{Laplace2D}
+
+In this paragraph, we first consider the Laplace equation $\Delta u = 0$ in $\R^{2}\setminus\Gamma$ with decay 
+condition at infinity. The Green kernel of this equation is $\mathscr{G}(\bx):= -(2\pi)^{-1}\ln\vert \bx\vert$.
+Note that, for Laplace equation in 2D, the behaviour of layer potentials associated to the Fourier harmonics 
+$\fre_{n}$ with $n=0$ is somewhat special. Hence, for the sake of simplicity, we shall systematically consider 
+the case $n\in\mathbb{Z}\setminus\{0\}$. The layer potentials are given by 
+$$
+\SL(\fre_{n})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert> r_{\star}\\[15pt]
+
+\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert< r_{\star}
+\end{array}\right.
+$$
+and
+$$
+\DL(\fre_{n})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{-\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert> r_{\star}\\[15pt]
+
+\dsp{+\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert< r_{\star}
+\end{array}\right.
+$$
+The boundary integral operators are given by
+$$
+\begin{array}{ll}
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\dir}\}\SL(\fre_{n}) d\sigma =  \pi r_{\star}/\vert n\vert,}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\neu}\}\DL(\fre_{n}) d\sigma =  \pi\vert n\vert/r_{\star},}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\dir}\}\DL(\fre_{n}) d\sigma =  0,}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\neu}\}\SL(\fre_{n}) d\sigma =  0.}\\
+
+\end{array}
+$$
+
+
+
+
+
+\subsection{Helmholtz equation}\label{Helmholtz2D}
+
+Here we consider an Helmholtz equation   $-\Delta u -\kappa^{2}u = 0$ with outgoing radiation condition.
+The corresponding Green kernel is $\Green(\bx) = \frac{\imath}{4}H_{0}^{(1)}(\kappa\vert \bx\vert)$, where 
+$H_{0}^{(1)}(z)$ refers to the Hankel function of order zero and of the first kind, see \S 10.2 and Formula 10.4.3 in 
+\cite{MR2723248}. The layer potentials admit the expressions
+$$
+\SL(\fre_{n})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{\imath r_{\star}\frac{\pi}{2}J_{\vert n\vert}(\kappa r_{\star}) H^{(1)}_{\vert n\vert}(\kappa \vert \bx \vert )
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  & \textrm{for}\quad \vert \bx\vert> r_{\star}\\[15pt]
+\dsp{\imath r_{\star}\frac{\pi}{2}H^{(1)}_{\vert n\vert}(\kappa r_{\star}) J_{\vert n\vert}(\kappa \vert \bx \vert )
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} } 
+& \textrm{for}\quad \vert \bx\vert<r_{\star}
+\end{array}\right.
+$$
+and
+$$
+\DL(\fre_{n})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{ -\imath\kappa r_{\star}\frac{\pi}{2}H^{(1)'}_{\vert n\vert}(\kappa r_{\star})J_{\vert n\vert}(\kappa \vert \bx \vert )
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big) } 
+& \textrm{for}\quad \vert \bx\vert< r_{\star}\\[15pt]
+\dsp{ -\imath\kappa r_{\star} \frac{\pi}{2}J_{\vert n\vert}'(\kappa r_{\star} )H^{(1)}_{\vert n\vert}(\kappa \vert \bx \vert)
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big) } 
+& \textrm{for}\quad \vert \bx\vert>r_{\star}
+\end{array}\right.
+$$
+The boundary integral operators are given by
+$$
+\begin{array}{ll}
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\{\gamma_{\dir}\}\SL(\fre_{n}) d\sigma 
+= \imath r_{\star}^2 \pi^{2} H^{(1)}_{\vert n\vert}(\kappa r_{\star} ) J_{\vert n\vert}(\kappa r_{\star}) }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\{\gamma_{\neu}\}\DL(\fre_{n}) d\sigma 
+= -\imath \kappa^{2} r_{\star}^2 \pi^{2} H^{(1)'}_{\vert n\vert}(\kappa r_{\star}) J_{\vert n\vert}'(\kappa r_{\star}) }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\{\gamma_{\neu}\}\SL(\fre_{n}) d\sigma = +r_{\star}^2 \imath\kappa\frac{\pi^{2}}{2}
+\big(\; H^{(1)}_{\vert n\vert}(\kappa r_{\star} )J_{\vert n\vert}'(\kappa r_{\star} )+H^{(1)'}_{\vert n\vert}(\kappa r_{\star} )J_{\vert n\vert}(\kappa r_{\star})\; \big) }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\{\gamma_{\dir}\}\DL(\fre_{n}) d\sigma = -\imath\kappa r_{\star}^2 \frac{\pi^{2}}{2}
+\big(\; H^{(1)}_{\vert n\vert}(\kappa)J_{\vert n\vert}'(\kappa)+H^{(1)'}_{\vert n\vert}(\kappa)J_{\vert n\vert}(\kappa)\; \big) }\\[10pt]
+
+\end{array}
+$$
+
+\section{Analytic solutions in 3-D}\label{AnalyticSolution3D}
+
+In this section $\Omega = \mB\subset \R^{3}$ is the ball of center $0$ and radius $\rho_{\star}>0$. 
+For a given point $\bx = (x_{1},x_{2},x_{3})\in\R^{3}$, we shall write $(\rho,\theta,\varphi)\in \R_{+}
+\times \lbr0,\pi\rbr\times \lbr 0, 2\pi\lbr$ to refer to its polar 
+coordinates centered at $0$,
+$$
+\left\{\begin{array}{l}
+x_{1} = \rho\sin\theta \cos\varphi,\\
+x_{2} = \rho\sin\theta \sin\varphi,\\
+x_{3} = \rho\cos\theta.
+\end{array}\right.
+$$
+To conduct separation of variables, we use the so-called spherical harmonics $\mY_{l}^{m}(\theta,\vphi)$ 
+and sometimes write $\mY_{l}^{m}(\bx/\vert\bx\vert):=\mY_{l}^{m}(\theta,\vphi)$. Here the indices $l,m$ have to 
+satisfy $0\leq \vert m\vert\leq l$. For the definition of these functions, we use the convention of the 
+\verb?boost::math? library, namely 
+$$
+\dsp{ \mrm{Y}_{l}^{m}(\theta,\varphi):= \sqrt{\frac{(l+1/2)}{2\pi}\, \frac{(l-\vert m\vert)!}{(l+\vert m\vert)!}   }\;
+\mrm{P}_{l}^{m}(\cos\theta) \exp(\imath m\varphi)  }.
+$$
+Here the $\mrm{P}_{l}^{m}(z)$ are the associated Legendre functions. With thsis definition, the family 
+$(\mY_{l}^{m})$ forms an orthonormal basis of $\mL^{2}(\mrm{S}^{2})$ where $\mrm{S}^{2}$ is the unit sphere.
+Here again, we consider only rotation invariant equations (Laplace, Helmholtz and Maxwell), 
+so that the layer potentials will be diagonalised by the spherical harmonics 
+$$
+\begin{array}{l}
+\dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\cdot\gamma_{*}\DL(\mY_{p}^{q}) d\sigma = 
+\int_{\Gamma}\overline{\mY}_{l}^{m}\cdot\gamma_{*}\SL(\mY_{p}^{q}) d\sigma = 0 }\\ [10pt]
+\textrm{for}\;*=\dir,\neu,\quad \textrm{and}\;\;(l,m)\neq (p,q).
+\end{array}
+$$
+
+
+
+
+\subsection{Laplace equation}\label{Laplace3D}
+
+In this paragraph, we first consider the Laplace equation $\Delta u = 0$ in $\R^{3}\setminus\Gamma$ with decay 
+condition at infinity. The Green kernel of this equation is $\mathscr{G}(\bx):= 1/(4\pi\vert\bx\vert)$. 
+The layer potentials are given by
+$$
+\SL(\mY_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{-(l+1)}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert> \rho_{\star}\\[15pt]
+
+\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{+l}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert< \rho_{\star}
+\end{array}\right.
+$$
+and
+$$
+\DL(\mY_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{-\frac{l}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{-(l+1)}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert> \rho_{\star}\\[15pt]
+
+\dsp{+\frac{l+1}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{+l}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }  
+& \textrm{for}\quad \vert \bx\vert< \rho_{\star}
+\end{array}\right.
+$$
+The boundary integral operators are given by
+$$
+\begin{array}{ll}
+\dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\dir}\}\SL(\mY_{l}^{m}) d\sigma 
+= \frac{\rho_{\star}}{2l+1} }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\neu}\}\DL(\mY_{l}^{m}) d\sigma 
+=  \frac{l(l+1)}{2l+1}\frac{1}{\rho_{\star}}   }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\neu}\}\SL(\mY_{l}^{m}) d\sigma 
+=  -\frac{1}{2}\frac{1}{2l+1} }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\dir}\}\DL(\mY_{l}^{m}) d\sigma 
+=  +\frac{1}{2}\frac{1}{2l+1} }\\[10pt]
+
+\end{array}
+$$
+
+
+
+
+\subsection{Helmholtz equation}\label{Helmholtz3D}
+
+Here we consider Helmholtz equation $-\Delta u-\kappa^{2} u =0$ with wave number $\kappa>0$. The outgoing Green kernel 
+is given here by $\mathscr{G}_{\kappa}(\bx):=\exp(\imath\kappa\vert\bx\vert)/(4\pi\vert \bx\vert)$.
+Define the spherical Bessel functions $j_{l}(z) := \sqrt{\pi/(2z)}J_{l+1/2}(z)$ and the spherical Hankel functions 
+$h_{l}^{(1)}(z):= \sqrt{\pi/(2z)}H^{(1)}_{l+1/2}(z)$ like in \S 10.47 of \cite{MR2723248}. 
+The single layer and double layer potentials admit explicit expressions in terms of the spherical harmonics. 
+On the one hand\\
+$$
+\SL(\mrm{Y}_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{+\imath\kappa\rho_{\star}^{2}\, h^{(1)}_{l}(\kappa\rho_{\star})j_{l}(\kappa\vert \bx\vert)\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)} & \textrm{for}\;\;\vert \bx\vert<\rho_{\star}\\[10pt]
+\dsp{+\imath\kappa\rho_{\star}^{2}\, j_{l}(\kappa\rho_{\star})h^{(1)}_{l}(\kappa\vert \bx\vert)\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)   } & \textrm{for}\;\;\vert\bx\vert>\rho_{\star}.
+\end{array}\right.
+$$
+and
+$$
+\DL(\mrm{Y}_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, j_{l}(\kappa\vert \bx\vert)h^{(1)'}_{l}(\kappa\rho_{\star})\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) } 
+& \textrm{for}\;\;\vert\bx\vert<\rho_{\star}\\[10pt]
+\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, h^{(1)}_{l}(\kappa\vert \bx\vert)j_{l}'(\kappa\rho_{\star})\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) } 
+& \textrm{for}\;\;\vert\bx\vert>\rho_{\star}.
+\end{array}\right.
+$$
+The boundary integral operators are given by
+$$
+\begin{array}{l}
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma = +\imath\kappa \rho_{\star}^{2}\,j_{l}(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma = -\imath\kappa^{3}\rho_{\star}^{2} \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma = +\imath\frac{\kappa^{2}}{2}\rho_{\star}^{2}
+\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma = -\imath\frac{\kappa^{2}}{2}\rho_{\star}^{2}
+\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big). }
+\end{array}
+$$
+
+\section{Analytic solutions to Maxwell's equations}
+
+In the present section we use once again the notations of Section \ref{AnalyticSolution3D}, in particular concerning 
+spherical coordinates and spherical harmonics.  We need to introduce vector counterpart to spherical harmonics. 
+Considering  the $\mrm{Y}_{l}^{m} = \mrm{Y}_{l}^{m}(\vtheta)$ as functions on the unit sphere $\vtheta\in \mrm{S}^{2}\subset \R^{3}$, 
+we set 
+$$
+\bfX_{l,m}^{+} = \frac{1}{\sqrt{l(l+1)}}\nabla_{\mrm{S}^{2}}\mY_{l}^{m}\quad,\textrm{and},\quad
+\bfX_{l,m}^{-} = \frac{1}{\sqrt{l(l+1)}}\bn_{\mS^{2}}\times\nabla_{\mS^{2}}\mY_{l}^{m}
+$$
+where $\bn_{\mS^{2}}$ refers to the unit normal vector on the unit sphere directed toward the exterior of the unit ball.
+The set $\{\bfX_{l,m}^{\pm}\}$ yields an orthonormal basis of the space os square integrable 
+tangential vector fields over $\mS^{2}$.
+
+\quad\\
+We only yield explicit expressions for the operators Electric Field Integral Equation (EFIE) and 
+Magnetic Field Integral Equation (MFIE). In a general geometrical setting, these are defined by the 
+following variationnal forms
+$$
+\begin{array}{l}
+\dsp{ \langle \mrm{EFIE}_{\kappa}(\bu),\bv\rangle := \int_{\Gamma\times \Gamma} \mathscr{G}_{\kappa}(\bx-\by) 
+\big(\; \bu(\bx)\cdot\bv(\by) -\kappa^{-2}\div_{\Gamma}\bu(\bx) \div_{\Gamma}\bv(\by)\; \big) d\sigma(\bx,\by)}\\[10pt]
+\dsp{ \langle \mrm{MFIE}_{\kappa}(\bu),\bv\rangle := \int_{\Gamma\times\Gamma}(\nabla \mathscr{G}_{\kappa})(\bx-\by)\cdot 
+(\bv(\by)\times\bu(\bx)) \;d\sigma(\bx,\by) }\\[20pt]
+\dsp{\mathscr{G}_{\kappa}(\bx):=\exp(\imath\kappa\vert \bx\vert)/(4\pi \vert\bx\vert) }
+\end{array}
+$$
+In the case  $\Gamma = \mS^{2}$ we have:
+$$
+\begin{array}{l}
+ \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle 
+ = \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle \\
+\textcolor{white}{ \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle }
+ = (\imath/\kappa)(\;j_{l}(\kappa)+\kappa j_{l}'(\kappa)\;)(\;h^{(1)}_{l}(\kappa)+\kappa h^{(1)\prime}_{l}(\kappa)\;)  \\[10pt]
+\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle = 
+\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{+}\rangle \\
+\textcolor{white}{\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle} 
+=  -\imath \lbr j_{l}(\kappa)(h_{l}^{(1)}(\kappa)+\kappa h_{l}^{(1)\prime}(\kappa)) + 
+h_{l}^{(1)}(\kappa)(j_{l}(\kappa)+\kappa j_{l}'(\kappa)) \rbr\\[10pt]
+
+
+ \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle  =  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{+}\rangle  = 0\\[10pt]
+ \langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle  =  \langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle  = 0
+
+\end{array}
+$$
+
+
+
+
+
+
+\bibliography{biblio}
+\bibliographystyle{plain}
+\end{document}

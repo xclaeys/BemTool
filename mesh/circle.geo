@@ -1,0 +1,11 @@
+lc=0.0025;
+Point(1) = {0, 0, 0,  lc};
+Point(2) = {1, 0, 0,  lc};
+Point(3) = {-1, 0, 0, lc};
+Point(4) = {0, 1, 0,  lc};
+Point(5) = {0, -1, 0, lc};
+Circle(1) = {2, 1, 4};
+Circle(2) = {4, 1, 3};
+Circle(3) = {3, 1, 5};
+Circle(4) = {5, 1, 2};
+Physical Line(1) = {1, 2, 3, 4};

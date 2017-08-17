@@ -1,0 +1,10 @@
+* Optimisation des calculs d'interaction élémentaire par loop unrolling
+* Changer x->tx dans y->ty Dans l'operateur ( , ) de BIOp
+* Changer j,k -> kx,ky dans kernel.hpp
+* Changer R	dX -> Rdx, RdY -> Rdy, PhiX -> Phix, etc... un peu partout 
+* Completer le document pour ajouter la solution analytique de Yukawa.
+* Tester les Raviart-Thomas et leur divergence sur un tetrahedre et un cube. 
+* Tester l'interpolation Raviart-Thomas sur une sphere pour une fonction
+  simple ( genre grad(x->x_1 ) )
+
+
