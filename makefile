@@ -1,5 +1,5 @@
 GCC  = g++ -O3 
-INCLUDE = -I/usr/include/eigen3/ -I./bemtool3/
+INCLUDE = -I/usr/include/eigen3/ -I./bemtool/
 
 all: test2D clean
 
