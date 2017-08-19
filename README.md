@@ -34,3 +34,6 @@ bemtool of the library.
 There is currently no documentation available, but test2D.cpp and test3D.cpp are exemple files
 that show how to call the library. These should be compilable through commands make test2D
 and make 3D.
+
+#### Licence
+The BemTool library is under Lesser Gnu Public Licence (LGPL).
