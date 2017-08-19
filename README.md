@@ -11,6 +11,11 @@ Helmholtz, Yukawa (purely dissipative Helmholtz) and Maxwell matrices in 2D and 
 The available discretisation spaces are P0, continuous P1, continuous P2 and lowest order
 Raviart-Thomas elements.
 
+This library does not currently include functionalities oriented toward complexity
+reduction techniques such as fast multipoles (FMM) or hierarchical matrices. However,
+a companion library oriented toward this type of method is currently under development.
+It is named HTool (see https://github.com/PierreMarchand20/htool).
+
 One of the motivations for the development of this lilbrary was numerical investigation
 of the performance of the multi-trace formalism. As a consequence the classes for meshes
 include functionalities specially oriented toward the management of multi-domain geometries,
