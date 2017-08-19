@@ -1,4 +1,4 @@
-* Optimisation des calculs d'interaction élémentaire par loop unrolling
+* Optimisation des calculs d'interaction élémentaire par deroulage de boucle
 * Changer x->tx dans y->ty Dans l'operateur ( , ) de BIOp
 * Changer j,k -> kx,ky dans kernel.hpp
 * Changer R	dX -> Rdx, RdY -> Rdy, PhiX -> Phix, etc... un peu partout 
@@ -7,4 +7,8 @@
 * Tester l'interpolation Raviart-Thomas sur une sphere pour une fonction
   simple ( genre grad(x->x_1 ) )
 
+* Ajouter des surharges de l'operateur (.,.) dans la classe operator qui permette
+  de claculer des blocs admissible d'un seul coup.
+* Corriger les ereeurs dans les expressions analytique des operateurs de Maxwell
+  dans la doc.
 
