@@ -6,8 +6,8 @@ geometric computations) and simplicial meshes in 1D,2D and 3D. It contains basic
 for Gmsh (cf http://gmsh.info/) as regards mesh generation, and eigen (http://eigen.tuxfamily.org/)
 for the treatment of large matrices.
 
-Currently it provides routines for the assembly boundary element matrices for Laplace,
-Helmholtz, Yukawa (purely dissipative Hekmholtz) and Maxwell matrices in 2D and 3D.
+Currently it provides routines for the assembly of boundary element matrices for Laplace,
+Helmholtz, Yukawa (purely dissipative Helmholtz) and Maxwell matrices in 2D and 3D.
 The available discretisation spaces are P0, continuous P1, continuous P2 and lowest order
 Raviart-Thomas elements.
 
