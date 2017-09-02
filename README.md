@@ -1,6 +1,6 @@
 # BemTool
 BemTool is a C++ header library that only relies on the STL and Boost (www.boost.org/).
-Its main purpose is the computation of assembly routines for boundary elements. At low level,
+Its main purpose is the assembly of classic boundary element matrices. At low level,
 it contains a set of elementary classes for low dimensional linear algebra (so as to deal with
 geometric computations) and simplicial meshes in 1D,2D and 3D. It contains basic wrappers
 for Gmsh (cf http://gmsh.info/) as regards mesh generation, and eigen (http://eigen.tuxfamily.org/)
