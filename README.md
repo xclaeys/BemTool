@@ -21,7 +21,7 @@ of the performance of the multi-trace formalism. As a consequence the classes fo
 include functionalities specially oriented toward the management of multi-domain geometries,
 in particular for cases where subdomains are adjacent so as to give rise to junction points.
 
-#### The file organisation of the library
+#### File organisation of the library
 Besides a makefile and .cpp files at the top level of the library, BemTool
 is composed of three directories. The main directory is bemtool/ which contains 
 all the (header only) source code. The other two directories (doc/ and mesh/) are
