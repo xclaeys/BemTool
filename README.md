@@ -44,7 +44,7 @@ and make test3D.
 The BemTool library is under Lesser Gnu Public Licence (LGPL).
 
 #### Credits
-We acknowledge the support of the French National Reserahc Agency (ANR) under the grant 
+We acknowledge the support of the French National Research Agency (ANR) under the grant 
 ANR-15-CE23-0017-01, as well as support of the ECOS-Sud Chili program under grant ref. C15E07.
 
 ![Image](https://github.com/xclaeys/BemTool/blob/master/doc/Logo-anr.png?raw=true)
