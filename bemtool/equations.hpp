@@ -17,11 +17,20 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef CALCULUS_H
-#define CALCULUS_H
 
-#include "smallmat.hpp"
-#include "smallvect.hpp"
-#include "expression.hpp"
+#ifndef EQUATIONS_HPP
+#define EQUATIONS_HPP
+
+/*=====================
+  Equations disponibles
+  =====================*/
+
+enum EquationEnum {
+  CST, // noyau constant
+  HE , // Helmholtz
+  LA , // Laplace
+  YU , // Yukawa
+  MA   // Maxwell
+};
 
 #endif

@@ -21,12 +21,15 @@
 #include <cmath>
 #include "coordinates.hpp"
 
-using std::acos;
+
 
 #include <boost/math/special_functions/bessel.hpp>
 #include <boost/math/special_functions/spherical_harmonic.hpp>
 #include <boost/math/special_functions/hankel.hpp>
 #include <boost/math/complex/acos.hpp>
+
+
+namespace bemtool {
 
 /*===================
   FONCTIONS DE BESSEL
@@ -104,23 +107,23 @@ inline Cplx SphHarmo(const int& n, const int& m, const R3& x){
 
 /*=========================
   GRADIENTS SURFACIQUES DES
-  HARMONIQUES SPHERIQUES 
+  HARMONIQUES SPHERIQUES
   =========================*/
 
 // ATTENTION: ROUTINE BUGEE POUR LE MOMENT....
 
 inline C3 Grad_SphHarmo(const int& n, const int& m, const R3& y){
-  R3 x            = (1./norm2(y))*y;  
+  R3 x            = (1./norm2(y))*y;
   R3 e_z          = R3_(0.,0.,1.);
   R3 e_phi        = vprod(e_z,x);
   e_phi           = (1./norm2(e_phi))*e_phi;
-  R3 e_theta      = vprod(e_phi,x);  
+  R3 e_theta      = vprod(e_phi,x);
   Real cos_theta  = x[2];
   Real sin_theta  = sqrt(1-x[2]*x[2]);
   Real coef       = sqrt( (2*n+1)*( n-abs(m) )/(2*n-1 ) );
   Cplx u_phi, u_theta;
   u_phi    = ( n*cos_theta*SphHarmo(n,m,x)-coef*SphHarmo(n-1,m,x) )/sin_theta;
-  u_theta  = iu*m*SphHarmo(n,m,x)/sin_theta; 
+  u_theta  = iu*m*SphHarmo(n,m,x)/sin_theta;
   return u_phi*e_phi + u_theta*e_theta;}
 
 inline C3 Grad_SphHarmo(const N2& nm, const R3& y){
@@ -148,7 +151,7 @@ inline Cplx DSphBesselJ_Dx(const int& n, const Real& x){
 inline Cplx DSphHankel_Dx(const int& n, const Real& x){
   return -SphHankel(n+1,x)+(n/x)*SphHankel(n,x);}
 
-
+}
 
 
 #endif

@@ -25,44 +25,44 @@
 namespace bemtool{
 
 
-  
+
   template <int,int> class QuadBEM;
-  
-  
+
+
   template <> class QuadBEM<2,2>{
-    
+
   public:
     typedef R2   qp_t;
-    
+
   private:
-    vector<R2>   x_[4];
-    vector<R2>   y_[4];
-    vector<Real> w_[4];
-    
+    std::vector<R2>   x_[4];
+    std::vector<R2>   y_[4];
+    std::vector<Real> w_[4];
+
   public:
-    const vector<R2>&   x(const int& rule) const {return x_[rule];}
-    const vector<R2>&   y(const int& rule) const {return y_[rule];}
-    const vector<Real>& w(const int& rule) const {return w_[rule];}
-    
+    const std::vector<R2>&   x(const int& rule) const {return x_[rule];}
+    const std::vector<R2>&   y(const int& rule) const {return y_[rule];}
+    const std::vector<Real>& w(const int& rule) const {return w_[rule];}
+
     QuadBEM<2,2>(const int& order){
-      
+
       R2 x,y; Real w,dw;
-      vector<Real> t,dt;
+      std::vector<Real> t,dt;
       Quad1D(order,t,dt);
       int nt = t.size();
-      
-      vector<R2>   qp;
-      vector<Real> qw;
-      
+
+      std::vector<R2>   qp;
+      std::vector<Real> qw;
+
       //%%%%%%% ATTENTION Test Quadrature Dunavant %%%%%%//
       // quad2D(order,qp,qw);
-      Quad2D(2,qp,qw);    
+      Quad2D(2,qp,qw);
       int nq = qp.size();
-      
+
     //================================//
     //   Cas 0: triangles disjoints   //
     //================================//
-    
+
     // Dans le cas ou les triangles sont
     // disjoints, on utilise deux regles de
     // quadrature de Dunavant tensorisees
@@ -312,17 +312,17 @@ namespace bemtool{
 
 
 
-  
+
   template <> class QuadBEM<1,1>{
-    
+
   public:
     typedef R1            qp_t;
     //    typedef array<1,Real> R1;
 
   private:
-  vector<R1>   x_[3];
-  vector<R1>   y_[3];
-  vector<Real> w_[3];
+  std::vector<R1>   x_[3];
+  std::vector<R1>   y_[3];
+  std::vector<Real> w_[3];
 
  public:
   const std::vector<R1>&   x(const int& rule) const {return x_[rule];}
@@ -332,14 +332,14 @@ namespace bemtool{
     QuadBEM<1,1>(const int& order){
 
     Real wxi, xxi, weta, xeta;
-    vector<Real> w1, x1, w2, x2, w3,x3;
+    std::vector<Real> w1, x1, w2, x2, w3,x3;
     int n, q, q1, q2, q3;
-    
-    n = (int) ceil((order+1)/2.0); 
+
+    n = (int) ceil((order+1)/2.0);
     Quad1D(n,x1,w1);     q1 = x1.size();
     hp_quad1D(n,x2,w2);  q2 = x2.size();
     Quad1D(n,x3,w3);     q3 = x3.size();
-    
+
     //////////////////////////
     //   Elements disjoints
     for(int i=0; i<q3; i++){
@@ -354,7 +354,7 @@ namespace bemtool{
 	y_[0].push_back(xeta);
       }
     }
-    
+
 
     ///////////////////////////
     //  Un seul noeud commun

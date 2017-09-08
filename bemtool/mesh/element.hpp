@@ -24,45 +24,45 @@
 #include <cassert>
 #include "../calculus/calculus.hpp"
 
-using namespace std;
-using namespace bemtool;
+
+namespace bemtool{
 
 template<int d, typename ValType = R3>
 class Elt{
-  
+
 public:
   typedef ValType         v_t;
   typedef array<d+1,int>  a_t;
-  typedef Elt<d,v_t>      e_t; 
+  typedef Elt<d,v_t>      e_t;
   typedef Elt<d-1,v_t>    f_t;
   static const int dim =    d;
-    
+
 private:
   // Adresse des sommets
-  const v_t* v_[d+1];    
-  
+  const v_t* v_[d+1];
+
   // Adresse du sommet origine
   const v_t* v0;
-  
+
   // Cle de hachage
-  int        key;        
-  
+  int        key;
+
 public:
   // Constructeurs
   Elt<d,v_t>(): v0(0){};
 
   Elt<d,v_t>(const e_t& e): v0(e.v0), key(e.key) {
     for(int j=0; j<d+1; j++){v_[j]=(e.v_)[j];}}
-  
+
   template<typename r_t> Elt<d,v_t>(const r_t& r,
-				    const v_t* r0 = 0){        
-    v0=r0; key=&r[0]-v0; 
+				    const v_t* r0 = 0){
+    v0=r0; key=&r[0]-v0;
     for(int j=0; j<d+1; j++){
       v_[j]=&r[j];
       if(key>&r[j]-v0){key=&r[j]-v0;}
     }
   }
-  
+
   // Affectation
   template<typename r_t> void operator=(const r_t& r){
     key=&r[0]-v0;
@@ -71,39 +71,39 @@ public:
       if(key>&r[j]-v0){key=&r[j]-v0;}
     }
   }
-  
+
   void operator=(const e_t& e){v0=e.v0; key=e.key;
     for(int j=0; j<d+1; j++){v_[j]=(e.v_)[j];} }
-    
+
   // Operateur acces
   const v_t& operator[](const int& j) const {return *v_[j%(d+1)];}
   friend const v_t*& Origin(      e_t& e){return e.v0; }
   friend const v_t*  Origin(const e_t& e){return e.v0; }
   friend const int&  Key   (const e_t& e){return e.key;}
-  friend const a_t   Num   (const e_t& e){    
-    if(e.v0==0){cout << "error: element origin not intitialised\n";
+  friend const a_t   Num   (const e_t& e){
+    if(e.v0==0){std::cout << "error: element origin not intitialised\n";
       exit(EXIT_FAILURE);}
     a_t I; for(int j=0; j<d+1; j++){I[j]=e.v_[j]-e.v0;} return I; }
-  
+
   // Operateur acces generalise
   template <class i_t>
   subarray<const e_t,i_t> operator[] (const i_t& i_) const {
-    return subarray<const e_t,i_t>(*this,i_);}  
-  
+    return subarray<const e_t,i_t>(*this,i_);}
+
   // Echange de deux entrees de l'elt
   friend void Swap(e_t& e, const int& j, const int& k){
     const v_t* p=&e[j];   e.v_[j]=e.v_[k]; e.v_[k]=p; }
-  
+
   // Operateur de flux
-  friend ostream& operator<<(ostream& o, const e_t& e_){
-    for(int j=0; j<d+1; j++){o<<e_[j]<<endl;} return o;}
-  
+  friend std::ostream& operator<<(std::ostream& o, const e_t& e_){
+    for(int j=0; j<d+1; j++){o<<e_[j]<<std::endl;} return o;}
+
   friend bool operator==(const e_t& l_, const e_t& r_){
     bool test=true;
     for(int j=0; j<d+1; j++){
       if( &l_[j] != &r_[j] ){test=false;}}
     return test;}
-  
+
   friend int Dim(const e_t& e_){return d;}
 
   friend bemtool::array<d+1,f_t>
@@ -116,17 +116,17 @@ public:
       f_[j]=e[j+k_];}
     return f_;
   }
-  
+
 };
 
 
 //=======================//
 // Declarations de type  //
 //=======================//
-typedef Elt<dim0> Elt0D; // noeud
-typedef Elt<dim1> Elt1D; // arrete
-typedef Elt<dim2> Elt2D; // triangle
-typedef Elt<dim3> Elt3D; // tetrahedre
+typedef Elt<0> Elt0D; // noeud
+typedef Elt<1> Elt1D; // arrete
+typedef Elt<2> Elt2D; // triangle
+typedef Elt<3> Elt3D; // tetrahedre
 
 
 //====================//
@@ -150,13 +150,13 @@ array<3,Elt1D> EdgesOf(const Elt2D& e){
 array<6,Elt1D> EdgesOf(const Elt3D& e){
   array<6,Elt1D> edge; N2 I = N2_(1,2);
   for(int j=0; j<6; j++){Origin(edge[j])=Origin(e);}
-  edge[0]=e[I  ]; 
-  edge[1]=e[I+1]; 
-  edge[2]=e[I+2]; 
-  edge[3]=e[I+3]; 
+  edge[0]=e[I  ];
+  edge[1]=e[I+1];
+  edge[2]=e[I+2];
+  edge[3]=e[I+3];
   I[0]=0;I[1]=2;
-  edge[4]=e[I  ]; 
-  edge[5]=e[I+1]; 
+  edge[4]=e[I  ];
+  edge[5]=e[I+1];
   return edge;
 }
 
@@ -204,7 +204,7 @@ inline R3x2 MatJac(const Elt2D& e){return mat_(e[1]-e[0],e[2]-e[0]);}
 inline R3x3 MatJac(const Elt3D& e){return mat_(e[1]-e[0],e[2]-e[0], e[3]-e[0]);}
 inline Real DetJac(const Elt1D& e){return norm2(e[1]-e[0]);}
 inline Real DetJac(const Elt2D& e){return norm2(vprod(e[1]-e[0],e[2]-e[0]));}
-inline Real DetJac(const Elt3D& e){return abs((vprod(e[1]-e[0],e[2]-e[0]),e[3]-e[0]));}
+inline Real DetJac(const Elt3D& e){return std::abs((vprod(e[1]-e[0],e[2]-e[0]),e[3]-e[0]));}
 
 
 //============//
@@ -220,12 +220,12 @@ inline R3 Ctr(const Elt3D& e){return (1./4.)*(e[0]+e[1]+e[2]+e[3]);}
 //============================//
 template <int D>
 inline int Adj(const Elt<D>& l, const Elt<D>& r){
-  
-  Elt<D> e0=l, e1=r; int p=0;  
+
+  Elt<D> e0=l, e1=r; int p=0;
   for(int j0=0; j0<D+1; j0++){
     for(int j1=p; j1<D+1; j1++){
       if(&e0[j0]==&e1[j1]){
-	Swap(e0,p,j0); 
+	Swap(e0,p,j0);
 	Swap(e1,p,j1);
 	p++; break;
       }
@@ -358,6 +358,6 @@ inline void NormalToFaces(const Elt3D& e, array<4,R3>& n_){
 }
 
 
-
+} // namespace bemtool
 
 #endif

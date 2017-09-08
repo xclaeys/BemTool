@@ -20,10 +20,10 @@
 #ifndef FEM_HPP
 #define FEM_HPP
 #include "../quadrature/quad.hpp"
+#include "../mesh/mesh.hpp"
 
 
-using namespace std;
-
+namespace bemtool {
 
 template <typename T>
 Real ScalarProd(const T&, const T&);
@@ -43,44 +43,44 @@ class LocalMatrix{
   static const int dim      = PhiX::dim;
   static const int nb_dof_x = PhiX::nb_dof_loc;
   static const int nb_dof_y = PhiY::nb_dof_loc;
-  typedef mat<nb_dof_x,nb_dof_y,Real>  ReturnType;    
+  typedef mat<nb_dof_x,nb_dof_y,Real>  ReturnType;
   typedef Mesh<dim>                    MeshType;
   typedef typename PhiX::Rd            Rd;
-  
+
 private:
   const MeshType&     mesh;
   ReturnType          inter;
-  PhiX                phix;  
-  PhiY                phiy;  
+  PhiX                phix;
+  PhiY                phiy;
   Real                h;
   QuadFEM<dim>        qr;
-  const vector<Rd>&   t;  
-  const vector<Real>& dt;  
-    
+  const std::vector<Rd>&   t;
+  const std::vector<Real>& dt;
+
 public:
   LocalMatrix<PhiX,PhiY>(const MeshType& m):
   mesh(m), phix(m), phiy(m),
     qr(5), t(points(qr)), dt(weights(qr)) {};
-  
+
   const ReturnType& operator()(const int& l) {
-    const Elt<dim>& e = mesh[l];    
+    const Elt<dim>& e = mesh[l];
     phix.Assign(l);
     phiy.Assign(l);
     inter = 0.;
     h     = DetJac(e);
     for(int j=0; j<t.size(); j++){
       for(int kx = 0; kx<nb_dof_x; kx++){
-	for(int ky = 0; ky<nb_dof_y; ky++){      
-	  inter(kx,ky)+= ScalarProd( phix(kx,t[j]),phiy(ky,t[j]) )*h*dt[j];	
+	for(int ky = 0; ky<nb_dof_y; ky++){
+	  inter(kx,ky)+= ScalarProd( phix(kx,t[j]),phiy(ky,t[j]) )*h*dt[j];
 	}
       }
     }
     return inter;
   }
-  
+
 };
 
-
+}
 
 
 

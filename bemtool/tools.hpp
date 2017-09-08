@@ -21,41 +21,6 @@
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
 
-/*=====================
-  Equations disponibles
-  =====================*/
-
-enum EquationEnum {
-  CST, // noyau constant
-  HE , // Helmholtz
-  LA , // Laplace
-  YU , // Yukawa
-  MA   // Maxwell
-};
-
-/*=====================
-  Type d'operateurs 
-  =====================*/
-
-enum BIOpKernelEnum {
-  CST_OP,  // noyau constant
-   SL_OP,  // trace dirichlet du simple couche
-   DL_OP,  // trace dirichlet du double couche
-  TDL_OP,  // trace neumann   du simple couche
-   HS_OP   // trace neumann   du double couche
-};
-
-/*=====================
-  Type de potentiels 
-  =====================*/
-
-enum PotKernelEnum {
-  CST_POT, // noyau constant
-   SL_POT, // simple couche
-   DL_POT  // double couche
-};
-
-
 //=====================//
 
 #include "calculus/calculus.hpp"
@@ -82,7 +47,7 @@ enum PotKernelEnum {
 #include "potential/laplace_pot.hpp"
 #include "potential/yukawa_pot.hpp"
 
-#include "quadrature/dunavant.hpp" 
+#include "quadrature/dunavant.hpp"
 #include "quadrature/quad.hpp"
 #include "quadrature/quad_bem.hpp"
 #include "quadrature/quad_pot.hpp"
