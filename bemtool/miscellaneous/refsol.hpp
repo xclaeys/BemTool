@@ -19,12 +19,11 @@
 #ifndef REFSOL_HPP
 #define REFSOL_HPP
 
-#include "../calculus/calculus.hpp"
-#include "specialfct.hpp"
-using namespace std;
+#include "../tools.hpp"
 
 
 
+namespace bemtool {
 
 
 template <int, int, int>
@@ -33,12 +32,12 @@ struct AnalyticalSolution;
 
 template<typename Op>
 struct RefSol{
-  
+
   static inline Cplx Compute(const int& n, const Real& r=1., const Real& k=1.){
     return AnalyticalSolution<Op::Trait::EqType,Op::Trait::OpType,Op::Trait::Dim>::Compute(n,r,k); }
-  
+
   static inline Cplx Compute(const N2& nm, const Real& r=1., const Real& k=1.){
-    return AnalyticalSolution<Op::Trait::EqType,Op::Trait::OpType,Op::Trait::Dim>::Compute(nm,r,k);}  
+    return AnalyticalSolution<Op::Trait::EqType,Op::Trait::OpType,Op::Trait::Dim>::Compute(nm,r,k);}
 };
 
 
@@ -46,7 +45,7 @@ struct RefSol{
   LAPLACE 2D
   ==========*/
 template <> struct AnalyticalSolution<LA,SL_OP,2>{
-  static inline Cplx  
+  static inline Cplx
   Compute(const int& n, const Real& r=1., const Real& k=1.){
     return pi*r/abs(n);} };
 
@@ -97,7 +96,7 @@ template <> struct AnalyticalSolution<HE,SL_OP,2>{
   static inline Cplx
   Compute(const int& n, const Real& r=1., const Real& k=1.){
     Real r2=r*r;
-    Real pi2=pi*pi; 
+    Real pi2=pi*pi;
     return iu*r2*pi2*Hankel(abs(n),k*r)*BesselJ(abs(n),k*r);} };
 
 template <> struct AnalyticalSolution<HE,DL_OP,2>{
@@ -107,7 +106,7 @@ template <> struct AnalyticalSolution<HE,DL_OP,2>{
     Real pi2=pi*pi;
     Cplx Res;
     Res  = Hankel(abs(n),k*r)*DBesselJ_Dx(abs(n),k*r);
-    Res += DHankel_Dx(abs(n),k*r)*BesselJ(abs(n),k*r);    
+    Res += DHankel_Dx(abs(n),k*r)*BesselJ(abs(n),k*r);
     Res *= -0.5*iu*k*r2*pi2;
     return Res;} };
 
@@ -118,7 +117,7 @@ template <> struct AnalyticalSolution<HE,TDL_OP,2>{
     Real pi2=pi*pi;
     Cplx Res;
     Res  = Hankel(abs(n),k*r)*DBesselJ_Dx(abs(n),k*r);
-    Res += DHankel_Dx(abs(n),k*r)*BesselJ(abs(n),k*r);    
+    Res += DHankel_Dx(abs(n),k*r)*BesselJ(abs(n),k*r);
     Res *= +0.5*iu*k*r2*pi2;
     return Res;} };
 
@@ -127,7 +126,7 @@ template <> struct AnalyticalSolution<HE,HS_OP,2>{
   Compute(const int& n, const Real& r=1., const Real& k=1.){
     Real r2 =r*r;
     Real pi2=pi*pi;
-    Real k2 =k*k; 
+    Real k2 =k*k;
     return -iu*k2*r2*pi2*DHankel_Dx(abs(n),k*r)*DBesselJ_Dx(abs(n),k*r);} };
 
 /*============
@@ -136,7 +135,7 @@ template <> struct AnalyticalSolution<HE,HS_OP,2>{
 
 template <> struct AnalyticalSolution<HE,SL_OP,3>{
   static inline Cplx
-  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){    
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
     return iu*k*rho*rho*SphBesselJ(nm[0],k*rho)*SphHankel(nm[0],k*rho);} };
 
 template <> struct AnalyticalSolution<HE,DL_OP,3>{
@@ -170,7 +169,7 @@ template <> struct AnalyticalSolution<HE,HS_OP,3>{
 
 template <> struct AnalyticalSolution<MA,SL_OP,3>{
   static inline Cplx
-  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){    
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
     Cplx res = iu/k;
     res *= SphBesselJ(nm[0],k) +k*DSphBesselJ_Dx(nm[0],k);
     res *= SphHankel (nm[0],k) +k*DSphHankel_Dx (nm[0],k);
@@ -180,7 +179,7 @@ template <> struct AnalyticalSolution<MA,SL_OP,3>{
 };
 
 
-
+}
 
 
 

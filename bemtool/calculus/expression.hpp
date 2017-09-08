@@ -27,12 +27,7 @@
 #include <iostream>
 #include <vector>
 
-
-template <int N> struct dim_{ };
-static const int dim0 = 0;
-static const int dim1 = 1;
-static const int dim2 = 2;
-static const int dim3 = 3;
+namespace bemtool{
 
 //==========================//
 //      Types de base       //
@@ -398,10 +393,10 @@ private:
 public:
 
   xpr(const l_t& l0, const r_t& r0): l_(l0), r_(r0) {};
-  
+
   v_t operator[](const int& j){assert(j>=0 && j<nr);  return op::apply(l_,r_,j); }
   const v_t operator[](const int& j) const {assert(j>=0 && j<nr); return op::apply(l_,r_,j); }
-  
+
   v_t operator()(const int& j, const int& k){assert(j>=0 && j<nr); return op::apply(l_,r_,j,k); }
   const v_t operator()(const int& j, const int& k) const {assert(j>=0 && j<nr); return op::apply(l_,r_,j,k); }
 
@@ -410,17 +405,17 @@ public:
   xpr< pp<this_t, int>  > operator+(const int&  r_) const {return xpr< pp<this_t, int>  >(*this,r_);}
   xpr< pp<this_t, Real> > operator+(const Real& r_) const {return xpr< pp<this_t, Real> >(*this,r_);}
   xpr< pp<this_t, Cplx> > operator+(const Cplx& r_) const {return xpr< pp<this_t, Cplx> >(*this,r_);}
-  
+
   inline friend xpr< pp<int,this_t>  > operator+(const int&  l_, const this_t& r_){return xpr< pp<int,this_t>  >(l_,r_);}
   inline friend xpr< pp<Real,this_t> > operator+(const Real& l_, const this_t& r_){return xpr< pp<Real,this_t> >(l_,r_);}
   inline friend xpr< pp<Cplx,this_t> > operator+(const Cplx& l_, const this_t& r_){return xpr< pp<Cplx,this_t> >(l_,r_);}
-  
+
   //==== Soustraction
   template <class r_t> xpr< mm<this_t,r_t> > operator-(const r_t& r_) const {return xpr< mm<this_t,r_t> >(*this,r_);}
   xpr< mm<this_t, int>  > operator-(const int&  r_) const {return xpr< mm<this_t, int>  >(*this,r_);}
   xpr< mm<this_t, Real> > operator-(const Real& r_) const {return xpr< mm<this_t, Real> >(*this,r_);}
   xpr< mm<this_t, Cplx> > operator-(const Cplx& r_) const {return xpr< mm<this_t, Cplx> >(*this,r_);}
-  
+
   inline friend xpr< mm<int,this_t>  > operator-(const int&  l_, const this_t& r_){return xpr< mm<int,this_t>  >(l_,r_);}
   inline friend xpr< mm<Real,this_t> > operator-(const Real& l_, const this_t& r_){return xpr< mm<Real,this_t> >(l_,r_);}
   inline friend xpr< mm<Cplx,this_t> > operator-(const Cplx& l_, const this_t& r_){return xpr< mm<Cplx,this_t> >(l_,r_);}
@@ -430,26 +425,26 @@ public:
   xpr< tt<this_t, int>  > operator*(const int&  r_) const {return xpr< tt<this_t, int>  >(*this,r_);}
   xpr< tt<this_t, Real> > operator*(const Real& r_) const {return xpr< tt<this_t, Real> >(*this,r_);}
   xpr< tt<this_t, Cplx> > operator*(const Cplx& r_) const {return xpr< tt<this_t, Cplx> >(*this,r_);}
-  
+
   inline friend xpr< tt<this_t,int>  > operator*(const int&  l_, const this_t& r_){return xpr< tt<this_t,int>  >(r_,l_);}
   inline friend xpr< tt<this_t,Real> > operator*(const Real& l_, const this_t& r_){return xpr< tt<this_t,Real> >(r_,l_);}
   inline friend xpr< tt<this_t,Cplx> > operator*(const Cplx& l_, const this_t& r_){return xpr< tt<this_t,Cplx> >(r_,l_);}
-  
+
   //===== Produit scalaire
   template <class r_t>typename resop<this_t,r_t>::type operator,(const r_t& r_) const {
     assert(nr==r_t::nr); return dprod<this_t,r_t,nr>::apply(*this,r_); }
-  
+
 };
 
 template <class t> struct access_<xpr<t>, false> {
   static inline typename xpr<t>::v_t op(xpr<t>& r_, const int& j){return r_[j];}
   static inline const typename xpr<t>::v_t op(const xpr<t>& r_, const int& j){return r_[j];}
-  
+
   static inline typename xpr<t>::v_t op(xpr<t>& r_, const int& j, const int& k){return r_(j,k);}
   static inline const typename xpr<t>::v_t op(const xpr<t>& r_, const int& j, const int& k){return r_(j,k);}
 };
 
 
-
+} // namespace bemtool
 
 #endif

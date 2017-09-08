@@ -24,8 +24,8 @@
 #include "../mesh/element.hpp"
 #include "../mesh/mesh.hpp"
 
-using namespace std;
 
+namespace bemtool {
 
 
 enum Valuation {ScalarValued, VectorValued};
@@ -41,24 +41,24 @@ template <typename> class DivBasisFct;
 
 template <int D>
 class BasisFct<P0,D>{
-  
+
 public:
   static const int dim             = D;
   static const int nb_dof_loc      = 1;
   typedef array<D,Real>            Rd;
-  static const Valuation valuation = ScalarValued;  
-  
+  static const Valuation valuation = ScalarValued;
+
 private:
   const Mesh<D>&   mesh;
-  
+
 public:
   BasisFct<P0,D>(const Mesh<D>& m): mesh(m) {};
 
-  void Assign(const int& j){}  
-  
+  void Assign(const int& j){}
+
   inline Real operator()(const int& j, const Rd& x = 0.) const {
     return 1.;}
-  
+
 };
 
 typedef BasisFct<P0,1> P0_1D;
@@ -72,26 +72,26 @@ typedef BasisFct<P0,3> P0_3D;
 
 template <int D>
 class BasisFct<P1,D>{
-  
+
 public:
   static const int dim             = D;
   static const int nb_dof_loc      = D+1;
   typedef array<D,Real>            Rd;
-  static const Valuation valuation = ScalarValued;  
-  
+  static const Valuation valuation = ScalarValued;
+
 private:
   const Mesh<D>&   mesh;
-  
+
 public:
-  
+
   BasisFct<P1,D>(const Mesh<D>& m): mesh(m) {};
 
-  void Assign(const int& j){}  
-  
+  void Assign(const int& j){}
+
   inline Real operator()(const int& j, const Rd& x) const {
     assert(j>=0 && j<nb_dof_loc);
     if(j==0){return 1.-(Rd(1.),x);} return x[j-1];}
-  
+
 };
 
 typedef BasisFct<P1,1> P1_1D;
@@ -111,21 +111,21 @@ public:
   static const int nb_dof_loc      = D+1;
   typedef array<D,Real>            Rd;
   typedef array<D+1,R3>            ArrayGrad;
-  static const Valuation valuation = VectorValued;  
-  
+  static const Valuation valuation = VectorValued;
+
 private:
   const Mesh<D>&      mesh;
-  vector<ArrayGrad>   grad;
+  std::vector<ArrayGrad>   grad;
   int                 num_elt;
-  
+
 public:
-  
+
   GradBasisFct< BasisFct<P1,D> >(const Mesh<D>& m): mesh(m) {
     int nb_elt = NbElt(mesh);
     grad.resize(nb_elt);
     ArrayGrad n;
 
-    for(int j=0; j<nb_elt; j++){      
+    for(int j=0; j<nb_elt; j++){
       const Elt<D>& e = mesh[j];
       NormalToFaces(e,n);
       for(int k=0; k<D+1; k++){
@@ -134,13 +134,13 @@ public:
       }
     }
   }
-  
+
   void Assign(const int& j){num_elt = j;}
-  
+
   const R3& operator()(const int& j, const Rd& x = 0.) const {
     assert(j>=0 && j<nb_dof_loc);
     return grad[num_elt][j];}
-  
+
 };
 
 typedef GradBasisFct<P1_1D> Grad_P1_1D;
@@ -160,7 +160,7 @@ public:
   static const int dim         = 1;
   static const int nb_dof_loc  = 3;
   typedef array<1,Real>        Rd;
-  static const Valuation valuation = ScalarValued;  
+  static const Valuation valuation = ScalarValued;
 
 private:
   const Mesh1D&     mesh;
@@ -168,14 +168,14 @@ private:
 public:
   BasisFct<P2,1>(const Mesh1D& m): mesh(m) {};
 
-  void Assign(const int& j){}  
-  
+  void Assign(const int& j){}
+
   Real lambda(const int& j, const Rd& x) const {
     if(j==0){return 1.-x[0];} return x[0];}
-  
+
   Real operator()(const int& j, const Rd& x) const {
     assert(j>=0 && j<nb_dof_loc);
-    if(j<2){Real lj = lambda(j,x); return lj*(2.*lj-1.);}    
+    if(j<2){Real lj = lambda(j,x); return lj*(2.*lj-1.);}
     return 4.*x[0]*(1.-x[0]);}
 };
 
@@ -187,7 +187,7 @@ public:
   static const int dim         = 2;
   static const int nb_dof_loc  = 6;
   typedef array<2,Real>        Rd;
-  static const Valuation valuation = ScalarValued;  
+  static const Valuation valuation = ScalarValued;
 
 private:
   const Mesh2D&     mesh;
@@ -195,14 +195,14 @@ private:
 public:
   BasisFct<P2,2>(const Mesh2D& m): mesh(m) {};
 
-  void Assign(const int& j){}  
-  
+  void Assign(const int& j){}
+
   Real lambda(const int& j, const Rd& x) const {
     if(j==0){return 1.-(Rd(1.),x);} return x[j-1];}
 
   Real operator()(const int& j, const Rd& x) const {
     assert(j>=0 && j<nb_dof_loc);
-    if(j<3){Real lj = lambda(j,x); return lj*(2.*lj-1.);}    
+    if(j<3){Real lj = lambda(j,x); return lj*(2.*lj-1.);}
     return 4.*lambda((j-1)%3,x)*lambda((j-2)%3,x);}
 };
 
@@ -225,13 +225,13 @@ public:
   static const int nb_dof_loc      = 3;
   typedef array<1,Real>            Rd;
   typedef array<2,R3>              ArrayGrad;
-  static const Valuation valuation = VectorValued;  
-  
+  static const Valuation valuation = VectorValued;
+
 private:
   const Mesh1D&       mesh;
-  vector<ArrayGrad>   grad;
+  std::vector<ArrayGrad>   grad;
   int                 num_elt;
-  
+
 public:
 
   GradBasisFct<P2_1D>(const Mesh1D& m): mesh(m) {
@@ -239,7 +239,7 @@ public:
     grad.resize(nb_elt);
     ArrayGrad n;
 
-    for(int j=0; j<nb_elt; j++){      
+    for(int j=0; j<nb_elt; j++){
       const Elt1D& e = mesh[j];
       NormalToFaces(e,n);
       for(int k=0; k<2; k++){
@@ -248,17 +248,17 @@ public:
       }
     }
   }
-  
+
   void Assign(const int& j){num_elt = j;}
 
   Real lambda(const int& j, const Rd& x) const {
     if(j==0){return 1.-x[0];} return x[0];}
-  
+
   R3 operator()(const int& j, const Rd& x) const {
     assert(j>=0 && j<nb_dof_loc);
-    if(j<2){Real lj = lambda(j,x); return (4.*lj-1.)*grad[num_elt][j];}    
-    return 4.*(1.-2.*x[0])*grad[num_elt][1];}  
-  
+    if(j<2){Real lj = lambda(j,x); return (4.*lj-1.)*grad[num_elt][j];}
+    return 4.*(1.-2.*x[0])*grad[num_elt][1];}
+
 };
 
 
@@ -270,21 +270,21 @@ public:
   static const int nb_dof_loc      = 6;
   typedef array<2,Real>            Rd;
   typedef array<3,R3>              ArrayGrad;
-  static const Valuation valuation = VectorValued;  
-  
+  static const Valuation valuation = VectorValued;
+
 private:
   const Mesh2D&      mesh;
-  vector<ArrayGrad>   grad;
+  std::vector<ArrayGrad>   grad;
   int                 num_elt;
-  
+
 public:
-  
+
   GradBasisFct<P2_2D>(const Mesh2D& m): mesh(m) {
     int nb_elt = NbElt(mesh);
     grad.resize(nb_elt);
     ArrayGrad n;
-    
-    for(int j=0; j<nb_elt; j++){      
+
+    for(int j=0; j<nb_elt; j++){
       const Elt2D& e = mesh[j];
       NormalToFaces(e,n);
       for(int k=0; k<3; k++){
@@ -293,22 +293,22 @@ public:
       }
     }
   }
-  
+
   void Assign(const int& j){num_elt = j;}
-  
+
   Real lambda(const int& j, const Rd& x) const {
     if(j==0){return 1.-(Rd(1.),x);} return x[j-1];
   }
-  
+
   R3 operator()(const int& j, const Rd& x = 0.) const {
     assert(j>=0 && j<nb_dof_loc);
-    if(j<3){Real lj = lambda(j,x); return (4.*lj-1.)*grad[num_elt][j];}    
+    if(j<3){Real lj = lambda(j,x); return (4.*lj-1.)*grad[num_elt][j];}
     R3 u = 4.*lambda((j-1)%3,x)*grad[num_elt][(j-2)%3];
     u += 4.*lambda((j-2)%3,x)*grad[num_elt][(j-1)%3];
     return u;
   }
-  
-  
+
+
 };
 
 
@@ -322,43 +322,43 @@ typedef GradBasisFct<P2_2D> Grad_P2_2D;
 /*=============================
   RAVIART-THOMAS RT0
   =============================*/
-  
+
 template <>
 class BasisFct<RT0,2>{
 
 public:
-  static const Valuation valuation = VectorValued;  
+  static const Valuation valuation = VectorValued;
   static const int dim             = 2;
   static const int nb_dof_loc      = 3;
   typedef array<2,Real>            Rd;
   typedef BasisFct<RT0,2>          this_t;
-  
+
 private:
   const Mesh2D&    mesh;
-  vector<R3x2>     mat_jac;  
-  int              num_elt;  
+  std::vector<R3x2>     mat_jac;
+  int              num_elt;
   R2               a[3];
-  vector<R3>       orientation;
-  
+  std::vector<R3>       orientation;
+
 public:
   BasisFct<RT0,2>(const Mesh2D& m): mesh(m) {
-    
+
     int nb_elt = NbElt(mesh);
     orientation.resize(nb_elt);
-    a[1][0]=1.; a[2][1]=1.;        
-    mat_jac.resize(NbElt(mesh));    
-    
+    a[1][0]=1.; a[2][1]=1.;
+    mat_jac.resize(NbElt(mesh));
+
     const int nb_edge_loc = 3;
     int nb_edge =  0;
     int end     = -1;
     int nb_node = NbNode(GeometryOf(mesh));
-    vector<int>   begin(nb_node,end);
-    vector<int>   next;
-    vector<Elt1D> edge;
+    std::vector<int>   begin(nb_node,end);
+    std::vector<int>   next;
+    std::vector<Elt1D> edge;
 
-    for(int j=0; j<nb_elt; j++){      
+    for(int j=0; j<nb_elt; j++){
       array<nb_edge_loc,Elt1D> edge_loc = EdgesOf(mesh[j]);
-      for(int k=0; k<nb_edge_loc; k++){	
+      for(int k=0; k<nb_edge_loc; k++){
 	bool exists=false;
 	Elt1D e = edge_loc[k]; Order(e);
 	for(int p=begin[Key(e)]; p!=end; p=next[p]){
@@ -374,26 +374,26 @@ public:
 	  edge.push_back(e);
 	  orientation[j][k] = +1.;
 	  nb_edge++;
-	}	
-      }      
+	}
+      }
     }
-    
+
     for(int j=0; j<nb_elt; j++){
       const Elt2D& e = mesh[j];
       R3x2 B = mat_(e[1]-e[0],e[2]-e[0]);
       mat_jac[j] = (0.5/Vol(e))*B;
     }
-    
+
   }
-  
+
   void Assign(const int& j){num_elt = j;}
-  
+
   R3 operator()(const int& j, const Rd& x) {
     assert(j>=0 && j<nb_dof_loc);
     R3 u = mat_jac[num_elt]*(x-a[j]);
     return orientation[num_elt][j]*u;
   }
-  
+
 };
 
 
@@ -406,38 +406,38 @@ typedef BasisFct<RT0,2> RT0_2D;
 
 template <>
 class DivBasisFct<RT0_2D>{
-  
+
 public:
   static const int dim         = 2;
   static const int nb_dof_loc  = 3;
   typedef array<2,Real>        Rd;
-  static const Valuation valuation = ScalarValued;  
-  
+  static const Valuation valuation = ScalarValued;
+
 private:
   const Mesh2D&    mesh;
-  vector<R3>       orientation;
-  vector<Real>     volume;  
-  int              num_elt;  
+  std::vector<R3>       orientation;
+  std::vector<Real>     volume;
+  int              num_elt;
 
 public:
   DivBasisFct<RT0_2D>(const Mesh2D& m): mesh(m){
-    
+
     int nb_elt = NbElt(mesh);
     orientation.resize(nb_elt);
     volume.resize(nb_elt);
-    
+
     const int nb_edge_loc = 3;
     int nb_edge =  0;
     int end     = -1;
     int nb_node = NbNode(GeometryOf(mesh));
-    vector<int>   begin(nb_node,end);
-    vector<int>   next;
-    vector<Elt1D> edge;
-    
-    for(int j=0; j<nb_elt; j++){      
+    std::vector<int>   begin(nb_node,end);
+    std::vector<int>   next;
+    std::vector<Elt1D> edge;
+
+    for(int j=0; j<nb_elt; j++){
       volume[j] = Vol(mesh[j]);
       array<nb_edge_loc,Elt1D> edge_loc = EdgesOf(mesh[j]);
-      for(int k=0; k<nb_edge_loc; k++){	
+      for(int k=0; k<nb_edge_loc; k++){
 	bool exists=false;
 	Elt1D e = edge_loc[k]; Order(e);
 	for(int p=begin[Key(e)]; p!=end; p=next[p]){
@@ -453,22 +453,22 @@ public:
 	  edge.push_back(e);
 	  orientation[j][k] = +1.;
 	  nb_edge++;
-	}	
-      }      
+	}
+      }
     }
   }
-  
+
   void Assign(const int& j){num_elt = j;}
-  
+
   Real operator()(const int& j, const Rd& x = 0.) const {
     assert(j>=0 && j<nb_dof_loc);
     return orientation[num_elt][j]/volume[num_elt];}
-  
+
 };
 
 typedef DivBasisFct<RT0_2D> Div_RT0_2D;
 
+} // namespace bemtool
 
 
-  
 #endif
