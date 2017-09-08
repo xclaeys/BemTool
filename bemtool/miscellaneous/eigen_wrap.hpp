@@ -35,7 +35,7 @@ template <class EigenMatType,class ValType>
 
 private:
   EigenMatType     mat;
-  vector<size_t>   ipvt;
+  std::vector<size_t>   ipvt;
 
 public:
 
@@ -110,11 +110,11 @@ public:
   friend int NbCols(const m_t& m){
     return m.mat.cols();}
 
-  friend ostream& operator<<(ostream& os, m_t& m){
+  friend std::ostream& operator<<(std::ostream& os, m_t& m){
     for(int j=0; j<NbRows(m); j++){
       for(int k=0; k<NbCols(m); k++){
 	os << m(j,k) << "\t\t";}
-      os << endl;
+      os << std::endl;
     }
     return os;
   }

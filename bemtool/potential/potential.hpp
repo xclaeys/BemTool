@@ -22,6 +22,7 @@
 #include "../quadrature/quad_pot.hpp"
 #include "../fem/shapefct.hpp"
 #include "../equations.hpp"
+#include "../miscellaneous/specialfct.hpp"
 
 
 namespace bemtool {
