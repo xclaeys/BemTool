@@ -162,6 +162,76 @@ template <> struct AnalyticalSolution<HE,HS_OP,3>{
     Real k3=k*k*k;
     return -iu*k3*rho*rho*DSphBesselJ_Dx(nm[0],k*rho)*DSphHankel_Dx(nm[0],k*rho);} };
 
+/*============
+  Modified Helmholtz 2D
+  ============*/
+
+template <> struct AnalyticalSolution<YU,SL_OP,2>{
+  static inline Cplx
+  Compute(const int& n, const Real& r=1., const Real& k=1.){
+    Real r2=r*r;
+    return 2*r2*pi*Modified_BesselK(abs(n),k*r)*Modified_BesselI(abs(n),k*r);} };
+
+template <> struct AnalyticalSolution<YU,DL_OP,2>{
+  static inline Cplx
+  Compute(const int& n, const Real& r=1., const Real& k=1.){
+    Real r2 =r*r;
+    Cplx Res;
+    Res  = DModified_BesselK_Dx(abs(n),k*r)*Modified_BesselI(abs(n),k*r);
+    Res += Modified_BesselK(abs(n),k*r)*DModified_BesselI_Dx(abs(n),k*r);
+    Res *= -k*r2*pi;
+    return Res;} };
+
+template <> struct AnalyticalSolution<YU,TDL_OP,2>{
+  static inline Cplx
+  Compute(const int& n, const Real& r=1., const Real& k=1.){
+    Real r2 =r*r;
+    Cplx Res;
+    Res  = DModified_BesselK_Dx(abs(n),k*r)*Modified_BesselI(abs(n),k*r);
+    Res += Modified_BesselK(abs(n),k*r)*DModified_BesselI_Dx(abs(n),k*r);
+    Res *= k*r2*pi;
+    return Res;} };
+
+template <> struct AnalyticalSolution<YU,HS_OP,2>{
+  static inline Cplx
+  Compute(const int& n, const Real& r=1., const Real& k=1.){
+    Real r2 =r*r;
+    Real k2 =k*k;
+    return -2*k2*r2*pi*DModified_BesselI_Dx(abs(n),k*r)*DModified_BesselK_Dx(abs(n),k*r);} };
+
+/*============
+  Modified Helmholtz 3D
+  ============*/
+
+template <> struct AnalyticalSolution<YU,SL_OP,3>{
+  static inline Cplx
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
+    return iu*k*rho*rho*SphBesselJ(nm[0],k*rho)*SphHankel(nm[0],k*rho);} };
+
+template <> struct AnalyticalSolution<YU,DL_OP,3>{
+  static inline Cplx
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
+    Cplx Res;
+    Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
+    Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
+    Res *= -0.5*iu*k*k*rho*rho;
+    return Res;} };
+
+template <> struct AnalyticalSolution<YU,TDL_OP,3>{
+  static inline Cplx
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
+    Cplx Res;
+    Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
+    Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
+    Res *= 0.5*iu*k*k*rho*rho;
+    return Res;} };
+
+template <> struct AnalyticalSolution<YU,HS_OP,3>{
+  static inline Cplx
+  Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
+    Real k3=k*k*k;
+    return -iu*k3*rho*rho*DSphBesselJ_Dx(nm[0],k*rho)*DSphHankel_Dx(nm[0],k*rho);} };
+
 
 /*=======
   MAXWELL

@@ -67,7 +67,7 @@ public:
 					    const typename Trait::Rdy& ty){
     x_y  = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
 	inter(j,k) = ker*phix(j,tx)*phiy(k,ty);
@@ -81,7 +81,7 @@ public:
 			 const int& kx, const int& ky){
     x_y  = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     return ker *= phix(kx,tx)*phiy(ky,ty);
   }
 
@@ -216,7 +216,7 @@ public:
 					    const typename Trait::Rdy& ty){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
 	inter(j,k) = ker*phix(j,tx)*phiy(k,ty);
@@ -230,7 +230,7 @@ public:
 			 const int& kx, const int& ky){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     return ker *= phix(kx,tx)*phiy(ky,ty);
   }
 
@@ -372,7 +372,7 @@ public:
 					    const typename Trait::Rdy& ty){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = -h*(nx,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(nx,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
 	inter(j,k) = ker*phix(j,tx)*phiy(k,ty);
@@ -386,7 +386,7 @@ public:
 			 const int& kx, const int& ky){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = -h*(nx,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(nx,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     return ker *= phix(kx,tx)*phiy(ky,ty);
   }
 
@@ -539,7 +539,7 @@ public:
 					    const typename Trait::Rdy& ty){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
 	val = ( vprod(nx,grad_phix(j,tx)),vprod(ny,grad_phiy(k,ty)) )*ker;
@@ -554,7 +554,7 @@ public:
 			 const int& kx, const int& ky){
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     val = ( vprod(nx,grad_phix(kx,tx)),vprod(ny,grad_phiy(ky,ty)) )*ker;
     return val2 = val+kappa2*(nx,ny)*phix(kx,tx)*phiy(ky,ty)*ker;
   }

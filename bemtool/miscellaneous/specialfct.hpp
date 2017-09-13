@@ -32,7 +32,7 @@
 namespace bemtool {
 
 /*===================
-  FONCTIONS DE BESSEL
+  BESSEL FUNCTIONS
   ===================*/
 
 inline Cplx BesselJ0(const Real& x){
@@ -46,7 +46,7 @@ inline Cplx BesselJ(const int& n, const Real& x){
 
 
 /*================================
-  DERIVEES DES FONCTIONS DE BESSEL
+  DERIVATIVES OF BESSEL FUNCTIONS
   ================================*/
 
 inline Cplx DBesselJ0_Dx(const Real& x){
@@ -57,7 +57,7 @@ inline Cplx DBesselJ_Dx(const int& n, const Real& x){
 
 
 /*===================
-  FONCTIONS DE HANKEL
+  HANKEL FUNCTIONS
   ===================*/
 inline Cplx Hankel0 (const Real& x){
   return boost::math::cyl_hankel_1(0,x); }
@@ -70,7 +70,7 @@ inline Cplx Hankel (const int& n, const Real& x){
 
 
 /*================================
-  DERIVEES DES FONCTIONS DE HANKEL
+  DERIVATIVES OF HANKEL FUNCTIONS
   ================================*/
 
 inline Cplx DHankel0_Dx (const Real& x) {
@@ -81,18 +81,37 @@ inline Cplx DHankel_Dx  (const int& n, const Real& x){
 
 
 /*===================
-  FONCTIONS DE KELVIN
+  MODIFIED BESSEL FUNCTIONS
   ===================*/
 
-inline Cplx Kelvin0 (const Real& x){
+inline Cplx Modified_BesselI0 (const Real& x){
+  return boost::math::cyl_bessel_i(0,x); }
+
+inline Cplx Modified_BesselI1 (const Real& x){
+  return boost::math::cyl_bessel_i(1,x); }
+
+inline Cplx Modified_BesselI (const int& n, const Real& x){
+  return boost::math::cyl_bessel_i(n,x);}
+
+inline Cplx Modified_BesselK0 (const Real& x){
   return boost::math::cyl_bessel_k(0,x); }
 
-inline Cplx Kelvin1 (const Real& x){
+inline Cplx Modified_BesselK1 (const Real& x){
   return boost::math::cyl_bessel_k(1,x); }
 
-inline Cplx Kelvin (const int& n, const Real& x){
+inline Cplx Modified_BesselK (const int& n, const Real& x){
   return boost::math::cyl_bessel_k(n,x);}
 
+/*===================
+  DERIVATIVES OF MODIFIED BESSEL FUNCTIONS
+  ===================*/
+
+inline Cplx DModified_BesselI_Dx (const int& n, const Real& x){
+  if(n==0){return Modified_BesselI1(x);} return 0.5*( Modified_BesselI(n-1,x) + Modified_BesselI(n+1,x) );}
+
+
+inline Cplx DModified_BesselK_Dx (const int& n, const Real& x){
+  if(n==0){return -Modified_BesselK1(x);} return -0.5*( Modified_BesselK(n-1,x) + Modified_BesselK(n+1,x) );}
 
 /*======================
   HARMONIQUES SPHERIQUES
