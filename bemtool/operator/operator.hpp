@@ -85,7 +85,7 @@ public:
 
   void ChooseQuad(const int& jx, const int& jy){
     rule = 0; inter=0.; val=0.;
-    EltX ex = meshx[jx];   EltY ey = meshx[jy];
+    EltX ex = meshx[jx];   EltY ey = meshy[jy];
     Elt<dimx,RdX> bx(ax);  Elt<dimy,RdY> by(ay);
 
     for(int p=0; p<dimx+1; p++){
