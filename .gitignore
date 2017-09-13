@@ -33,6 +33,7 @@
 
 # Temporary files
 *.DS_Store
+mtf.*
 
 # Latex
 *.aux

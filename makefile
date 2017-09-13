@@ -21,6 +21,14 @@ test3D.o: test3D.cpp
 
 ######################################################
 
+mtf: mtf.o
+	$(GCC) mtf.o -o mtf
+
+mtf.o: mtf.cpp
+	$(GCC) $(INCLUDE) -c mtf.cpp -o mtf.o
+
+######################################################
+
 
 
 clean:
