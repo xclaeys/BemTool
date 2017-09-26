@@ -56,7 +56,7 @@ This document aims at giving explicit  expressions for layer potentials for vari
 equations in circular and spherical geometries. These expressions will then be used to implement
 reference solutions in the boundary element library \verb?BemTool?. More precisely, these reference
 solutions will be stored under the form of routines located in the folder
-\verb?bemtool3/miscellaneous/? of the library.
+\verb?bemtool/miscellaneous/? of the library.
 
 
 
@@ -66,7 +66,7 @@ $\Gamma = \partial\Omega$ its boundary. We denote $\gamma_{\textsc{d}}:\mH^{1}(\
 interior Dirichlet trace defined by $\gamma_{\textsc{d}}(u):= u\vert_{\Gamma}$ for any $u\in \mathscr{C}^{0}(\overline{\Omega})$,
 and  $\gamma_{\neu}:\mH^{1}(\Delta,\Omega)\to \mH^{-1/2}(\Gamma)$ the interior Neumann trace defined by
 $\gamma_{\neu}(u) := \bn\cdot\nabla u\vert_{\Gamma} = \partial_{r}u\vert_{\Gamma}$ where $\bn$ refers to
-the normal vector field ditrected toward the exterior of $\mD$. We define $\gamma_{\dir,c},\gamma_{\neu,c}$ in the
+the normal vector field directed toward the exterior of $\Omega$. We define $\gamma_{\dir,c},\gamma_{\neu,c}$ in the
 same manner, except that the traces are taken from the exterior of $\Omega$. Finally, we set
 $$
 \begin{array}{ll}
@@ -74,7 +74,7 @@ $$
 \lbrack\gamma_{\dir}\rbr:=\gamma_{\dir}-\gamma_{\dir,c} & \lbrack\gamma_{\neu}\rbr:=\gamma_{\neu}-\gamma_{\neu,c}.
 \end{array}
 $$
-Let us introduce the layer potentials associated to the interior of the disc $\mD$.
+Let us introduce the layer potentials associated to the interior of $\Omega$.
 For any trace $v\in\mH^{+1/2}(\Gamma), p\in\mH^{-1/2}(\Gamma)$, their explicit expression
 is given by:
 \begin{equation}\label{PotentialOperators}
@@ -208,10 +208,10 @@ $$
 
 \subsection{Modified Helmholtz equation}\label{ModifiedHelmholtz2D}
 
-Here we consider a Modified Helmholtz equation   $-\Delta u +\kappa^{2}u = 0$ with outgoing radiation condition.
+Here we consider a modified Helmholtz equation   $-\Delta u +\kappa^{2}u = 0$ with outgoing radiation condition.
 The corresponding Green kernel is $\Green(\bx) = \frac{1}{2 \pi }K_{0}(\kappa\vert \bx\vert)$, where
-$K_{0}(z)$ refers to the Modified Bessel function of order zero and of the second kind, see \S 10.25
-\cite{MR2723248}. We also denote $I_0$, the Modified Bessel function of order zero and of the first kind. The layer potentials admit the expressions
+$K_{0}(z)$ refers to the modified Bessel function of order zero and of the second kind, see \S 10.25
+\cite{MR2723248}. We also denote $I_0$, the modified Bessel function of order zero and of the first kind. The layer potentials admit the expressions
 $$
 \SL(\fre_{n})(\bx) =
 \left\{\begin{array}{ll}
@@ -406,14 +406,14 @@ $$
 In the case  $\Gamma = \mS^{2}$ we have:
 $$
 \begin{array}{l}
- \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle
- = \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle \\
-\textcolor{white}{ \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle }
- = (\imath/\kappa)(\;j_{l}(\kappa)+\kappa j_{l}'(\kappa)\;)(\;h^{(1)}_{l}(\kappa)+\kappa h^{(1)\prime}_{l}(\kappa)\;)  \\[10pt]
-\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle =
+  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle 
+  =  (\imath/\kappa)(\;j_{l}(\kappa)+\kappa j_{l}'(\kappa)\;)(\;h^{(1)}_{l}(\kappa)+\kappa h^{(1)\prime}_{l}(\kappa)\;) \\[10pt]
+  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle 
+  = (\imath/\kappa)j_{l}(\kappa)h^{(1)}_{l}(\kappa) \\[12.5pt]
+\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle = 
 \langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{+}\rangle \\
-\textcolor{white}{\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle}
-=  -\imath \lbr j_{l}(\kappa)(h_{l}^{(1)}(\kappa)+\kappa h_{l}^{(1)\prime}(\kappa)) +
+\textcolor{white}{\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle} 
+=  -\imath \lbr j_{l}(\kappa)(h_{l}^{(1)}(\kappa)+\kappa h_{l}^{(1)\prime}(\kappa)) + 
 h_{l}^{(1)}(\kappa)(j_{l}(\kappa)+\kappa j_{l}'(\kappa)) \rbr\\[10pt]
 
 
