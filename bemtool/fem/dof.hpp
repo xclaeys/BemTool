@@ -75,7 +75,7 @@ private:
   const Geometry*                  node_p;
   const typename Trait::mesh_t*    mesh_p;
   std::vector<typename Trait::Nloc>     elt_to_dof;
-  std::vector< std::vector<N2> >             dof_to_elt;
+  std::vector< std::vector<N2> >        dof_to_elt;
   int                              nb_elt;
   int                              nb_dof;
   int                              offset;
