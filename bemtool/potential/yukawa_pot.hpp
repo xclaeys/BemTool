@@ -47,9 +47,9 @@ private:
 public:
 
   PotKernel<YU,SL_POT,2,PhiY>(const typename Trait::MeshY& my,
-			   const Real& k):
+			      const Real& k):
   meshy(my), phiy(my), kappa(k) {};
-
+  
   void Assign(const R3& x, const int& iy){
     const typename Trait::EltY& ey=meshy[iy];
     x0_y0 = x-ey[0];
@@ -60,25 +60,25 @@ public:
   operator()(const R3& x,const typename Trait::Rdy& tj){
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     for(int k=0; k<Trait::nb_dof_y; k++){
       mat(0,k) = ker*phiy(k,tj);}
     return mat;}
-
+  
   const Cplx&
   operator()(const R3& x, const typename Trait::Rdy& tj, const int& ky){
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
-    ker = h*(0.5/pi)*Kelvin0(kappa*r);
+    ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     return ker *= phiy(ky,tj);
   }
-
+  
 };
 
-typedef PotKernel<YU,SL_POT,2,P0_1D> YU_SL_2D_P0;
-typedef PotKernel<YU,SL_POT,2,P1_1D> YU_SL_2D_P1;
+  typedef PotKernel<YU,SL_POT,2,P0_1D> YU_SL_2D_P0;
+  typedef PotKernel<YU,SL_POT,2,P1_1D> YU_SL_2D_P1;
 
-
+  
 
 /*==========================
   SIMPLE COUCHE YUKAWA EN 3D
@@ -175,7 +175,7 @@ public:
   operator()(const R3& x,const typename Trait::Rdy& tj){
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
-    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     for(int k=0; k<Trait::nb_dof_y; k++){
       mat(0,k) = ker*phiy(k,tj);}
     return mat;
@@ -185,7 +185,7 @@ public:
   operator()(const R3& x, const typename Trait::Rdy& tj, const int& ky){
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
-    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Kelvin1(kappa*r);
+    ker = -h*(ny,x_y)*(1./r)*(0.5/pi)*kappa*Modified_BesselK1(kappa*r);
     return ker *= phiy(ky,tj);
   }
 
