@@ -38,8 +38,7 @@ int main(int argc, char* argv[]){
       En[jdof[k]] = pow( xdof[k][0]+iu*xdof[k][1], n);}
   }
 
-
-  
+  /*
   progress bar("Assemblage",nb_elt);
   for(int j=0; j<nb_elt; j++){
     bar++;
@@ -47,15 +46,14 @@ int main(int argc, char* argv[]){
       A(dof[j],dof[k]) += V(j,k);
     }
   }
-  /*
+  */
   progress bar("Assemblage",nb_dof);
   for(int j=0; j<nb_dof; j++){
     bar++;
     for(int k=0; k<nb_dof; k++){
       A(j,k) += V(dof.ToElt(j),dof.ToElt(k));
     }
-  }
-  */
+  }  
   bar.end();
   
   Cplx sum =0.;
