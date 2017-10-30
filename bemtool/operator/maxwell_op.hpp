@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef MAXWELL_OP_HPP
-#define MAXWELL_OP_HPP
+#ifndef BEMTOOL_OPERATOR_MAXWELL_HPP
+#define BEMTOOL_OPERATOR_MAXWELL_HPP
 
 #include "operator.hpp"
 

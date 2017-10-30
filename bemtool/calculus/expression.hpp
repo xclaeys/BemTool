@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef EXPRESSION_HPP
-#define EXPRESSION_HPP
+#ifndef BEMTOOL_CALCULUS_EXPRESSION_HPP
+#define BEMTOOL_CALCULUS_EXPRESSION_HPP
 
 
 #include <complex>

@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef ALGO_H
-#define ALGO_H
+#ifndef BEMTOOL_MESH_ALGO_H
+#define BEMTOOL_MESH_ALGO_H
 
 #include <vector>
 #include <queue>

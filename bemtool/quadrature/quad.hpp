@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef QUAD_H
-#define QUAD_H
+#ifndef BEMTOOL_QUADRATURE_QUAD_HPP
+#define BEMTOOL_QUADRATURE_QUAD_HPP
 
 #include "../calculus/calculus.hpp"
 #include "dunavant.hpp"

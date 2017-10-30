@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef FEM_HPP
-#define FEM_HPP
+#ifndef BEMTOOL_FEM_FEM_HPP
+#define BEMTOOL_FEM_FEM_HPP
 #include "../quadrature/quad.hpp"
 #include "../mesh/mesh.hpp"
 

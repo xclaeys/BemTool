@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef SPECIALFCT_HPP
-#define SPECIALFCT_HPP
+#ifndef BEMTOOL_MISC_SPECIALFCT_HPP
+#define BEMTOOL_MISC_SPECIALFCT_HPP
 #include <cmath>
 #include "coordinates.hpp"
 

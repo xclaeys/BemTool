@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef OPERATOR_HPP
-#define OPERATOR_HPP
+#ifndef BEMTOOL_OPERATOR_OPERATOR_HPP
+#define BEMTOOL_OPERATOR_OPERATOR_HPP
 
 #include <fstream>
 #include "../quadrature/quad_bem.hpp"

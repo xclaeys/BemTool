@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef ELT_HPP
-#define ELT_HPP
+#ifndef BEMTOOL_MESH_ELT_HPP
+#define BEMTOOL_MESH_ELT_HPP
 
 #include <iostream>
 #include <cassert>

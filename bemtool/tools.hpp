@@ -18,8 +18,8 @@
 //
 //====================================================================
 
-#ifndef TOOLS_HPP
-#define TOOLS_HPP
+#ifndef BEMTOOL_TOOLS_HPP
+#define BEMTOOL_TOOLS_HPP
 
 //=====================//
 

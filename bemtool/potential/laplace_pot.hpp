@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef LAPLACE_POT_HPP
-#define LAPLACE_POT_HPP
+#ifndef BEMTOOL_POTENTIAL_LAPLACE_HPP
+#define BEMTOOL_POTENTIAL_LAPLACE_HPP
 
 #include "potential.hpp"
 

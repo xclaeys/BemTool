@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef SMALLVECT_HPP
-#define SMALLVECT_HPP
+#ifndef BEMTOOL_CALCULUS_SMALLVECT_HPP
+#define BEMTOOL_CALCULUS_SMALLVECT_HPP
 #include <cassert>
 #include "expression.hpp"
 

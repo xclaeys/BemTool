@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef HELMHOLTZ_POT_HPP
-#define HELMHOLTZ_POT_HPP
+#ifndef BEMTOOL_POTENTIAL_HELMHOLTZ_HPP
+#define BEMTOOL_POTENTIAL_HELMHOLTZ_HPP
 
 #include "potential.hpp"
 

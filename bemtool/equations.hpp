@@ -18,8 +18,8 @@
 //
 //====================================================================
 
-#ifndef EQUATIONS_HPP
-#define EQUATIONS_HPP
+#ifndef BEMTOOL_EQUATIONS_HPP
+#define BEMTOOL_EQUATIONS_HPP
 
 /*=====================
   Equations disponibles

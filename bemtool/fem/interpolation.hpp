@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef INTERPOLATION_HPP
-#define INTERPOLATION_HPP
+#ifndef BEMTOOL_FEM_INTERPOLATION_HPP
+#define BEMTOOL_FEM_INTERPOLATION_HPP
 #include "dof.hpp"
 
 namespace bemtool {

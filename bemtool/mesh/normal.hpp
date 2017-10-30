@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef NORMAL_H
-#define NORMAL_H
+#ifndef BEMTOOL_MESH_NORMAL_H
+#define BEMTOOL_MESH_NORMAL_H
 
 #include <vector>
 #include "mesh.hpp"

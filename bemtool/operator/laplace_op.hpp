@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef LAPLACE_OP_HPP
-#define LAPLACE_OP_HPP
+#ifndef BEMTOOL_OPERATOR_LAPLACE_HPP
+#define BEMTOOL_OPERATOR_LAPLACE_HPP
 
 #include "operator.hpp"
 

@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef MISC_H
-#define MISC_H
+#ifndef BEMTOOL_MISC_MISC_HPP
+#define BEMTOOL_MISC_MISC_HPP
 
 
 #include <ctime>
@@ -35,7 +35,7 @@ namespace bemtool{
 ////////////===== Barre de progression ======///////////////////
 
 class progress{
-    
+
 private:
     const char* title;
     const int length;
@@ -43,13 +43,13 @@ private:
     int       prg;
     clock_t   t0;
     int       verbose;
-    
+
 public:
     progress(const char* aff,const int& l, int v=1): title(aff), length(l) {
         t0 = clock();
         it=0; prg=0;
         verbose=v;
-        
+
         if (verbose>0){
             std::cout << "\r";
             std::cout << title << ": \t";
@@ -57,7 +57,7 @@ public:
             std::cout.flush();
         }
     }
-    
+
     void operator++(int n){
         it++;
 
@@ -67,10 +67,10 @@ public:
             std::cout << title << ": \t";
             std::cout << prg << "%";
             std::cout.flush();
-            
+
         }
     }
-    
+
     void end(){
         t0 = clock()-t0;
         time_t now; time(&now);
@@ -80,7 +80,7 @@ public:
             std::cout << ((float)t0)/CLOCKS_PER_SEC << " sec." << std::endl;
         }
     }
-    
+
 };
 
 

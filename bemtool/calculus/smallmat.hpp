@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef SMALLMAT_HPP
-#define SMALLMAT_HPP
+#ifndef BEMTOOL_CALCULUS_SMALLMAT_HPP
+#define BEMTOOL_CALCULUS_SMALLMAT_HPP
 #include "smallvect.hpp"
 
 

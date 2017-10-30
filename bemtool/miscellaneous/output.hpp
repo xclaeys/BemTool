@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef OUTPUT_HPP
-#define OUTPUT_HPP
+#ifndef BEMTOOL_MISC_OUTPUT_HPP
+#define BEMTOOL_MISC_OUTPUT_HPP
 
 #include "../mesh/mesh.hpp"
 

@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef YUKAWA_POT_HPP
-#define YUKAWA_POT_HPP
+#ifndef BEMTOOL_POTENTIAL_YUKAWA_HPP
+#define BEMTOOL_POTENTIAL_YUKAWA_HPP
 
 #include "potential.hpp"
 
@@ -49,7 +49,7 @@ public:
   PotKernel<YU,SL_POT,2,PhiY>(const typename Trait::MeshY& my,
 			      const Real& k):
   meshy(my), phiy(my), kappa(k) {};
-  
+
   void Assign(const R3& x, const int& iy){
     const typename Trait::EltY& ey=meshy[iy];
     x0_y0 = x-ey[0];
@@ -64,7 +64,7 @@ public:
     for(int k=0; k<Trait::nb_dof_y; k++){
       mat(0,k) = ker*phiy(k,tj);}
     return mat;}
-  
+
   const Cplx&
   operator()(const R3& x, const typename Trait::Rdy& tj, const int& ky){
     x_y  = x0_y0-dy*tj;
@@ -72,13 +72,13 @@ public:
     ker = h*(0.5/pi)*Modified_BesselK0(kappa*r);
     return ker *= phiy(ky,tj);
   }
-  
+
 };
 
   typedef PotKernel<YU,SL_POT,2,P0_1D> YU_SL_2D_P0;
   typedef PotKernel<YU,SL_POT,2,P1_1D> YU_SL_2D_P1;
 
-  
+
 
 /*==========================
   SIMPLE COUCHE YUKAWA EN 3D

@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef REFSOL_HPP
-#define REFSOL_HPP
+#ifndef BEMTOOL_MISC_REFSOL_HPP
+#define BEMTOOL_MISC_REFSOL_HPP
 
 #include "../tools.hpp"
 

@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef POTENTIAL_HPP
-#define POTENTIAL_HPP
+#ifndef BEMTOOL_POTENTIAL_POTENTIAL_HPP
+#define BEMTOOL_POTENTIAL_POTENTIAL_HPP
 
 #include "../quadrature/quad_pot.hpp"
 #include "../fem/shapefct.hpp"

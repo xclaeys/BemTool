@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef SHAPEFCT_HPP
-#define SHAPEFCT_HPP
+#ifndef BEMTOOL_FEM_SHAPEFCT_HPP
+#define BEMTOOL_FEM_SHAPEFCT_HPP
 
 #include "../calculus/calculus.hpp"
 #include "../mesh/element.hpp"

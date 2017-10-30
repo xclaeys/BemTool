@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef BEMTOOL_MESH_MESH_HPP
+#define BEMTOOL_MESH_MESH_HPP
 
 #include <vector>
 #include <fstream>

@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef QUADPOT_H
-#define QUADPOT_H
+#ifndef BEMTOOL_QUADRATURE_QUADPOT_HPP
+#define BEMTOOL_QUADRATURE_QUADPOT_HPP
 
 #include "quad.hpp"
 #include <fstream>

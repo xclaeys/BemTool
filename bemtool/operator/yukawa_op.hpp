@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef YUKAWA_OP_HPP
-#define YUKAWA_OP_HPP
+#ifndef BEMTOOL_OPERATOR_YUKAWA_HPP
+#define BEMTOOL_OPERATOR_YUKAWA_HPP
 
 #include "operator.hpp"
 

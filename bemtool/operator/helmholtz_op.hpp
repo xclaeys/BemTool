@@ -16,8 +16,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef HELMHOLTZ_OP_HPP
-#define HELMHOLTZ_OP_HPP
+#ifndef BEMTOOL_OPERATOR_HELMHOLTZ_HPP
+#define BEMTOOL_OPERATOR_HELMHOLTZ_HPP
 
 #include "operator.hpp"
 

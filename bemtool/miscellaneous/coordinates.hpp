@@ -17,8 +17,8 @@
 //  along with bemtool.  If not, see <http://www.gnu.org/licenses/>
 //
 //====================================================================
-#ifndef COORDINATES_HPP
-#define COORDINATES_HPP
+#ifndef BEMTOOL_MISC_COORDINATES_HPP
+#define BEMTOOL_MISC_COORDINATES_HPP
 
 #include <cmath>
 #include "../calculus/calculus.hpp"
