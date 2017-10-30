@@ -41,8 +41,8 @@ void WritePointValGmsh(const Mesh2D& mesh,
     file << j+1 << "\t2\t2\t2\t2\t" << Num(mesh[j])+1 << std::endl;}
   file << "$EndElements\n$NodeData\n";
   file << "1\n\"Normal field\"\n1\n0.0\n3\n0\n1\n";
-  file << nb_elt << std::endl;
-  for(int j=0; j<nb_elt; j++){file << j+1 << "\t" << x[j] << std::endl;}
+  file << nb_node << std::endl;
+  for(int j=0; j<nb_node; j++){file << j+1 << "\t" << x[j] << std::endl;}
   file << "$EndNodeData\n";
 }
 
