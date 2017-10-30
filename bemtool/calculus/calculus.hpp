@@ -18,7 +18,7 @@
 //
 //====================================================================
 #ifndef BEMTOOL_CALCULUS_CALCULUS_HPP
-#define BEMTOOL_CALCULUS_CALCULUS_H
+#define BEMTOOL_CALCULUS_CALCULUS_HPP
 
 #include "smallmat.hpp"
 #include "smallvect.hpp"

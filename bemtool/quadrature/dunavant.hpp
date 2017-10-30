@@ -1,5 +1,5 @@
 #ifndef BEMTOOL_QUADRATURE_DUNAVANT_HPP
-#define BEMTOOL_QUADRATURE_DUNAVANT_H
+#define BEMTOOL_QUADRATURE_DUNAVANT_HPP
 
 # include <cstdlib>
 # include <iostream>
