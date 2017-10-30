@@ -23,6 +23,8 @@
 
 //=====================//
 
+#include "equations.hpp"
+
 #include "calculus/calculus.hpp"
 
 #include "mesh/element.hpp"
@@ -57,6 +59,7 @@
 #include "miscellaneous/misc.hpp"
 #include "miscellaneous/coordinates.hpp"
 #include "miscellaneous/specialfct.hpp"
+#include "miscellaneous/refeigenvalue.hpp"
 #include "miscellaneous/refsol.hpp"
 
 #endif
