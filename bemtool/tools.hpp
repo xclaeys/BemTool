@@ -54,7 +54,6 @@
 #include "quadrature/quad_bem.hpp"
 #include "quadrature/quad_pot.hpp"
 
-#include "miscellaneous/eigen_wrap.hpp"
 #include "miscellaneous/output.hpp"
 #include "miscellaneous/misc.hpp"
 #include "miscellaneous/coordinates.hpp"
