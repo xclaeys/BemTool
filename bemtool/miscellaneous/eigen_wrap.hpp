@@ -128,6 +128,29 @@ namespace bemtool {
       }
     }
 
+    friend void Write(m_t& m, char const * const name){
+      std::ofstream file; file.open(name);
+      int nb_row = NbRows(m);
+      int nb_col = NbCols(m);
+
+      file << "# name: " << name       << std::endl;
+      file << "# type: complex matrix" << std::endl;
+      file << "# rows:   \t" << nb_row << std::endl;
+      file << "# columns:\t" << nb_col << std::endl;
+
+      int count = 0;
+      for(int k=0; k<nb_col; k++){
+        for(int j=0; j<nb_row; j++){
+      file << m(j,k) << "  ";
+      count++;
+      if(count==10){
+      file << std::endl;
+      count = 0;}
+        }
+      }
+      file.close();
+    }
+
     /*=======================
       Produit matrice-vecteur
       =======================*/
