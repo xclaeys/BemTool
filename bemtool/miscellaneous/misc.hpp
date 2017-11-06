@@ -26,6 +26,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <stack>
 
 namespace bemtool{
 
@@ -120,7 +121,32 @@ inline std::vector<std::string> split(const std::string &s, char delim) {
 	return elems;
 }
 
+////========================================================////
+/////////////////////===== Timing ======////////////////////////
+
+std::stack<clock_t> tictoc_stack;
+
+void tic() {
+	tictoc_stack.push(clock());
 }
+
+void toc() {
+    double time =((double)(clock() - tictoc_stack.top())) / CLOCKS_PER_SEC;
+    std::cout << "Time elapsed: " << time << std::endl;
+    tictoc_stack.pop();
+}
+
+void toc(std::vector<double>& times) {
+	double time =((double)(clock() - tictoc_stack.top())) / CLOCKS_PER_SEC;
+	std::cout << "Time elapsed: " << time << std::endl;
+	times.push_back(time);
+	tictoc_stack.pop();
+}
+
+
+
+
+} // namespace
 
 
 #endif
