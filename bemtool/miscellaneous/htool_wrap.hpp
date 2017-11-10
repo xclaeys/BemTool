@@ -28,7 +28,7 @@ class POT_Generator : public htool::IMatrix<Cplx>{
   Geometry& geometry;
 
 public:
-  POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):IMatrix(NbDof(dof0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
+  POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):IMatrix(NbNode(geometry0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
 
   Cplx get_coef(const int& i, const int& j) const {
     return V(geometry[i],dof.ToElt(j));
