@@ -60,5 +60,6 @@
 #include "miscellaneous/specialfct.hpp"
 #include "miscellaneous/refeigenvalue.hpp"
 #include "miscellaneous/refsol.hpp"
+#include "miscellaneous/overlap.hpp"
 
 #endif

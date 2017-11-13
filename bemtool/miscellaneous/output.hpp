@@ -46,6 +46,51 @@ void WritePointValGmsh(const Mesh2D& mesh,
   file << "$EndNodeData\n";
 }
 
+void WritePointValGmsh(const Mesh3D& mesh,
+		       char const * const name,
+		       const std::vector<Real>& x){
+
+  const Geometry& node = GeometryOf(mesh);
+  int nb_node = NbNode(node);
+  int nb_elt  = NbElt(mesh);
+  std::ofstream file; file.open(name);
+  file << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n$Nodes\n";
+  file << NbNode(node) << std::endl;
+  for(int j=0; j<nb_node; j++){
+    file << j+1 << "\t" << node[j] << std::endl;}
+  file << "$EndNodes\n$Elements\n";
+  file << nb_elt << std::endl;
+  for(int j=0; j<nb_elt; j++){
+    file << j+1 << "\t4\t2\t2\t2\t" << Num(mesh[j])+1 << std::endl;}
+  file << "$EndElements\n$NodeData\n";
+  file << "1\n\"Normal field\"\n1\n0.0\n3\n0\n1\n";
+  file << nb_node << std::endl;
+  for(int j=0; j<nb_node; j++){file << j+1 << "\t" << x[j] << std::endl;}
+  file << "$EndNodeData\n";
+}
+
+void WritePointValGmsh(const Dof<P1_2D>& dof,
+		       char const * const name,
+		       const std::vector<Real>& x){
+
+	int nb_dof = NbDof(dof);
+  int nb_elt = NbElt(dof);
+  std::ofstream file; file.open(name);
+  file << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n$Nodes\n";
+  file << nb_dof << std::endl;
+  for(int j=0; j<nb_dof; j++){
+    file << j+1 << "\t" << dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][0]<<" "<<dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][1]<<" "<<dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][2]<< std::endl;}
+  file << "$EndNodes\n$Elements\n";
+  file << nb_elt << std::endl;
+  for(int j=0; j<nb_elt; j++){
+    file << j+1 << "\t2\t2\t2\t2\t" << dof[j]+1 << std::endl;}
+  file << "$EndElements\n$NodeData\n";
+  file << "1\n\"Normal field\"\n1\n0.0\n3\n0\n1\n";
+  file << nb_dof << std::endl;
+  for(int j=0; j<nb_dof; j++){file << j+1 << "\t" << x[j] << std::endl;}
+  file << "$EndNodeData\n";
+}
+
 void WriteEltValGmsh(const Mesh2D& mesh,
 		     char const * const name,
 		     const std::vector<Real>& x){

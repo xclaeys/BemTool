@@ -109,6 +109,7 @@ public:
     return (*this)[ (*node_p)[e][(*mesh_p)] ];}
 
   friend const int& NbDof(const this_t& d){return d.nb_dof;}
+  friend const int& NbElt(const this_t& d){return d.nb_elt;}
 
   void operator+=(const int& offset0){
     offset += offset0;
@@ -185,6 +186,7 @@ public:
     return (*this)[ (*node_p)[e][(*mesh_p)] ];}
 
   friend const int& NbDof(const this_t& d){return d.nb_dof;}
+  friend const int& NbElt(const this_t& d){return d.nb_elt;}
 
   void operator+=(const int& offset0){
     offset += offset0;
@@ -297,6 +299,7 @@ public:
     return (*this)[ (*node_p)[e][(*mesh_p)] ];}
 
   friend const int& NbDof(const this_t& d){return d.nb_dof;}
+  friend const int& NbElt(const this_t& d){return d.nb_elt;}
 
   void operator+=(const int& offset0){
     offset+=offset0;
@@ -430,6 +433,7 @@ public:
     return (*this)[ (*node_p)[e][(*mesh_p)] ];}
 
   friend const int& NbDof(const this_t& d){return d.nb_dof;}
+  friend const int& NbElt(const this_t& d){return d.nb_elt;}
 
   void operator+=(const int& offset0){
     offset+=offset0;
