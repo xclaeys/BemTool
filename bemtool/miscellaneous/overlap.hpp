@@ -21,7 +21,6 @@ void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::v
   int nbdof = NbDof(dof);
   int nbelt = NbElt(dof);
   std::vector<bool> part_overlap(nbdof);
-std::cout << "nbdof : "<<nbdof << std::endl;
 
   // Partitionnement des dofs sans overlap
   std::vector<int> part(nbdof);
