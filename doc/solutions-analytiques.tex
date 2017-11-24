@@ -155,8 +155,8 @@ $$
 The boundary integral operators are given by
 $$
 \begin{array}{ll}
-\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\dir}\}\SL(\fre_{n}) d\sigma =  \pi r_{\star}/\vert n\vert,}\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\neu}\}\DL(\fre_{n}) d\sigma =  \pi\vert n\vert/r_{\star},}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\dir}\}\SL(\fre_{n}) d\sigma =  \pi r_{\star}^{2}/\vert n\vert,}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\neu}\}\DL(\fre_{n}) d\sigma =  \pi\vert n\vert,}\\[10pt]
 \dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\dir}\}\DL(\fre_{n}) d\sigma =  0,}\\[10pt]
 \dsp{ \int_{\Gamma}\overline{\fre}_{n}\,\{\gamma_{\neu}\}\SL(\fre_{n}) d\sigma =  0.}\\
 
@@ -325,10 +325,12 @@ The layer potentials are given by
 $$
 \SL(\mY_{l}^{m})(\bx) =
 \left\{\begin{array}{ll}
-\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{-(l+1)}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{-(l+1)}
+\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert> \rho_{\star}\\[15pt]
 
-\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{+l}\mY_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{\frac{\rho_{\star}}{2l+1}\Big(\frac{\vert \bx\vert}{\rho_{\star}}\Big)^{+l}\mY_{l}^{m}
+\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert< \rho_{\star}
 \end{array}\right.
 $$
@@ -347,13 +349,13 @@ The boundary integral operators are given by
 $$
 \begin{array}{ll}
 \dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\dir}\}\SL(\mY_{l}^{m}) d\sigma
-= \frac{\rho_{\star}}{2l+1} }\\[10pt]
+= \frac{\rho_{\star}^{3}}{2l+1} }\\[10pt]
 \dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\neu}\}\DL(\mY_{l}^{m}) d\sigma
-=  \frac{l(l+1)}{2l+1}\frac{1}{\rho_{\star}}   }\\[10pt]
+=  \frac{l(l+1)}{2l+1}\rho_{\star}   }\\[10pt]
 \dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\neu}\}\SL(\mY_{l}^{m}) d\sigma
-=  -\frac{1}{2}\frac{1}{2l+1} }\\[10pt]
+=  -\frac{1}{2}\frac{\rho_{\star}^{2}}{2l+1} }\\[10pt]
 \dsp{ \int_{\Gamma}\overline{\mY}_{l}^{m}\{\gamma_{\dir}\}\DL(\mY_{l}^{m}) d\sigma
-=  +\frac{1}{2}\frac{1}{2l+1} }\\[10pt]
+=  +\frac{1}{2}\frac{\rho_{\star}^{2}}{2l+1} }\\[10pt]
 
 \end{array}
 $$
@@ -380,21 +382,28 @@ and
 $$
 \DL(\mrm{Y}_{l}^{m})(\bx) =
 \left\{\begin{array}{ll}
-\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, j_{l}(\kappa\vert \bx\vert)h^{(1)'}_{l}(\kappa\rho_{\star})\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
+\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, j_{l}(\kappa\vert \bx\vert)h^{(1)'}_{l}(\kappa\rho_{\star})
+\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
 & \textrm{for}\;\;\vert\bx\vert<\rho_{\star}\\[10pt]
-\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, h^{(1)}_{l}(\kappa\vert \bx\vert)j_{l}'(\kappa\rho_{\star})\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
+\dsp{-\imath\kappa^{2}\rho_{\star}^{2}\, h^{(1)}_{l}(\kappa\vert \bx\vert)j_{l}'(\kappa\rho_{\star})
+\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
 & \textrm{for}\;\;\vert\bx\vert>\rho_{\star}.
 \end{array}\right.
 $$
 The boundary integral operators are given by
 $$
 \begin{array}{l}
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma = +\imath\kappa \rho_{\star}^{2}\,j_{l}(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma = -\imath\kappa^{3}\rho_{\star}^{2} \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star}), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma = +\imath\frac{\kappa^{2}}{2}\rho_{\star}^{2}
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma 
+= +\imath\kappa \rho_{\star}^{4}\,j_{l}(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma 
+= -\imath\kappa^{3}\rho_{\star}^{4} \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma 
+= +\imath\frac{\kappa^{2}}{2}\rho_{\star}^{4}
 \big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma = -\imath\frac{\kappa^{2}}{2}\rho_{\star}^{2}
-\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big). }
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma 
+= -\imath\frac{\kappa^{2}}{2}\rho_{\star}^{4}
+\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  
+j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big). }
 \end{array}
 $$
 
