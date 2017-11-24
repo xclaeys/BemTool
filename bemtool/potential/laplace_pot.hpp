@@ -179,7 +179,7 @@ public:
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
     r2  = r*r;
-    ker = -(h/r2)*(ny,x_y);
+    ker = -(h/(2*pi*r2))*(ny,x_y);
     for(int k=0; k<Trait::nb_dof_y; k++){
       mat(0,k) = ker*phiy(k,tj);}
     return mat;
@@ -190,7 +190,7 @@ public:
     x_y  = x0_y0-dy*tj;
     r   = norm2(x_y);
     r2  = r*r;
-    ker = -(h/r2)*(ny,x_y);
+    ker = -(h/(2*pi*r2))*(ny,x_y);
     return ker *= phiy(ky,tj);
   }
 
