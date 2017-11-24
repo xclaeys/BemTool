@@ -125,15 +125,17 @@ for arbitrary $n\in\mathbb{Z}$, and for $*=\dir,\neu$.
 In this paragraph, we first consider the Laplace equation $\Delta u = 0$ in $\R^{2}\setminus\Gamma$ with decay
 condition at infinity. The Green kernel of this equation is $\mathscr{G}(\bx):= -(2\pi)^{-1}\ln\vert \bx\vert$.
 Note that, for Laplace equation in 2D, the behaviour of layer potentials associated to the Fourier harmonics
-$\fre_{n}$ with $n=0$ is somewhat special. Hence, for the sake of simplicity, we shall systematically consider
-the case $n\in\mathbb{Z}\setminus\{0\}$. The layer potentials are given by
+$\fre_{n}$ with $n=0$ is somewhat special. Let us leave aside this case ate first and consider 
+$n\in\mathbb{Z}\setminus\{0\}$. The layer potentials are then given by
 $$
 \SL(\fre_{n})(\bx) =
 \left\{\begin{array}{ll}
-\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert> r_{\star}\\[15pt]
 
-\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{\frac{r_{\star}}{2\vert n\vert}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert< r_{\star}
 \end{array}\right.
 $$
@@ -141,10 +143,12 @@ and
 $$
 \DL(\fre_{n})(\bx) =
 \left\{\begin{array}{ll}
-\dsp{-\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{-\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{-\vert n\vert}
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert> r_{\star}\\[15pt]
 
-\dsp{+\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
+\dsp{+\frac{1}{2}\Big(\frac{\vert \bx\vert}{r_{\star}}\Big)^{+\vert n\vert}
+\fre_{n}\Big(\frac{\bx}{\vert\bx\vert}\Big)\phantom{\imath\kappa} }
 & \textrm{for}\quad \vert \bx\vert< r_{\star}
 \end{array}\right.
 $$
@@ -158,9 +162,27 @@ $$
 
 \end{array}
 $$
+For the case $n=0$ we have $\fre_{0}(\bx) = 1$. The layer potentials are given by
+\begin{equation*}
+\begin{aligned}
+& \SL(\fre_{0}) = 
+\left\{\begin{array}{ll}
+-r_{\star}\ln(\vert\bx\vert) & \textrm{for}\quad \vert \bx\vert> r_{\star}\\[5pt]
+-r_{\star}\ln(r_{\star})& \textrm{for}\quad \vert \bx\vert< r_{\star}
+\end{array}\right.\\[5pt]
+& \DL(\fre_{0}) = 1_{\mD}(\bx)
+\end{aligned}
+\end{equation*}
+and the expression of the corresponding integral operators is easily deduced
+$$
+\begin{array}{ll}
+\dsp{ \int_{\Gamma}\overline{\fre}_{0}\,\{\gamma_{\dir}\}\SL(\fre_{0}) d\sigma =  -2\pi r_{\star}^{2}\ln(r_{\star}),}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{0}\,\{\gamma_{\neu}\}\DL(\fre_{0}) d\sigma =  0,}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{0}\,\{\gamma_{\dir}\}\DL(\fre_{0}) d\sigma =  +\pi r_{\star},}\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\fre}_{0}\,\{\gamma_{\neu}\}\SL(\fre_{0}) d\sigma =  -\pi r_{\star}.}\\
 
-
-
+\end{array}
+$$
 
 
 \subsection{Helmholtz equation}\label{Helmholtz2D}
