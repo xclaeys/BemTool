@@ -180,6 +180,9 @@ public:
   typedef DivBasisFct<PhiY>            DivPhiY;
   typedef mat<nb_dof_x,nb_dof_y,Cplx>  MatType;
 
+  typedef PhiX ShapeFctX;
+  typedef PhiY ShapeFctY;  
+  
 };
 
 

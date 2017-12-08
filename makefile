@@ -1,7 +1,15 @@
-GCC  = g++ -O3 
+GCC  = g++ -O3
 INCLUDE = -I/usr/include/eigen3/ -I./bemtool/
 
-all: test2D clean
+all: test clean
+
+######################################################
+
+test: test.o
+	$(GCC) test.o -o test
+
+test.o: test.cpp
+	$(GCC) $(INCLUDE) -c test.cpp -o test.o
 
 ######################################################
 
@@ -18,14 +26,6 @@ test3D: test3D.o
 
 test3D.o: test3D.cpp
 	$(GCC) $(INCLUDE) -c test3D.cpp -o test3D.o
-
-######################################################
-
-mtf: mtf.o
-	$(GCC) mtf.o -o mtf
-
-mtf.o: mtf.cpp
-	$(GCC) $(INCLUDE) -c mtf.cpp -o mtf.o
 
 ######################################################
 

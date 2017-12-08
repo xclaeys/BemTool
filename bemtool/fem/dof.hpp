@@ -72,13 +72,13 @@ public:
   typedef DofTraits<ShapeFct>  Trait;
 
 private:
-  const Geometry*                  node_p;
-  const typename Trait::mesh_t*    mesh_p;
+  const Geometry*                       node_p;
+  const typename Trait::mesh_t*         mesh_p;
   std::vector<typename Trait::Nloc>     elt_to_dof;
   std::vector< std::vector<N2> >        dof_to_elt;
-  int                              nb_elt;
-  int                              nb_dof;
-  int                              offset;
+  int                                   nb_elt;
+  int                                   nb_dof;
+  int                                   offset;
 
 public:
   Dof<ShapeFct>(): mesh_p(0), node_p(0), offset(0) {};
@@ -139,13 +139,13 @@ public:
   typedef DofTraits<ShapeFct>  Trait;
 
 private:
-  const Geometry*                  node_p;
-  const typename Trait::mesh_t*    mesh_p;
-  std::vector<typename Trait::Nloc>     elt_to_dof;
-  std::vector< std::vector<N2> >             dof_to_elt;
-  int                              nb_elt;
-  int                              nb_dof;
-  int                              offset;
+  const Geometry*                      node_p;
+  const typename Trait::mesh_t*        mesh_p;
+  std::vector<typename Trait::Nloc>    elt_to_dof;
+  std::vector< std::vector<N2> >       dof_to_elt;
+  int                                  nb_elt;
+  int                                  nb_dof;
+  int                                  offset;
 
 public:
   Dof<ShapeFct>(): mesh_p(0), node_p(0), offset(0) {};
@@ -356,13 +356,13 @@ public:
   typedef DofTraits<ShapeFct>  Trait;
 
 private:
-  const Geometry*                  node_p;
-  const Trait::mesh_t*    mesh_p;
-  std::vector<Trait::Nloc>     elt_to_dof;
-  std::vector< std::vector<N2> >             dof_to_elt;
-  int                              nb_elt;
-  int                              nb_dof;
-  int                              offset;
+  const Geometry*                node_p;
+  const Trait::mesh_t*           mesh_p;
+  std::vector<Trait::Nloc>       elt_to_dof;
+  std::vector<std::vector<N2> >  dof_to_elt;
+  int                            nb_elt;
+  int                            nb_dof;
+  int                            offset;
 
 public:
   Dof<ShapeFct>(): mesh_p(0), node_p(0), offset(0) {};

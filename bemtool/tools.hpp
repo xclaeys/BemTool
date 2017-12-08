@@ -43,6 +43,7 @@
 #include "operator/laplace_op.hpp"
 #include "operator/yukawa_op.hpp"
 #include "operator/maxwell_op.hpp"
+#include "operator/block_op.hpp"
 
 #include "potential/potential.hpp"
 #include "potential/helmholtz_pot.hpp"
@@ -60,6 +61,11 @@
 #include "miscellaneous/specialfct.hpp"
 #include "miscellaneous/refeigenvalue.hpp"
 #include "miscellaneous/refsol.hpp"
-#include "miscellaneous/overlap.hpp"
+
+
+
+
+#include "miscellaneous/eigen_wrap.hpp"
+//#include "miscellaneous/overlap.hpp"
 
 #endif
