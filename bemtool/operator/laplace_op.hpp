@@ -214,7 +214,7 @@ public:
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
     r2  = r*r;
-    ker = -(h/r2)*(ny,x_y);
+    ker = -(h/(2*pi*r2))*(ny,x_y);
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
 	inter(j,k) = ker*phix(j,tx)*phiy(k,ty);
@@ -382,7 +382,7 @@ public:
     x_y = x0_y0 + dx*tx-dy*ty;
     r   = norm2(x_y);
     r2  = r*r;
-    ker = -(h/r2)*(nx,x_y);
+    ker = -(h/(2*pi*r2))*(nx,x_y);
     return ker *= phix(kx,tx)*phiy(ky,ty);
   }
 

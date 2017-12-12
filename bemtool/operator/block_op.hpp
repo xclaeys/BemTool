@@ -72,12 +72,7 @@ namespace bemtool {
       for(int j=0; j<this_t::dim; j++){ o<<I[j]<<"\t";} return o;}        
   };
 
-  
-
-
-
-
-  
+    
   template<typename BIOpType>
   class SubBIOp{
     
