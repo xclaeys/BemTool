@@ -11,21 +11,37 @@ template <typename KernelType, typename Discretization>
 class BIO_Generator : public htool::IMatrix<Cplx>{
   BIOp<KernelType>& V;
   Dof<Discretization>& dof;
-  SubBIOp<BIOp<KernelType>> subV;
 
 public:
-  BIO_Generator(BIOp<KernelType>& V0, Dof<Discretization>& dof0):IMatrix(NbDof(dof0),NbDof(dof0)), V(V0), dof(dof0), subV(V0,dof0,dof0) {}
+  BIO_Generator(BIOp<KernelType>& V0, Dof<Discretization>& dof0):IMatrix(NbDof(dof0),NbDof(dof0)), V(V0), dof(dof0) {}
 
   Cplx get_coef(const int& i, const int& j) const {
     return V(dof.ToElt(i),dof.ToElt(j));
   }
+};
 
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) {
+template <typename KernelType, typename Discretization>
+class SubBIO_Generator : public htool::IMatrix<Cplx>{
+  Dof<Discretization>& dof;
+  SubBIOp<BIOp<KernelType>>& subV;
+
+public:
+  SubBIO_Generator(SubBIOp<BIOp<KernelType>>& subV0, Dof<Discretization>& dof0):IMatrix(NbDof(dof0),NbDof(dof0)), subV(subV0), dof(dof0) {}
+
+  Cplx get_coef(const int& i, const int& j) const {
+      std::vector<int> J(1,i);
+      std::vector<int> K(1,j);
     htool::SubMatrix<Cplx> mat(J,K);
-    subV.compute_block(J,K,mat);
-    // for (int i=0; i<mat.nb_rows(); i++)
-    // for (int j=0; j<mat.nb_cols(); j++)
-    //     mat(i,j) = this->get_coef(J[i], K[j]);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_block(J,K,mat);
+    return mat(0,0);
+  }
+
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+      // std::cout << "COUCOU"<<std::endl;
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_block(J,K,mat);
     return mat;
   }
 
@@ -43,7 +59,7 @@ public:
 
   Cplx get_coef(const int& i, const int& j) const {
     return V(geometry[i],dof.ToElt(j));
-  }
+}
 
 };
 
