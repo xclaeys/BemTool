@@ -137,6 +137,71 @@ void WriteEltValGmsh(const Mesh2D& mesh,
   file << "$EndElementData\n";
 }
 
+template<int dim>
+void WriteMeshParaview(const Mesh<dim>& mesh,
+		       char const * const name){
+
+  const Geometry& node = GeometryOf(mesh);
+  int nb_node = NbNode(node);
+  int nb_elt  = NbElt(mesh);
+  std::ofstream file; file.open(name);
+  file << "description line 1" << std::endl;
+  file << "description line 2" << std::endl;
+  file << "node id given" << std::endl;
+  file << "element id given" << std::endl;
+  file << "part" << std::endl;
+  file << 1 << std::endl;
+  file << "description part 1" << std::endl;
+  file << "coordinates" << std::endl;
+  file << NbNode(node) << std::endl;
+  for(int j=0; j<nb_node; j++)
+    file << j << std::endl;
+  for(int j=0; j<nb_node; j++)
+    file << node[j][0] << std::endl;
+  for(int j=0; j<nb_node; j++)
+    file << node[j][1] << std::endl;
+  for(int j=0; j<nb_node; j++)
+    file << node[j][2] << std::endl;
+  switch (dim) {
+      case 1:
+      file << "bar2" << std::endl;
+      break;
+      case 2:
+      file << "tria3" << std::endl;
+      break;
+      case 3:
+      file << "tetra4" << std::endl;
+      break;
+  }
+
+  file << nb_elt << std::endl;
+  for(int j=0; j<nb_elt; j++)
+    file << j << std::endl;
+  for(int j=0; j<nb_elt; j++)
+    file << Num(mesh[j])+1 << std::endl;
+}
+
+template<int dim>
+void WritePointValParaview(const Mesh<dim>& mesh,
+		       char const * const name,
+               const std::vector<Real>& x){
+
+  const Geometry& node = GeometryOf(mesh);
+  int nb_node = NbNode(node);
+  int nb_elt  = NbElt(mesh);
+  std::ofstream file; file.open(name);
+  file << "description line 1" << std::endl;
+  file << "part" << std::endl;
+  file << 1 << std::endl;
+  file << "coordinates" << std::endl;
+  for (int k=0;k<nb_node;k++)
+          file << x[k] << std::endl;
+}
+
+
+
+
+
 
 }
 
