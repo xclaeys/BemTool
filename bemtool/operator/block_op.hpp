@@ -92,7 +92,7 @@ namespace bemtool {
 
 
   private:
-    BIOpType&      biop;
+    BIOpType      biop;
     const DofX&    dofx;
     const DofY&    dofy;
 

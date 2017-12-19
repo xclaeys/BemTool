@@ -19,6 +19,14 @@ public:
       BIOp<KernelType> V_local=V;
     return V_local(dof.ToElt(i),dof.ToElt(j));
   }
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& I, const std::vector<int>& J) const{
+    BIOp<KernelType> V_local = V;
+    htool::SubMatrix<Cplx> mat(I,J);
+    for (int i=0; i<mat.nb_rows(); i++)
+        for (int j=0; j<mat.nb_cols(); j++)
+            mat(i,j) = V_local(dof.ToElt(I[i]),dof.ToElt(J[j]));
+    return mat;
+}
 };
 
 template <typename KernelType, typename Discretization>
@@ -61,6 +69,14 @@ public:
   Cplx get_coef(const int& i, const int& j) const {
       Potential<KernelType>& V_local=V;
     return V_local(geometry[i],dof.ToElt(j));
+}
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& I, const std::vector<int>& J) const{
+    Potential<KernelType> V_local = V;
+    htool::SubMatrix<Cplx> mat(I,J);
+    for (int i=0; i<mat.nb_rows(); i++)
+        for (int j=0; j<mat.nb_cols(); j++)
+            mat(i,j) = V_local(geometry[I[i]],dof.ToElt(J[j]));
+    return mat;
 }
 
 };
