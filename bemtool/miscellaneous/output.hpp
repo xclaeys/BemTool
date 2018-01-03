@@ -20,7 +20,6 @@
 #define BEMTOOL_MISC_OUTPUT_HPP
 
 #include "../mesh/mesh.hpp"
-
 namespace bemtool {
 
 //// Gmsh
@@ -107,6 +106,45 @@ void WriteEltValGmsh(const Mesh2D& mesh,
 
 
 //// Paraview -- Ensight gold format
+void WriteCaseParaview(char const * const name, char const * const meshname){
+  std::ofstream file; file.open(name);
+  file << "FORMAT" << std::endl;
+  file << "type: ensight gold" << std::endl << std::endl;
+  file << "GEOMETRY" << std::endl;
+  file << "model: 1 "+std::string(meshname) << std::endl << std::endl;
+}
+
+void WriteCaseParaview(char const * const name, char const * const meshname, char const * const valname, char const * const valfile){
+  std::ofstream file; file.open(name);
+  file << "FORMAT" << std::endl;
+  file << "type: ensight gold" << std::endl << std::endl;
+  file << "GEOMETRY" << std::endl;
+  file << "model: 1 "+std::string(meshname) << std::endl << std::endl;
+  file << "VARIABLE"<<std::endl;
+  file << "scalar per node: 1 "+std::string(valname)+" "+std::string(valfile)<<std::endl;
+}
+
+void WriteCaseParaview(char const * const name, char const * const meshname, char const * const valname, char const * const valfile, const std::vector<double>& times){
+  std::ofstream file; file.open(name);
+  file << "FORMAT" << std::endl;
+  file << "type: ensight gold" << std::endl << std::endl;
+  file << "GEOMETRY" << std::endl;
+  file << "model: 1 "+std::string(meshname) << std::endl << std::endl;
+  file << "VARIABLE"<<std::endl;
+  file << "scalar per node: 1 "+std::string(valname)+" "+std::string(valfile)+"*"<<std::endl<<std::endl;
+  file << "TIME"<<std::endl;
+  file << "time set: 1"<<std::endl;
+  file << "number of steps: "<<times.size()<<std::endl;
+  file << "filename start number: 0"<<std::endl;
+  file << "filename increment: 1"<<std::endl;
+  file << "time values: ";
+  for (int i=0;i<times.size();i++){
+      file <<times[i]<<" ";
+      std::cout << times[i]<<std::endl;
+  }
+  // std::copy(times.begin(),times.end(),std::ostream_iterator<double>(file, " "));
+}
+
 template<int dim>
 void WriteMeshParaview(const Dof<BasisFct<P1,dim>>& dof,
 		       char const * const name){
