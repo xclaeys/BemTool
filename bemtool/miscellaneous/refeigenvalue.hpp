@@ -71,22 +71,22 @@ template <> struct AnalyticalEigenvalue<LA,HS_OP,2>{
 template <> struct AnalyticalEigenvalue<LA,SL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return rho/(2.*nm[0]+1);} };
+    return rho*rho*rho/(2.*nm[0]+1);} };
 
 template <> struct AnalyticalEigenvalue<LA,DL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return 0.5/(2.*nm[0]+1);} };
+    return 0.5*rho*rho/(2.*nm[0]+1);} };
 
 template <> struct AnalyticalEigenvalue<LA,TDL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return -0.5/(2.*nm[0]+1);} };
+    return -0.5*rho*rho/(2.*nm[0]+1);} };
 
 template <> struct AnalyticalEigenvalue<LA,HS_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return (nm[0]/rho)*(nm[0]+1)/(2.*nm[0]+1);} };
+    return rho*nm[0]*(nm[0]+1)/(2.*nm[0]+1);} };
 
 /*============
   HELMHOLTZ 2D
