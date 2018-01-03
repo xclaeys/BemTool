@@ -47,7 +47,7 @@ struct RefEigenvalue{
 template <> struct AnalyticalEigenvalue<LA,SL_OP,2>{
   static inline Cplx
   Compute(const int& n, const Real& r=1., const Real& k=1.){
-    return pi*r/abs(n);} };
+    return pi*r*r/abs(n);} };
 
 template <> struct AnalyticalEigenvalue<LA,DL_OP,2>{
   static inline Cplx
@@ -62,7 +62,7 @@ template <> struct AnalyticalEigenvalue<LA,TDL_OP,2>{
 template <> struct AnalyticalEigenvalue<LA,HS_OP,2>{
   static inline Cplx
   Compute(const int& n, const Real& r=1., const Real& k=1.){
-    return pi*abs(n)/r;} };
+    return pi*abs(n);} };
 
 /*==========
   LAPLACE 3D
