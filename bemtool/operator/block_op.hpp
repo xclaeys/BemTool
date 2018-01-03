@@ -147,7 +147,45 @@ namespace bemtool {
     }
 
     template<typename Matrix>
-    void compute_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& block_mat){
+    void compute_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat){
+      elt_mat = 0.; Ix.clear(); Iy.clear();
+
+      for(int k=0; k<jjx.size(); k++){
+    const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
+    for(int l=0; l<jj.size(); l++){
+      const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
+    }
+      }
+
+      for(int k=0; k<jjy.size(); k++){
+    const std::vector<N2>& jj = dofy.ToElt(jjy[k]);
+    for(int l=0; l<jj.size(); l++){
+      const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
+    }
+      }
+
+      for(ItTypeX itx = Ix.begin(); itx!=Ix.end(); itx++){
+    const int&   jx = itx->first;
+    const Nlocx& nx = itx->second;
+
+    for(ItTypeY ity = Iy.begin(); ity!=Iy.end(); ity++){
+      const int&   jy = ity->first;
+      const Nlocy& ny = ity->second;
+
+      elt_mat = biop(jx,jy);
+      for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
+          for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
+          mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+        }}
+        }}
+
+    }
+      }
+
+    }
+
+    template<typename Matrix>
+    void compute_neumann_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
       for(int k=0; k<jjx.size(); k++){
@@ -172,17 +210,32 @@ namespace bemtool {
 	  const int&   jy = ity->first;
 	  const Nlocy& ny = ity->second;
 
+      bool testx=1;
+      bool testy=1;
+      for(int kx=0; kx<nb_dof_loc_x; kx++){
+          if(nx[kx]==-1){
+                testx=0;
+          }
+      }
+      for(int ky=0; ky<nb_dof_loc_y; ky++){
+          if(ny[ky]==-1){
+                testy=0;
+          }
+      }
+      if (testx && testy){
 	  elt_mat = biop(jx,jy);
-	  for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
-	      for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
-		  block_mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
-		}}
-	    }}
-
+	  for(int kx=0; kx<nb_dof_loc_x; kx++){
+	      for(int ky=0; ky<nb_dof_loc_y; ky++){
+		  mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+		}
+	    }
+    }
 	}
       }
 
     }
+
+
   };
 
 
