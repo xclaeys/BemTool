@@ -125,7 +125,7 @@ for arbitrary $n\in\mathbb{Z}$, and for $*=\dir,\neu$.
 In this paragraph, we first consider the Laplace equation $\Delta u = 0$ in $\R^{2}\setminus\Gamma$ with decay
 condition at infinity. The Green kernel of this equation is $\mathscr{G}(\bx):= -(2\pi)^{-1}\ln\vert \bx\vert$.
 Note that, for Laplace equation in 2D, the behaviour of layer potentials associated to the Fourier harmonics
-$\fre_{n}$ with $n=0$ is somewhat special. Let us leave aside this case ate first and consider 
+$\fre_{n}$ with $n=0$ is somewhat special. Let us leave aside this case ate first and consider
 $n\in\mathbb{Z}\setminus\{0\}$. The layer potentials are then given by
 $$
 \SL(\fre_{n})(\bx) =
@@ -165,7 +165,7 @@ $$
 For the case $n=0$ we have $\fre_{0}(\bx) = 1$. The layer potentials are given by
 \begin{equation*}
 \begin{aligned}
-& \SL(\fre_{0}) = 
+& \SL(\fre_{0}) =
 \left\{\begin{array}{ll}
 -r_{\star}\ln(\vert\bx\vert) & \textrm{for}\quad \vert \bx\vert> r_{\star}\\[5pt]
 -r_{\star}\ln(r_{\star})& \textrm{for}\quad \vert \bx\vert< r_{\star}
@@ -275,8 +275,8 @@ Notice that we can check the previous relations formally, using the relation obt
 \cite{MR2723248}):
 $$
 \begin{array}{ll}
-\dsp{ K_{\vert n \vert}(x)=\frac{\pi}{2}i^{\vert n \vert +1} H^{(1)}_{\vert n\vert}(\imath x)}\\[10pt]
-\dsp{I_{\vert n \vert}(x)=i^{-\vert n \vert}J_{\vert n \vert}(\imath x)  }\\[10pt]
+\dsp{ K_{\vert n \vert}(x)=\frac{\pi}{2}\imath^{\vert n \vert +1} H^{(1)}_{\vert n\vert}(\imath x)}\\[10pt]
+\dsp{I_{\vert n \vert}(x)=\imath^{-\vert n \vert}J_{\vert n \vert}(\imath x)  }\\[10pt]
 \end{array}
 $$
 
@@ -393,17 +393,69 @@ $$
 The boundary integral operators are given by
 $$
 \begin{array}{l}
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma 
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma
 = +\imath\kappa \rho_{\star}^{4}\,j_{l}(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma 
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma
 = -\imath\kappa^{3}\rho_{\star}^{4} \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star}), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma 
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma
 = +\imath\frac{\kappa^{2}}{2}\rho_{\star}^{4}
 \big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big), }\\[10pt]
-\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma 
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma
 = -\imath\frac{\kappa^{2}}{2}\rho_{\star}^{4}
-\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +  
+\big( \,j_{l}'(\kappa\rho_{\star})h_{l}^{(1)}(\kappa\rho_{\star}) +
 j_{l}(\kappa\rho_{\star})h_{l}^{(1)'}(\kappa\rho_{\star})\,\big). }
+\end{array}
+$$
+
+\subsection{Modified Helmholtz equation}\label{ModifiedHelmholtz3D}
+
+Here we consider Helmholtz equation $-\Delta u+\kappa^{2} u =0$ with wave number $\kappa>0$. The outgoing Green kernel
+is given here by $\mathscr{G}_{\kappa}(\bx):=\exp(-\imath\kappa\vert\bx\vert)/(4\pi\vert \bx\vert)$.
+Define the modified spherical Bessel functions $i_{l}(z) := \sqrt{\pi/(2z)}I_{l+1/2}(z)$ and the modified spherical Hankel functions
+$k_{l}(z):= \sqrt{\pi/(2z)}K_{l+1/2}(z)$ like in \S 10.47 of \cite{MR2723248}.
+The single layer and double layer potentials admit explicit expressions in terms of the spherical harmonics.
+On the one hand\\
+$$
+\SL(\mrm{Y}_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{+\frac{2 \kappa\rho_{\star}^{2}}{\pi}\, k_{l}(\kappa\vert \bx\vert )i_{l}(\kappa\rho_{\star})\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)} & \textrm{for}\;\;\vert \bx\vert<\rho_{\star}\\[10pt]
+\dsp{+\frac{2 \kappa\rho_{\star}^{2}}{\pi}\, k_{l}(\kappa\rho_{\star})i_{l}(\kappa\vert \bx\vert)\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big)   } & \textrm{for}\;\;\vert\bx\vert>\rho_{\star}.
+\end{array}\right.
+$$
+and
+$$
+\DL(\mrm{Y}_{l}^{m})(\bx) =
+\left\{\begin{array}{ll}
+\dsp{-\frac{2\kappa^{2}\rho_{\star}^{2}}{\pi}\, k_{l}(\kappa\vert \bx\vert)i^{'}_{l}(\kappa\rho_{\star})
+\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
+& \textrm{for}\;\;\vert\bx\vert<\rho_{\star}\\[10pt]
+\dsp{-\frac{2\kappa^{2}\rho_{\star}^{2}}{\pi}\, k_{l}'(\kappa \rho_{\star})i_{l}(\kappa\vert \bx\vert)
+\mrm{Y}_{l}^{m}\Big(\frac{\bx}{\vert\bx\vert}\Big) }
+& \textrm{for}\;\;\vert\bx\vert>\rho_{\star}.
+\end{array}\right.
+$$
+The boundary integral operators are given by
+$$
+\begin{array}{l}
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\SL(\mrm{Y}_{l}^{m}) d\sigma
+= +\frac{2\kappa \rho_{\star}^{4}}{\pi}\,i_{l}(\kappa\rho_{\star})k_{l}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\DL(\mrm{Y}_{l}^{m}) d\sigma
+= -\frac{2\kappa^{3}\rho_{\star}^{4}}{\pi} \,i_{l}'(\kappa\rho_{\star})k_{l}^{'}(\kappa\rho_{\star}), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\neu}\}\SL(\mrm{Y}_{l}^{m}) d\sigma
+= +\frac{\kappa^{2}\rho_{\star}^{4}}{\pi}
+\big( \,i_{l}'(\kappa\rho_{\star})k_{l}(\kappa\rho_{\star}) +  i_{l}(\kappa\rho_{\star})k_{l}'(\kappa\rho_{\star})\,\big), }\\[10pt]
+\dsp{ \int_{\Gamma}\overline{\mrm{Y}}_{l}^{m}\{\gamma_{\dir}\}\DL(\mrm{Y}_{l}^{m}) d\sigma
+= -\frac{\kappa^{2}\rho_{\star}^{4}}{\pi}
+\big( \,i_{l}'(\kappa\rho_{\star})k_{l}(\kappa\rho_{\star}) +
+i_{l}(\kappa\rho_{\star})k_{l}^{'}(\kappa\rho_{\star})\,\big). }
+\end{array}
+$$
+Notice that we can check the previous relations formally, using the relation obtained for the Helmholtz equation with the transformation $\kappa \rightarrow \imath \kappa$, and the following relations for $x\in \mathbb{R}$ (see Formula 10.47.7 and 10.47.9 in
+\cite{MR2723248} and formulas in section \ref{ModifiedHelmholtz2D}):
+$$
+\begin{array}{ll}
+\dsp{ k_{l}(x)=-\frac{\pi}{2}i^{l} h^{(1)}_{l}(\imath x)}\\[10pt]
+\dsp{i_{l}(x)=\imath^{-l}j_{l}(\imath x)  }\\[10pt]
 \end{array}
 $$
 
@@ -437,14 +489,14 @@ $$
 In the case  $\Gamma = \mS^{2}$ we have:
 $$
 \begin{array}{l}
-  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle 
+  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{+}\rangle
   =  (\imath/\kappa)(\;j_{l}(\kappa)+\kappa j_{l}'(\kappa)\;)(\;h^{(1)}_{l}(\kappa)+\kappa h^{(1)\prime}_{l}(\kappa)\;) \\[10pt]
-  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle 
+  \langle \mrm{EFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{-}\rangle
   = (\imath/\kappa)j_{l}(\kappa)h^{(1)}_{l}(\kappa) \\[12.5pt]
-\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle = 
+\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle =
 \langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{-}),\bfX_{l,m}^{+}\rangle \\
-\textcolor{white}{\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle} 
-=  -\imath \lbr j_{l}(\kappa)(h_{l}^{(1)}(\kappa)+\kappa h_{l}^{(1)\prime}(\kappa)) + 
+\textcolor{white}{\langle \mrm{MFIE}_{\kappa}(\bfX_{l,m}^{+}),\bfX_{l,m}^{-}\rangle}
+=  -\imath \lbr j_{l}(\kappa)(h_{l}^{(1)}(\kappa)+\kappa h_{l}^{(1)\prime}(\kappa)) +
 h_{l}^{(1)}(\kappa)(j_{l}(\kappa)+\kappa j_{l}'(\kappa)) \rbr\\[10pt]
 
 
@@ -458,7 +510,7 @@ $$
 
 
 
-
-\bibliography{biblio}
 \bibliographystyle{plain}
+\bibliography{biblio}
+
 \end{document}

@@ -136,7 +136,7 @@ template <> struct AnalyticalEigenvalue<HE,HS_OP,2>{
 template <> struct AnalyticalEigenvalue<HE,SL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return iu*k*rho*rho*SphBesselJ(nm[0],k*rho)*SphHankel(nm[0],k*rho);} };
+    return iu*k*rho*rho*rho*rho*SphBesselJ(nm[0],k*rho)*SphHankel(nm[0],k*rho);} };
 
 template <> struct AnalyticalEigenvalue<HE,DL_OP,3>{
   static inline Cplx
@@ -144,7 +144,7 @@ template <> struct AnalyticalEigenvalue<HE,DL_OP,3>{
     Cplx Res;
     Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
     Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
-    Res *= -0.5*iu*k*k*rho*rho;
+    Res *= -0.5*iu*k*k*rho*rho*rho*rho;
     return Res;} };
 
 template <> struct AnalyticalEigenvalue<HE,TDL_OP,3>{
@@ -153,14 +153,14 @@ template <> struct AnalyticalEigenvalue<HE,TDL_OP,3>{
     Cplx Res;
     Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
     Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
-    Res *= 0.5*iu*k*k*rho*rho;
+    Res *= 0.5*iu*k*k*rho*rho*rho*rho;
     return Res;} };
 
 template <> struct AnalyticalEigenvalue<HE,HS_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
     Real k3=k*k*k;
-    return -iu*k3*rho*rho*DSphBesselJ_Dx(nm[0],k*rho)*DSphHankel_Dx(nm[0],k*rho);} };
+    return -iu*k3*rho*rho*rho*rho*DSphBesselJ_Dx(nm[0],k*rho)*DSphHankel_Dx(nm[0],k*rho);} };
 
 /*============
   Modified Helmholtz 2D
@@ -206,31 +206,30 @@ template <> struct AnalyticalEigenvalue<YU,HS_OP,2>{
 template <> struct AnalyticalEigenvalue<YU,SL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    return iu*k*rho*rho*SphBesselJ(nm[0],k*rho)*SphHankel(nm[0],k*rho);} };
+    return (2*k*rho*rho*rho*rho/pi) * ModifiedSphBesseli(nm[0],k*rho) * ModifiedSphBesselk(nm[0],k*rho);} };
 
 template <> struct AnalyticalEigenvalue<YU,DL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
     Cplx Res;
-    Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
-    Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
-    Res *= -0.5*iu*k*k*rho*rho;
+    Res  = DModified_Besseli_Dx(nm[0],k*rho)*ModifiedSphBesselk(nm[0],k*rho);
+    Res += DModified_Besselk_Dx(nm[0],k*rho)*ModifiedSphBesseli(nm[0],k*rho);
+    Res *= -k*k*rho*rho*rho*rho/pi;
     return Res;} };
 
 template <> struct AnalyticalEigenvalue<YU,TDL_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
     Cplx Res;
-    Res  = DSphBesselJ_Dx(nm[0],k*rho)*SphHankel(nm[0],k*rho);
-    Res += DSphHankel_Dx(nm[0],k*rho)*SphBesselJ(nm[0],k*rho);
-    Res *= 0.5*iu*k*k*rho*rho;
+    Res  = DModified_Besseli_Dx(nm[0],k*rho)*ModifiedSphBesselk(nm[0],k*rho);
+    Res += DModified_Besselk_Dx(nm[0],k*rho)*ModifiedSphBesseli(nm[0],k*rho);
+    Res *= k*k*rho*rho*rho*rho/pi;
     return Res;} };
 
 template <> struct AnalyticalEigenvalue<YU,HS_OP,3>{
   static inline Cplx
   Compute(const N2& nm, const Real& rho=1., const Real& k=1.){
-    Real k3=k*k*k;
-    return -iu*k3*rho*rho*DSphBesselJ_Dx(nm[0],k*rho)*DSphHankel_Dx(nm[0],k*rho);} };
+    return (-2*k*k*k*rho*rho*rho*rho/pi) * DModified_Besseli_Dx(nm[0],k*rho) * DModified_Besselk_Dx(nm[0],k*rho);} };
 
 
 /*=======

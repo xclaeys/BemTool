@@ -170,6 +170,28 @@ inline Cplx DSphBesselJ_Dx(const int& n, const Real& x){
 inline Cplx DSphHankel_Dx(const int& n, const Real& x){
   return -SphHankel(n+1,x)+(n/x)*SphHankel(n,x);}
 
+/*===========================
+  BESSEL SPHERIQUES MODIFIEES
+  ===========================*/
+
+inline Cplx ModifiedSphBesseli(const int& n, const Real& x){
+  return sqrt(pi/(2*x))*boost::math::cyl_bessel_i(n+0.5,x);}
+
+inline Cplx ModifiedSphBesselk(const int& n, const Real& x){
+  return sqrt(pi/(2*x))*boost::math::cyl_bessel_k(n+0.5,x);}
+
+
+/*========================================
+  DERIVEES DES BESSEL SPHERIQUES MODIFIEES
+  ========================================*/
+
+inline Cplx DModified_Besseli_Dx (const int& n, const Real& x){
+  return ModifiedSphBesseli(n+1,x)+(n/x)*ModifiedSphBesseli(n,x);}
+
+
+inline Cplx DModified_Besselk_Dx (const int& n, const Real& x){
+  return -ModifiedSphBesselk(n+1,x)+(n/x)*ModifiedSphBesselk(n,x);}
+
 }
 
 
