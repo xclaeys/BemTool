@@ -9,11 +9,11 @@ namespace bemtool{
 
 template <typename KernelType, typename Discretization>
 class BIO_Generator : public htool::IMatrix<Cplx>{
-  BIOp<KernelType>& V;
-  Dof<Discretization>& dof;
+  Dof<Discretization> dof;
+  BIOp<KernelType> V;
 
 public:
-  BIO_Generator(BIOp<KernelType>& V0, Dof<Discretization>& dof0):IMatrix(NbDof(dof0),NbDof(dof0)), V(V0), dof(dof0) {}
+  BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0), V(MeshOf(dof),MeshOf(dof),kappa){}
 
   Cplx get_coef(const int& i, const int& j) const {
       BIOp<KernelType> V_local=V;
@@ -31,11 +31,11 @@ public:
 
 template <typename KernelType, typename Discretization>
 class SubBIO_Generator : public htool::IMatrix<Cplx>{
-  Dof<Discretization>& dof;
-  SubBIOp<BIOp<KernelType>>& subV;
+  Dof<Discretization> dof;
+  SubBIOp<BIOp<KernelType>> subV;
 
 public:
-  SubBIO_Generator(SubBIOp<BIOp<KernelType>>& subV0, Dof<Discretization>& dof0):IMatrix(NbDof(dof0),NbDof(dof0)), subV(subV0), dof(dof0) {}
+  SubBIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
 
   Cplx get_coef(const int& i, const int& j) const {
       std::vector<int> J(1,i);

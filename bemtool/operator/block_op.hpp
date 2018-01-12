@@ -103,9 +103,9 @@ namespace bemtool {
 
 
   public:
-    SubBIOp<BIOpType>(BIOpType& biop0,
+    SubBIOp<BIOpType>(
 		      const DofX&     dofx0,
-		      const DofY&     dofy0): biop(biop0), dofx(dofx0), dofy(dofy0){}
+		      const DofY&     dofy0, const double& kappa): biop(MeshOf(dofx0),MeshOf(dofy0),kappa), dofx(dofx0), dofy(dofy0){}
 
     const BlockMat& operator()(const std::vector<int>& jjx, const std::vector<int>& jjy){
       block_mat.Resize(jjx.size(),jjy.size());
