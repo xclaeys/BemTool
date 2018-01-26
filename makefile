@@ -29,6 +29,14 @@ test3D.o: test3D.cpp
 
 ######################################################
 
+l_beti: l_beti.o
+	$(GCC) l_beti.o -o l_beti
+
+l_beti.o: l_beti.cpp
+	$(GCC) $(INCLUDE) -c l_beti.cpp -o l_beti.o
+
+######################################################
+
 
 
 clean:
