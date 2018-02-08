@@ -57,7 +57,6 @@ void WriteCaseParaview(char const * const name, char const * const meshname, cha
   file << "time values: ";
   for (int i=0;i<times.size();i++){
       file <<times[i]<<" ";
-      std::cout << times[i]<<std::endl;
   }
   // std::copy(times.begin(),times.end(),std::ostream_iterator<double>(file, " "));
 }
