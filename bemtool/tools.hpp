@@ -55,7 +55,8 @@
 #include "quadrature/quad_bem.hpp"
 #include "quadrature/quad_pot.hpp"
 
-#include "miscellaneous/output.hpp"
+#include "miscellaneous/output_gmsh.hpp"
+#include "miscellaneous/output_paraview.hpp"
 #include "miscellaneous/misc.hpp"
 #include "miscellaneous/coordinates.hpp"
 #include "miscellaneous/specialfct.hpp"
