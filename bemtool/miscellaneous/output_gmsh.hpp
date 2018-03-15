@@ -22,6 +22,48 @@
 #include "../mesh/mesh.hpp"
 namespace bemtool {
 
+  
+  void WriteEltVectGmsh(const Dof<RT0_2D>& dof,
+			char const * const name,
+			const std::vector<Real>& x)
+  {
+    
+    const Mesh2D&   mesh   = MeshOf(dof);
+    const Geometry& node = GeometryOf(mesh);
+    RT0_2D phi(mesh);
+    int nb_dof   = NbDof(dof);
+    int nb_elt   = NbElt(dof);    
+    int nb_node  = NbNode(node);
+    int elt_type = 2;
+        
+    std::ofstream file; file.open(name);    
+    file << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n$Nodes\n";
+    file << nb_node << std::endl;
+    for(int j=0; j<nb_node; j++){
+      file << j+1 << "\t" << node[j] << std::endl;}
+    file << "$EndNodes\n$Elements\n";
+    file << nb_elt << std::endl;
+    for(int j=0; j<nb_elt; j++){
+      file << j+1 << "\t"<<elt_type<<"\t2\t2\t2\t" << Num(mesh[j])+1 << std::endl;}
+    file << "$EndElements\n$ElementData\n";
+    file << "1\n\"vector field\"\n1\n0.0\n3\n0\n3\n";
+    file << nb_elt << std::endl;
+    for(int j=0; j<nb_elt; j++){
+      phi.Assign(j);
+      const N3& I = dof[j];
+      R2 t; t[0]=1./3.,t[1]=1./3.;
+      R3 U;
+      U += x[I[0]]*phi(0,t);
+      U += x[I[1]]*phi(1,t);
+      U += x[I[2]]*phi(2,t);      
+      file << j+1 << "\t" << U << std::endl;
+    }
+    file << "$EndElementData\n";
+        
+  }
+  
+
+  
 //// Gmsh
 template<int dim, typename T>
 void WritePointValGmsh(const Dof<BasisFct<P1,dim>>& dof,
@@ -34,7 +76,10 @@ void WritePointValGmsh(const Dof<BasisFct<P1,dim>>& dof,
   file << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n$Nodes\n";
   file << nb_dof << std::endl;
   for(int j=0; j<nb_dof; j++){
-    file << j+1 << "\t" << dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][0]<<" "<<dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][1]<<" "<<dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][2]<< std::endl;}
+    file << j+1 << "\t";
+    file << dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][0]<<" ";
+    file << dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][1]<<" ";
+    file << dof(((dof.ToElt(j))[0])[0])[((dof.ToElt(j))[0])[1]][2]<< std::endl;}
   file << "$EndNodes\n$Elements\n";
   file << nb_elt << std::endl;
   int elt_type;

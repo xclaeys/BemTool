@@ -329,7 +329,7 @@ Dof<P2_1D>::operator()(const int& j) const {
 
 template<>
  Dof<P2_2D>::Trait::R3loc
-Dof<P2_2D>::operator()(const int& j) const {
+ Dof<P2_2D>::operator()(const int& j) const {
   Elt<Trait::dim> e = (*mesh_p)[j];
    Dof<P2_2D>::Trait::R3loc x;
   x[0] = e[0];

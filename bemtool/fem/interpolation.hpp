@@ -76,25 +76,29 @@ class Interpolator<RT0_2D>{
   typedef array<3,Cplx> ReturnType;
 
  private:
-  const Mesh2D&  mesh;
-
+  const Mesh2D&   mesh;
+  ShapeFct& phi;
+  
  public:
-  Interpolator<RT0_2D>(const Mesh2D& m): mesh(m) {}
+  Interpolator<RT0_2D>(ShapeFct& psi): phi(psi), mesh(MeshOf(psi)) {}
 
   template <typename fct_t>
     ReturnType operator()(const fct_t& f, const int& j){
-    ReturnType res; const Elt2D& e = mesh[j];
+    ReturnType res;
+    const Elt2D& e = mesh[j];
+
+    phi.Assign(j);    
+    const R3& orientation = OrientationOf(phi);
+    
     array<3,R3> n_;
     NormalToFaces(mesh[j],n_);
     array<3,Elt1D> edge = EdgesOf(e);
-    for(int k=0; k<3; k++){
+    for(int k=0; k<3; k++){      
       R3   x  = Ctr(edge[k]);
       Real l  = Vol(edge[k]);
-      res[k]  = l*(n_[k],f(x));
+      res[k]  = orientation[k]*l*(n_[k],f(x));
     }
     return res;}
-
-
 
 };
 

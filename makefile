@@ -1,7 +1,7 @@
 GCC  = g++ -O3
 INCLUDE = -I/usr/include/eigen3/ -I./bemtool/
 
-all: test clean
+all: testMax clean
 
 ######################################################
 
@@ -34,6 +34,14 @@ l_beti: l_beti.o
 
 l_beti.o: l_beti.cpp
 	$(GCC) $(INCLUDE) -c l_beti.cpp -o l_beti.o
+
+######################################################
+
+testMax: testMax.o
+	$(GCC) testMax.o -o testMax
+
+testMax.o: testMax.cpp
+	$(GCC) $(INCLUDE) -c testMax.cpp -o testMax.o
 
 ######################################################
 

@@ -334,11 +334,11 @@ public:
   typedef BasisFct<RT0,2>          this_t;
 
 private:
-  const Mesh2D&    mesh;
-  std::vector<R3x2>     mat_jac;
-  int              num_elt;
-  R2               a[3];
-  std::vector<R3>       orientation;
+  const Mesh2D&       mesh;
+  std::vector<R3x2>   mat_jac;
+  int                 num_elt;
+  R2                  a[3];
+  std::vector<R3>     orientation;
 
 public:
   BasisFct<RT0,2>(const Mesh2D& m): mesh(m) {
@@ -393,7 +393,14 @@ public:
     R3 u = mat_jac[num_elt]*(x-a[j]);
     return orientation[num_elt][j]*u;
   }
+  
+  friend const R3& OrientationOf(const this_t& phi){
+    return phi.orientation[phi.num_elt];};
 
+  friend const Mesh2D& MeshOf(const this_t& phi){
+    return phi.mesh;}
+  
+  
 };
 
 
