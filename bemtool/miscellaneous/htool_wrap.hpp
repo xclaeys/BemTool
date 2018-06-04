@@ -75,7 +75,7 @@ public:
   //   return mat;
   // }
 
-};
+// };
 
 
 template <typename KernelType, typename Discretization>
