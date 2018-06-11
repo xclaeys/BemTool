@@ -101,19 +101,20 @@ public:
 template <int,int,int,typename>
 class PotKernel;
 
-template <typename PhiY>
+  template <typename PhiY, int Valuation=1>
 class PotKernelTraits{
 
 public:
   static const int dimy     = PhiY::dim;
   static const int nb_dof_y = PhiY::nb_dof_loc;
 
-  typedef typename Jac<dimy>::Type   JacY;
-  typedef typename PhiY::Rd          Rdy;
-  typedef Mesh<dimy>                 MeshY;
-  typedef Elt<dimy>                  EltY;
-  typedef GradBasisFct<PhiY>         GradPhiY;
-  typedef mat<1,nb_dof_y,Cplx>       MatType;
+  typedef typename Jac<dimy>::Type      JacY;
+  typedef typename PhiY::Rd             Rdy;
+  typedef Mesh<dimy>                    MeshY;
+  typedef Elt<dimy>                     EltY;
+  typedef GradBasisFct<PhiY>            GradPhiY;
+  typedef DivBasisFct<PhiY>             DivPhiY;
+  typedef mat<Valuation,nb_dof_y,Cplx>  MatType;
 
 };
 

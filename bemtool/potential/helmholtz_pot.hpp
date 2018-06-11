@@ -101,15 +101,16 @@ private:
 public:
 
   PotKernel<HE,SL_POT,3,PhiY>(const typename Trait::MeshY& my,
-			   const Real& k):
+			      const Real& k):
   meshy(my), phiy(my), kappa(k) {};
-
+  
   void Assign(const R3& x, const int& iy){
     const typename Trait::EltY& ey=meshy[iy];
     x0_y0 = x-ey[0];
     dy    = MatJac(ey);
-    h     = DetJac(ey);}
-
+    h     = DetJac(ey);
+  }
+  
   const typename Trait::MatType&
   operator()(const R3& x,const typename Trait::Rdy& tj){
     x_y  = x0_y0-dy*tj;
@@ -144,7 +145,7 @@ class PotKernel<HE,DL_POT,2,PhiY>{
 
 public:
   typedef PotKernelTraits<PhiY> Trait;
-
+  
 private:
   const typename Trait::MeshY&        meshy;
         typename Trait::MatType       mat;

@@ -77,7 +77,7 @@ class Interpolator<RT0_2D>{
 
  private:
   const Mesh2D&   mesh;
-  ShapeFct& phi;
+  ShapeFct&       phi;
   
  public:
   Interpolator<RT0_2D>(ShapeFct& psi): phi(psi), mesh(MeshOf(psi)) {}
@@ -91,7 +91,7 @@ class Interpolator<RT0_2D>{
     const R3& orientation = OrientationOf(phi);
     
     array<3,R3> n_;
-    NormalToFaces(mesh[j],n_);
+    NormalToFaces(e,n_);
     array<3,Elt1D> edge = EdgesOf(e);
     for(int k=0; k<3; k++){      
       R3   x  = Ctr(edge[k]);
