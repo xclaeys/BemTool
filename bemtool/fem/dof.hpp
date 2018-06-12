@@ -419,9 +419,9 @@ public:
   Trait::R3loc operator()(const int& j) const {
     Elt2D e = (*mesh_p)[j];
     Dof<RT0_2D>::Trait::R3loc x;
-    x[0] = 0.5*(x[1]+x[2]);
-    x[1] = 0.5*(x[2]+x[0]);
-    x[2] = 0.5*(x[0]+x[1]);
+    x[0] = 0.5*(e[1]+e[2]);
+    x[1] = 0.5*(e[2]+e[0]);
+    x[2] = 0.5*(e[0]+e[1]);
     return x;
   }
 
