@@ -7,7 +7,7 @@
 #include <numeric>
 
 template<class Dof>
-void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::vector<int>& perm, const Dof& dof, std::vector<int>& cluster_to_ovr_subdomain, std::vector<int>& ovr_subdomain_to_global, std::vector<int>& neighbors, std::vector<std::vector<int> >& intersections){
+void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::vector<int>& perm, const Dof& dof, std::vector<int>& cluster_to_ovr_subdomain, std::vector<int>& ovr_subdomain_to_global, std::vector<int>& neighbors, std::vector<std::vector<int> >& intersections,int overlap=1){
 
   // Get the number of processes
   int sizeWorld;
@@ -22,7 +22,7 @@ void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::v
   int nbelt = NbElt(dof);
   std::vector<bool> part_overlap(nbdof);
 
-  // Partitionnement des dofs sans overlap
+  // Partitionnement des dofs sans overlap dans la num globale
   std::vector<int> part(nbdof);
   for (int i=0; i<sizeWorld; i++)
 	for (int j=0; j< MasterOffset[i].second; j++)
@@ -42,6 +42,7 @@ void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::v
     part_overlap[i]=(part[i]==rankWorld);
   }
 
+if (overlap!=0){
 	// Tag de mes dofs qui sont contenus dans les elements: P0 -> P1
   for(int j=0; j<nbelt; j++){
     for(int k=0; k<Dof::Trait::dim+1; k++){
@@ -75,7 +76,7 @@ void Partition(const std::vector<std::pair<int,int>>& MasterOffset, const std::v
   for(auto iter=neighbors_set.begin(); iter!=neighbors_set.end();++iter) {
     neighbors.push_back(*iter);
   }
-
+}
 
   // Get the global to overlapping subdomain numbering
   std::vector<int> temp(nbdof,-1);
