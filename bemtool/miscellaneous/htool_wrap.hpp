@@ -34,6 +34,65 @@ public:
 
 };
 
+template <typename KernelType, typename Discretization>
+class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
+    typedef typename BIOp<KernelType>::KernelTypeTrait  KernelTrait;
+    typedef typename KernelTrait::ShapeFctX     PhiX;
+    typedef typename KernelTrait::ShapeFctY     PhiY;
+    typedef typename KernelTrait::MatType       MatType;
+    typedef Dof<PhiX>                           DofX;
+    typedef Dof<PhiY>                           DofY;
+
+    static const int nb_dof_loc_x = KernelTrait::nb_dof_x;
+    static const int nb_dof_loc_y = KernelTrait::nb_dof_y;
+    typedef NDofLoc<nb_dof_loc_x> Nlocx;
+    typedef NDofLoc<nb_dof_loc_y> Nlocy;
+    typedef typename std::map<int,Nlocx>::iterator ItTypeX;
+    typedef typename std::map<int,Nlocy>::iterator ItTypeY;
+
+
+    Dof<Discretization> dof;
+    SubBIOp<BIOp<KernelType>> subV;
+    std::map<int,Nlocx>  Ix;
+    std::map<int,Nlocy>  Iy;
+
+public:
+    SubBIO_Neumann_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {
+
+        for(int k=0; k<targets0.size(); k++){
+            const std::vector<N2>& jj = dof.ToElt(targets0[k]);
+            for(int l=0; l<jj.size(); l++){
+                const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
+            }
+        }
+
+        for(int k=0; k<sources0.size(); k++){
+            const std::vector<N2>& jj = dof.ToElt(sources0[k]);
+            for(int l=0; l<jj.size(); l++){
+                const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
+            }
+        }
+    }
+
+  Cplx get_coef(const int& i, const int& j) const {
+      std::vector<int> J(1,i);
+      std::vector<int> K(1,j);
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
+    return mat(0,0);
+  }
+
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
+    return mat;
+  }
+
+};
+
 // template <typename KernelType, typename Discretization>
 // class SubBIO_Generator : public htool::IMatrix<Cplx>{
 //   Dof<Discretization> dof;
@@ -60,21 +119,21 @@ public:
 //     subV_local.compute_block(J,K,mat);
 //     return mat(0,0);
 //   }
-
-  // htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-  //   std::vector<int> Jb(J.size(),0),Kb(K.size(),0);
-  //   for (int i=0; i<Jb.size();i++){
-  //       Jb[i]=targets[J[i]];
-  //   }
-  //   for (int i=0; i<Kb.size();i++){
-  //       Kb[i]=sources[K[i]];
-  //   }
-  //   htool::SubMatrix<Cplx> mat(Jb,Kb);
-  //   SubBIOp<BIOp<KernelType>> subV_local = subV;
-  //   subV_local.compute_block(Jb,Kb,mat);
-  //   return mat;
-  // }
-
+//
+//   htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+//     std::vector<int> Jb(J.size(),0),Kb(K.size(),0);
+//     for (int i=0; i<Jb.size();i++){
+//         Jb[i]=targets[J[i]];
+//     }
+//     for (int i=0; i<Kb.size();i++){
+//         Kb[i]=sources[K[i]];
+//     }
+//     htool::SubMatrix<Cplx> mat(Jb,Kb);
+//     SubBIOp<BIOp<KernelType>> subV_local = subV;
+//     subV_local.compute_block(Jb,Kb,mat);
+//     return mat;
+//   }
+//
 // };
 
 
