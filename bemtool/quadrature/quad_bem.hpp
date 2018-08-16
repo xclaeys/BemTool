@@ -50,7 +50,7 @@ namespace bemtool{
       std::vector<Real> t,dt;
       Quad1D(order,t,dt);
       int nt = t.size();
-
+      
       std::vector<R2>   qp;
       std::vector<Real> qw;
 
@@ -58,11 +58,11 @@ namespace bemtool{
       // quad2D(order,qp,qw);
       Quad2D(2,qp,qw);
       int nq = qp.size();
-
+      
     //================================//
     //   Cas 0: triangles disjoints   //
     //================================//
-
+      
     // Dans le cas ou les triangles sont
     // disjoints, on utilise deux regles de
     // quadrature de Dunavant tensorisees
@@ -82,7 +82,7 @@ namespace bemtool{
 
       }
     }
-
+    
     /*
     for(int j0=0; j0<nt; j0++){
       for(int j1=0; j1<nt; j1++){

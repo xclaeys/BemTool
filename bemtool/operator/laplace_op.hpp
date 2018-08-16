@@ -18,7 +18,6 @@
 //====================================================================
 #ifndef BEMTOOL_OPERATOR_LAPLACE_HPP
 #define BEMTOOL_OPERATOR_LAPLACE_HPP
-
 #include "operator.hpp"
 
 

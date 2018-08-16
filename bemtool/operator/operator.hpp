@@ -119,7 +119,7 @@ public:
     }
     return inter;
   }
-
+  
 
   const Cplx& operator()(const N2& Ix, const N2& Iy){
     ChooseQuad(Ix[0],Iy[0]);
