@@ -11,26 +11,45 @@ template <typename KernelType, typename Discretization>
 class BIO_Generator : public htool::IMatrix<Cplx>{
   Dof<Discretization> dof;
   SubBIOp<BIOp<KernelType>> subV;
+  std::vector<int> boundary;
 
 public:
-  BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
+    BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {boundary=is_boundary_nodes(dof);}
 
   Cplx get_coef(const int& i, const int& j) const {
       std::vector<int> J(1,i);
       std::vector<int> K(1,j);
-    htool::SubMatrix<Cplx> mat(J,K);
-    SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_block(J,K,mat);
-    return mat(0,0);
+
+    if (boundary[i]==1 || boundary[j]==1){
+        return i==j;
+    }
+    else {
+        htool::SubMatrix<Cplx> mat(J,K);
+        SubBIOp<BIOp<KernelType>> subV_local = subV;
+        subV_local.compute_block(J,K,mat);
+        return mat(0,0) ;
+    }
   }
 
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-      // std::cout << "COUCOU"<<std::endl;
-    htool::SubMatrix<Cplx> mat(J,K);
-    SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_block(J,K,mat);
-    return mat;
-  }
+//   htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+//     htool::SubMatrix<Cplx> mat(J,K);
+//     SubBIOp<BIOp<KernelType>> subV_local = subV;
+//     subV_local.compute_block(J,K,mat);
+//     for (int j=0;J.size();j++){
+//         for (int k=0;K.size();k++){
+//             if (boundary[J[j]]==1){
+//                 mat.set_row(j,std::vector<Cplx>(K.size(),0));
+//             }
+//             if (boundary[K[k]]==1){
+//                 mat.set_col(k,std::vector<Cplx>(J.size(),0));
+//             }
+//             if (boundary[J[j]]==1 && J[j]==K[k]){
+//                 mat(j,k)=1;
+//             }
+//         }
+//     }
+//     return mat;
+//   }
 
 };
 
