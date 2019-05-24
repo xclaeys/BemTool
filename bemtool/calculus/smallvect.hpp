@@ -135,10 +135,16 @@ public:
     template <class r_t> void operator=(const r_t& r_){
       assign_loop<this_t,r_t>::apply(*this,r_);}
 
-    template <class r_t> bool operator==(const r_t& r_){
+    template <class r_t> bool operator==(const r_t& r_) const {
       for(int j=0; j<dim; j++){if((*this)[j]!=r_[j]){return false;}}
       return true;}
 
+    template <class r_t> bool operator<(const r_t& r_) const {
+      for(int j=0; j<dim; j++){
+	if((*this)[j]>r_[j]){return false;}
+	if((*this)[j]<r_[j]){return true;}}
+      return false;}
+    
     template <class r_t> void operator+=(const r_t& r_){
       plus_assign_loop<this_t,r_t>::apply(*this,r_);}
 
