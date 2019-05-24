@@ -20,7 +20,7 @@
 #ifndef BEMTOOL_MISC_EIGEN_WRAP_HPP
 #define BEMTOOL_MISC_EIGEN_WRAP_HPP
 
-#include "/usr/include/eigen3/Eigen/Dense"//<Eigen/Dense>
+#include <Eigen/Dense>
 #include "../calculus/calculus.hpp"
 #include "misc.hpp"
 
