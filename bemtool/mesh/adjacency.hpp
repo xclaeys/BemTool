@@ -155,62 +155,91 @@ class Connected{
 };
 
 
-//===============================//
-//     Breadth First Search      //
-//===============================//
-template <typename m_t>
-Connected<m_t>::Connected(const m_t& m): mesh(m) {
-
-  nbc = 1;
-  num.resize(nbc);
-  int nbelt  = NbElt(mesh);
-  Adjacency<m_t> adj(mesh);
-  int nb_visited = 0;
-  std::queue<int> visit;
-  std::vector<bool> visited(nbelt,false);
-
-  // Initialisation de l'algo
-  int j0 = 0;
-  visit.push(j0);
-  visited[j0]=true;
-  num[nbc-1].push_back(j0);
-
-  // Lancement de l'algo
-  while(nb_visited<nbelt){
-
-    // Reinitialisation dans le cas
-    // de plusieurs composantes connexes
-    if(visit.empty()){
-      nbc++; num.resize(nbc);
-      j0=0; while(visited[j0]){j0++;}
-      visit.push(j0);
-      visited[j0]=true;
-      num[nbc-1].push_back(j0);
-    }
-    else{
-      j0 = visit.front();
-      visit.pop();
-    }
+  //===============================//
+  //     Breadth First Search      //
+  //===============================//
+  
+  
+  
+  template <typename m_t>
+  Connected<m_t>::Connected(const m_t& m): mesh(m) {
+    
+    nbc = 1;
+    num.resize(nbc);
+    int nbelt  = NbElt(mesh);
+    Adjacency<m_t> adj(mesh);
+    int nb_visited = 0;
+    std::queue<int> visit;
+    std::vector<bool> visited(nbelt,false);
+    
+    // Initialisation de l'algo
+    int j0 = 0;
+    visit.push(j0);
+    visited[j0]=true;
     nb_visited++;
-
-    // Boucle sur les voisins de
-    // l'element courant
-    for(int k0=0; k0<dim+1; k0++){
-      const int& j1 = adj[j0][k0];
-
-      // Si voisin pas deja visite:
-      // propagation de l'algo
-      if(!visited[j1]){
-	visited[j1]=true;
-	visit.push(j1);
-	num[nbc-1].push_back(j1);
+    num[nbc-1].push_back(j0);
+    
+    // Lancement de l'algo
+    while(nb_visited<nbelt){
+      
+      // Reinitialisation dans le cas
+      // de plusieurs composantes connexes
+      if(visit.empty()){
+	nbc++; num.resize(nbc);
+	j0=0; while(visited[j0]){j0++;}
+	visit.push(j0);
+	if(!visited[j0]){
+	  visited[j0]=true;
+	  nb_visited++;
+	  num[nbc-1].push_back(j0);
+	}
+      }
+      else{
+	j0 = visit.front();
+	visit.pop();
+      }
+      
+      // Boucle sur les voisins de
+      // l'element courant
+      for(int k0=0; k0<dim+1; k0++){
+	const int& j1 = adj[j0][k0];
+	
+	// Si voisin pas deja visite:
+	// propagation de l'algo
+	if(!visited[j1]){
+	  visited[j1]=true;
+	  nb_visited++;
+	  visit.push(j1);
+	  num[nbc-1].push_back(j1);
+	}
       }
     }
+    
+    std::vector<int> pb_idx;
+    bool test = true;
+    for(int j=0; j<visited.size(); j++){
+      if(visited[j]==false){
+	pb_idx.push_back(j);
+	test = false;
+      }
+    }
+    if(!test){
+      std::cout << "error: elements\t";
+      for(int j=0; j<pb_idx.size(); j++){
+	std::cout << pb_idx[j] << "\t";}
+      std::cout << "not visited\n";
+      exit(EXIT_FAILURE);
+    }    
+    
+    
+    
+    
   }
+  
 
 
-}
 
+  
 } // namespace bemtool
 
 

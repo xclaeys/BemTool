@@ -297,13 +297,12 @@ public:
 
   void Load(Geometry& g){node = &g;elt  = &GetElt<dim>::Of(g);}
 
-  void Load(Geometry& g, int ref){
+  void Load(Geometry& g, int ref=-1){ // -1 : everything is loaded
 
     node = &g;
     elt  = &GetElt<dim>::Of(g);
     int nb_loaded_elt = 0;
 
-    if(ref!=-1){
       //  Geometry& node = *(m.node);
       array<dim+1,int> I;
       std::string filename = MeshFileOf(g);
@@ -331,7 +330,7 @@ public:
 	iss >> nb_tags;
 	iss >> tag;
 
-	if((elt_type==dim || (dim==3 && elt_type==4))){
+	if((elt_type==dim || (dim==3 && elt_type==4)) && (tag == ref || ref==-1)  ){
 	  for(int j=0; j<nb_tags-1; j++){iss>>poubelle;}
 	  iss >> I; *this << g[I-1];
 	  nb_loaded_elt++;
@@ -342,7 +341,6 @@ public:
       }
 
       file.close();
-    }
 
     if(nb_loaded_elt==0){
       std::cout << "error: no element loaded" << std::endl;
