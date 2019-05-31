@@ -289,7 +289,7 @@ public:
         ker = h/r;
     for(int j=0; j<Trait::nb_dof_x; j++){
       for(int k=0; k<Trait::nb_dof_y; k++){
-	      inter(j,k) = ker*(phix(j,tx)*phix(j,tx)-2*phix(j,tx)*phiy(k,ty)+phiy(k,ty)*phiy(k,ty));
+	      inter(j,k) = ker*(phix(j,tx)- phix(j,ty))* (phiy(k,tx)-phiy(k,ty));
       }
     }
     return inter;
@@ -302,7 +302,7 @@ public:
         x_y  = x0_y0 + dx*tx-dy*ty;
         r   = std::pow(norm2(x_y),D+1);
         ker = h/r;
-    return ker *= (phix(kx,tx)*phix(kx,tx)-2*phix(kx,tx)*phiy(ky,ty)+phiy(ky,ty)*phiy(ky,ty));
+    return ker *= (phix(kx,tx)-phix(kx,ty))*(phiy(ky,tx)-phiy(ky,ty));
   }
 
 

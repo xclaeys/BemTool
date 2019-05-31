@@ -295,7 +295,7 @@ public:
     normal.resize(num_elt.size());
     for(int j=0; j<normal.size(); j++){normal[j]=v[j];}}
 
-  void Load(Geometry& g){node = &g;elt  = &GetElt<dim>::Of(g);}
+  // void Load(Geometry& g){node = &g;elt  = &GetElt<dim>::Of(g);}
 
   void Load(Geometry& g, int ref=-1){ // -1 : everything is loaded
 
