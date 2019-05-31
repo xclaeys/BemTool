@@ -33,6 +33,7 @@ namespace bemtool {
 
 enum BIOpKernelEnum {
   CST_OP,  // noyau constant
+  SLO_OP,  // Slobodeckij
    SL_OP,  // trace dirichlet du simple couche
    DL_OP,  // trace dirichlet du double couche
   TDL_OP,  // trace neumann   du simple couche
