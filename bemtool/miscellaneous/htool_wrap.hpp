@@ -11,45 +11,46 @@ template <typename KernelType, typename Discretization>
 class BIO_Generator : public htool::IMatrix<Cplx>{
   Dof<Discretization> dof;
   SubBIOp<BIOp<KernelType>> subV;
-  std::vector<int> boundary;
+  // std::vector<int> boundary;
 
 public:
-    BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {boundary=is_boundary_nodes(dof);}
+    BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
+    // {boundary=is_boundary_nodes(dof);}
 
   Cplx get_coef(const int& i, const int& j) const {
       std::vector<int> J(1,i);
       std::vector<int> K(1,j);
 
-    if (boundary[i]==1 && i==j){
-        return 1e30;
-    }
-    else {
+    // if (boundary[i]==1 && i==j){
+    //     return 1e30;
+    // }
+    // else {
         htool::SubMatrix<Cplx> mat(J,K);
         SubBIOp<BIOp<KernelType>> subV_local = subV;
         subV_local.compute_block(J,K,mat);
         return mat(0,0) ;
-    }
+    // }
   }
 
-//   htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-//     htool::SubMatrix<Cplx> mat(J,K);
-//     SubBIOp<BIOp<KernelType>> subV_local = subV;
-//     subV_local.compute_block(J,K,mat);
-//     for (int j=0;J.size();j++){
-//         for (int k=0;K.size();k++){
-//             if (boundary[J[j]]==1){
-//                 mat.set_row(j,std::vector<Cplx>(K.size(),0));
-//             }
-//             if (boundary[K[k]]==1){
-//                 mat.set_col(k,std::vector<Cplx>(J.size(),0));
-//             }
-//             if (boundary[J[j]]==1 && J[j]==K[k]){
-//                 mat(j,k)=1;
-//             }
-//         }
-//     }
-//     return mat;
-//   }
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_block(J,K,mat);
+    // for (int j=0;J.size();j++){
+    //     for (int k=0;K.size();k++){
+    //         if (boundary[J[j]]==1){
+    //             mat.set_row(j,std::vector<Cplx>(K.size(),0));
+    //         }
+    //         if (boundary[K[k]]==1){
+    //             mat.set_col(k,std::vector<Cplx>(J.size(),0));
+    //         }
+    //         if (boundary[J[j]]==1 && J[j]==K[k]){
+    //             mat(j,k)=1;
+    //         }
+    //     }
+    // }
+    return mat;
+  }
 
 };
 
@@ -75,11 +76,11 @@ class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
     std::map<int,Nlocx>  Ix;
     std::map<int,Nlocy>  Iy;
 
-    std::vector<int> boundary;
+    // std::vector<int> boundary;
 
 public:
     SubBIO_Neumann_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {
-        boundary=is_boundary_nodes(dof);
+        // boundary=is_boundary_nodes(dof);
         for(int k=0; k<targets0.size(); k++){
             const std::vector<N2>& jj = dof.ToElt(targets0[k]);
             for(int l=0; l<jj.size(); l++){
@@ -98,23 +99,23 @@ public:
   Cplx get_coef(const int& i, const int& j) const {
       std::vector<int> J(1,i);
       std::vector<int> K(1,j);
-    if (boundary[i]==1 && i==j){
-        return 1e30;
-    }
-    else{
+    // if (boundary[i]==1 && i==j){
+    //     return 1e30;
+    // }
+    // else{
     htool::SubMatrix<Cplx> mat(J,K);
     SubBIOp<BIOp<KernelType>> subV_local = subV;
     subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
     return mat(0,0);}
+  // }
+
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
+    return mat;
   }
-
-//   htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-
-//     htool::SubMatrix<Cplx> mat(J,K);
-//     SubBIOp<BIOp<KernelType>> subV_local = subV;
-//     subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
-//     return mat;
-//   }
 
 };
 
