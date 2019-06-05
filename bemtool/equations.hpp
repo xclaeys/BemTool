@@ -27,7 +27,6 @@
 
 enum EquationEnum {
   CST, // noyau constant
-  SLO, // Slobodeckij
   HE , // Helmholtz
   LA , // Laplace
   YU , // Yukawa

@@ -33,7 +33,6 @@ namespace bemtool {
 
 enum BIOpKernelEnum {
   CST_OP,  // noyau constant
-  SLO_OP,  // Slobodeckij
    SL_OP,  // trace dirichlet du simple couche
    DL_OP,  // trace dirichlet du double couche
   TDL_OP,  // trace neumann   du simple couche
@@ -241,73 +240,6 @@ public:
 
 };
 
-
-/*=======================
-        SLOBODECKIJ
-  =======================*/
-
-template <int D, typename PhiX, typename PhiY>
-class BIOpKernel<SLO,SLO_OP,D,PhiX,PhiY>{
-
-public:
-  typedef BIOpKernelTraits<SLO,SLO_OP,D,PhiX,PhiY> Trait;
-
-private:
-  const typename Trait::MeshX&    meshx;
-  const typename Trait::MeshY&    meshy;
-        typename Trait::MatType   inter;
-        typename Trait::JacX     dx;
-        typename Trait::JacY     dy;
-                        PhiX      phix;
-                        PhiY      phiy;
-                        Real      ker;
-                        R3       x0_y0,x_y;
-                        Real     h,r;
-
-public:
-  BIOpKernel<SLO,SLO_OP,D,PhiX,PhiY>(const typename Trait::MeshX& mx,
-				 const typename Trait::MeshY& my,
-				 const Real& k=0.):
-  meshx(mx), phix(mx), meshy(my), phiy(my) {};
-
-
-  void Assign(const int& ix, const int& iy){
-    const typename Trait::EltX& ex=meshx[ix];
-    const typename Trait::EltY& ey=meshy[iy];
-    x0_y0 = ex[0]-ey[0];
-    dx    = MatJac(ex);
-    dy    = MatJac(ey);
-    h     = DetJac(ex)*DetJac(ey);
-  }
-
-
-  const typename Trait::MatType&
-  operator()(const typename Trait::Rdx& tx,
-	     const typename Trait::Rdy& ty){
-        x_y  = x0_y0 + dx*tx-dy*ty;
-        r   = std::pow(norm2(x_y),D+1);
-        ker = h/r;
-    for(int j=0; j<Trait::nb_dof_x; j++){
-      for(int k=0; k<Trait::nb_dof_y; k++){
-	      inter(j,k) = ker*(phix(j,tx)- phix(j,ty))* (phiy(k,tx)-phiy(k,ty));
-      }
-    }
-    return inter;
-  }
-
-
-  const Cplx& operator()(const typename Trait::Rdx& tx,
-			 const typename Trait::Rdy& ty,
-			 const int& kx, const int& ky){
-        x_y  = x0_y0 + dx*tx-dy*ty;
-        r   = std::pow(norm2(x_y),D+1);
-        ker = h/r;
-    return ker *= (phix(kx,tx)-phix(kx,ty))*(phiy(ky,tx)-phiy(ky,ty));
-  }
-
-
-};
-
 typedef BIOpKernel<CST,CST_OP,1,P1_1D,P1_1D> CST_1D_P1xP1;
 typedef BIOpKernel<CST,CST_OP,1,P0_1D,P0_1D> CST_1D_P0xP0;
 typedef BIOpKernel<CST,CST_OP,1,P0_1D,P1_1D> CST_1D_P0xP1;
@@ -318,18 +250,6 @@ typedef BIOpKernel<CST,CST_OP,2,P0_2D,P1_2D> CST_2D_P0xP1;
 typedef BIOpKernel<CST,CST_OP,2,P1_2D,P0_2D> CST_2D_P1xP0;
 typedef BIOpKernel<CST,CST_OP,1,P2_1D,P2_1D> CST_1D_P2xP2;
 typedef BIOpKernel<CST,CST_OP,2,P2_2D,P2_2D> CST_2D_P2xP2;
-
-
-typedef BIOpKernel<SLO,SLO_OP,1,P1_1D,P1_1D> SLO_1D_P1xP1;
-typedef BIOpKernel<SLO,SLO_OP,1,P0_1D,P0_1D> SLO_1D_P0xP0;
-typedef BIOpKernel<SLO,SLO_OP,1,P0_1D,P1_1D> SLO_1D_P0xP1;
-typedef BIOpKernel<SLO,SLO_OP,1,P1_1D,P0_1D> SLO_1D_P1xP0;
-typedef BIOpKernel<SLO,SLO_OP,2,P1_2D,P1_2D> SLO_2D_P1xP1;
-typedef BIOpKernel<SLO,SLO_OP,2,P0_2D,P0_2D> SLO_2D_P0xP0;
-typedef BIOpKernel<SLO,SLO_OP,2,P0_2D,P1_2D> SLO_2D_P0xP1;
-typedef BIOpKernel<SLO,SLO_OP,2,P1_2D,P0_2D> SLO_2D_P1xP0;
-typedef BIOpKernel<SLO,SLO_OP,1,P2_1D,P2_1D> SLO_1D_P2xP2;
-typedef BIOpKernel<SLO,SLO_OP,2,P2_2D,P2_2D> SLO_2D_P2xP2;
 
 }
 
