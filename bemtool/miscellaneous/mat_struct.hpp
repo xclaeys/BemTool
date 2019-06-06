@@ -261,7 +261,34 @@ namespace bemtool{
       for(int j=0; j<u.size();j++){res+=v[j]*u[j].conj();}
       return res;
     }
+    friend int matlab_save(const DenseMatrix& m, const std::string& file){
+      std::ofstream out(file);
+      out << std::setprecision(18);
+      if(!out) {
+          std::cout << "Cannot open file."<<std::endl;
+          return 1;
+      }
+      int rows = NbRows(m);
+      int cols = NbCols(m);
 
+      for (int i=0;i<rows;i++){
+          for (int j=0;j<cols;j++){
+              out<<std::real(m(i,j));
+              if (std::imag(m(i,j))<0){
+                  out<<std::imag(m(i,j))<<"i\t";
+              }
+              else if (std::imag(m(i,j))==0){
+                  out<<"+"<<0<<"i\t";
+              }
+              else{
+                  out<<"+"<<std::imag(m(i,j))<<"i\t";
+              }
+          }
+          out << std::endl;
+      }
+      out.close();
+      return 0;
+  }
     
   };
   
