@@ -89,6 +89,7 @@ namespace bemtool {
     const int& operator[](const int& j) const {return v[j];}
     friend std::ostream& operator<<(std::ostream& o, const this_t& I){
       for(int j=0; j<this_t::dim; j++){ o<<I[j]<<"\t";} return o;}
+    friend int size(const this_t& I){return I.dim;}
   };
 
 
