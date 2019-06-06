@@ -39,11 +39,13 @@
 #include "fem/interpolation.hpp"
 
 #include "operator/operator.hpp"
+#include "operator/operator_slo.hpp"
 #include "operator/helmholtz_op.hpp"
 #include "operator/laplace_op.hpp"
 #include "operator/yukawa_op.hpp"
 #include "operator/maxwell_op.hpp"
 #include "operator/block_op.hpp"
+#include "operator/block_op_slo.hpp"
 
 #include "potential/potential.hpp"
 #include "potential/helmholtz_pot.hpp"
