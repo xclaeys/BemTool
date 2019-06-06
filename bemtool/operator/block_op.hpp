@@ -34,8 +34,28 @@ namespace bemtool {
 
   public:
     BlockMat(const int& nr0 = 0, const int& nc0 = 0): nr(nr0), nc(nc0), v(nr*nc,0.){}
+    BlockMat(const BlockMat& in ):nr(in.nr),nc(in.nc),v(in.v){}
     Cplx& operator()(const int& j, const int& k){return v[j*nr+k];}
     const Cplx& operator()(const int& j, const int& k) const {return v[j*nr+k];}
+    BlockMat operator*(Real s) const{
+      BlockMat out(nr,nc); 
+      for (int j=0;j<nr;j++){
+        for (int k=0;k<nc;k++){
+          out(j,k)=s*v[j*nr+k];
+        } 
+      }
+      return out;
+    }
+    friend BlockMat operator*(Real s, const BlockMat& in){
+      return in*s;
+    }
+    void operator+=(const BlockMat& in){
+      for (int j=0;j<nr;j++){
+        for (int k=0;k<nc;k++){
+          v[j*nr+k]+=in(j,k);
+        } 
+      }
+    }
     template <typename r_t> void operator=(const r_t& r){
       for(int j=0; j<nr; j++){for(int k=0; k<nc; k++){v[j*nr+k] = r(j,k);}}}
     void Clear(){for(int j=0;j<v.size();j++){v[j]=0.;}}
@@ -47,7 +67,6 @@ namespace bemtool {
       for(int j=0; j<NbRow(m);j++){for(int k=0; k<NbCol(m);k++){
 	  o << m(j,k) << "\t";} o << "\n";}
       return o;}
-
   };
 
 
