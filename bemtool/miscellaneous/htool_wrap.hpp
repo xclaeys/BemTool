@@ -1,7 +1,7 @@
 #ifndef BEMTOOL_MISC_HTOOLWRAP_HPP
 #define BEMTOOL_MISC_HTOOLWRAP_HPP
 
-#include <htool/htool.hpp>
+//#include <htool/htool.hpp>
 #include <bemtool/fem/dof.hpp>
 #include <bemtool/operator/operator.hpp>
 
