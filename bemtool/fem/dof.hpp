@@ -217,6 +217,11 @@ public:
     assert(j>=offset && j<offset+nb_dof);
     return dof_to_elt[j-offset];}
 
+
+    const Elt<Trait::dim>& get_elt(int j) const{
+      return (*mesh_p)[j];
+    }
+
   friend const typename Trait::mesh_t&
   MeshOf(const this_t& dof){return *(dof.mesh_p);}
 };

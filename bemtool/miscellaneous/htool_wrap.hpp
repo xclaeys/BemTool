@@ -55,6 +55,42 @@ public:
 };
 
 template <typename KernelType, typename Discretization>
+class BIO_Generator_w_mass : public htool::IMatrix<Cplx>{
+  Dof<Discretization> dof;
+  SubBIOp<BIOp<KernelType>> subV;
+  // std::vector<int> boundary;
+  double coef;
+
+public:
+    BIO_Generator_w_mass(const Dof<Discretization>& dof0, const double& kappa,const double& coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa),coef(coef0) {}
+    // {boundary=is_boundary_nodes(dof);}
+
+  Cplx get_coef(const int& i, const int& j) const {
+      std::vector<int> J(1,i);
+      std::vector<int> K(1,j);
+
+    // if (boundary[i]==1 && i==j){
+    //     return 1e30;
+    // }
+    // else {
+        htool::SubMatrix<Cplx> mat(J,K);
+        SubBIOp<BIOp<KernelType>> subV_local = subV;
+        subV_local.compute_block_w_mass(J,K,mat,coef);
+        return mat(0,0) ;
+    // }
+  }
+
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+    htool::SubMatrix<Cplx> mat(J,K);
+    SubBIOp<BIOp<KernelType>> subV_local = subV;
+    subV_local.compute_block_w_mass(J,K,mat,coef);
+
+    return mat;
+  }
+
+};
+
+template <typename KernelType, typename Discretization>
 class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
     typedef typename BIOp<KernelType>::KernelTypeTrait  KernelTrait;
     typedef typename KernelTrait::ShapeFctX     PhiX;
