@@ -90,6 +90,50 @@ public:
 
 };
 
+template <typename KernelType1, typename KernelType2, typename Discretization>
+class Combined_BIO_Generator : public htool::IMatrix<Cplx>{
+  Dof<Discretization> dof;
+  SubBIOp<BIOp<KernelType1>> sub1;
+  SubBIOp<BIOp<KernelType2>> sub2;
+  // std::vector<int> boundary;
+  double combined_coef;
+  double second_kind_coef;
+
+public:
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const double& coef0,const double& coef1):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef(coef0), second_kind_coef(coef1) {}
+    // {boundary=is_boundary_nodes(dof);}
+
+  Cplx get_coef(const int& i, const int& j) const {
+      std::vector<int> J(1,i);
+      std::vector<int> K(1,j);
+
+    // if (boundary[i]==1 && i==j){
+    //     return 1e30;
+    // }
+    // else {
+        htool::SubMatrix<Cplx> mat1(J,K);
+        htool::SubMatrix<Cplx> mat2(J,K);
+        SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
+        SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
+        sub1_local.compute_block(J,K,mat1);
+        sub2_local.compute_block_w_mass(J,K,mat2,second_kind_coef);
+        return combined_coef*mat1(0,0)+mat2(0,0) ;
+    // }
+  }
+
+  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
+    htool::SubMatrix<Cplx> mat1(J,K);
+    htool::SubMatrix<Cplx> mat2(J,K);
+    SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
+    SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
+    sub1_local.compute_block(J,K,mat1);
+    sub2_local.compute_block_w_mass(J,K,mat2,second_kind_coef);
+
+    return combined_coef*mat1+mat2;
+  }
+
+};
+
 template <typename KernelType, typename Discretization>
 class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
     typedef typename BIOp<KernelType>::KernelTypeTrait  KernelTrait;
