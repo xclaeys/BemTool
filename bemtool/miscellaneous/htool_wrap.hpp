@@ -96,11 +96,11 @@ class Combined_BIO_Generator : public htool::IMatrix<Cplx>{
   SubBIOp<BIOp<KernelType1>> sub1;
   SubBIOp<BIOp<KernelType2>> sub2;
   // std::vector<int> boundary;
-  double combined_coef;
+  Cplx combined_coef;
   double second_kind_coef;
 
 public:
-    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const double& coef0,const double& coef1):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef(coef0), second_kind_coef(coef1) {}
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef0,const double& coef1):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef(coef0), second_kind_coef(coef1) {}
     // {boundary=is_boundary_nodes(dof);}
 
   Cplx get_coef(const int& i, const int& j) const {
