@@ -286,7 +286,7 @@ inline Real SolidAngle(const R3& p, const Elt1D& e){
       M(j,k) = e[k][j] - p[j];
     }
   }
-  return det(M);
+  return det(M)/2;
 }
 
 inline Real SolidAngle(const R3& p, const Elt2D& e){
@@ -296,7 +296,7 @@ inline Real SolidAngle(const R3& p, const Elt2D& e){
       M(j,k) = e[k][j] - p[j];
     }
   }
-  return (-1.)*det(M);
+  return -det(M)/6;
 }
 
 
