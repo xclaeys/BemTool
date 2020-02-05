@@ -366,7 +366,7 @@ namespace bemtool{
         // geometry and element vectors setter AF 07/2019
         inline void set_elt(Geometry& g){node = &g; elt=&GetElt<D>::Of(g);}
         // setter for an element AF 07/2019
-        inline void setOneElt(Geometry& g,array<3,int> I){ *this << g[I]; }
+        inline void setOneElt(Geometry& g,array<dim+1,int> I){ *this << g[I]; }
        
         
     };
