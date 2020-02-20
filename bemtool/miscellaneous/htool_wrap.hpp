@@ -96,12 +96,13 @@ class Combined_BIO_Generator : public htool::IMatrix<Cplx>{
   SubBIOp<BIOp<KernelType1>> sub1;
   SubBIOp<BIOp<KernelType2>> sub2;
   // std::vector<int> boundary;
-  Cplx combined_coef;
-  double second_kind_coef;
+  Cplx combined_coef_1,combined_coef_2;
+  double mass_coef;
 
 public:
-    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef0,const double& coef1):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef(coef0), second_kind_coef(coef1) {}
-    // {boundary=is_boundary_nodes(dof);}
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const Cplx& coef2,const double& mass_coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(coef2),mass_coef(mass_coef0) {}
+    
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const double& mass_coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(1),mass_coef(mass_coef0) {}
 
   Cplx get_coef(const int& i, const int& j) const {
       std::vector<int> J(1,i);
@@ -116,10 +117,12 @@ public:
         SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
         SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
         sub1_local.compute_block(J,K,mat1);
-        sub2_local.compute_block_w_mass(J,K,mat2,second_kind_coef);
-        return combined_coef*mat1(0,0)+mat2(0,0) ;
+        sub2_local.compute_block_w_mass(J,K,mat2,mass_coef);
+        return combined_coef_1*mat1(0,0)+combined_coef_2*mat2(0,0) ;
     // }
   }
+
+
 
   htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
     htool::SubMatrix<Cplx> mat1(J,K);
@@ -127,9 +130,9 @@ public:
     SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
     SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
     sub1_local.compute_block(J,K,mat1);
-    sub2_local.compute_block_w_mass(J,K,mat2,second_kind_coef);
+    sub2_local.compute_block_w_mass(J,K,mat2,mass_coef);
 
-    return combined_coef*mat1+mat2;
+    return combined_coef_1*mat1+combined_coef_2*mat2;
   }
 
 };
