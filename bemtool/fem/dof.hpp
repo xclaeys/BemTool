@@ -175,7 +175,6 @@ public:
   Dof<ShapeFct>(const typename Trait::mesh_t& m, bool numToFF):
   mesh_p(&m), node_p(&GeometryOf(m)), nb_elt(NbElt(m)), offset(0) {
     
-      if(numToFF) std::cout << " This is the P1 node numbering for FreeFEM" << std::endl;
     const int nb_node = NbNode(*node_p);
     const typename Trait::mesh_t&  mesh = *mesh_p;
 
