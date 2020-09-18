@@ -4,6 +4,8 @@
 #include <htool/htool.hpp>
 #include <bemtool/fem/dof.hpp>
 #include <bemtool/operator/operator.hpp>
+#include <bemtool/operator/block_op.hpp>
+#include <bemtool/potential/potential.hpp>
 
 namespace bemtool{
 
