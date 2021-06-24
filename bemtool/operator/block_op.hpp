@@ -168,7 +168,7 @@ namespace bemtool {
 
     void compute_block(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
-
+      std::fill_n(mat,M*N,0);
       for(int k=0; k<M; k++){
     const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
     for(int l=0; l<jj.size(); l++){
@@ -205,7 +205,7 @@ namespace bemtool {
 
     void compute_block_w_mass(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat,double coef){
       elt_mat = 0.; Ix.clear(); Iy.clear();
-
+      std::fill_n(mat,M*N,0);
       for(int k=0; k<M; k++){
     const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
     for(int l=0; l<jj.size(); l++){
@@ -251,7 +251,7 @@ namespace bemtool {
 
     void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
-
+      std::fill_n(mat,M*N,0);
       for(int k=0; k<M; k++){
 	const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
 	for(int l=0; l<jj.size(); l++){
@@ -301,7 +301,7 @@ namespace bemtool {
 
     void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat,const std::map<int,Nlocx>& Ix_g,const std::map<int,Nlocx>& Iy_g){
         elt_mat = 0.; Ix.clear(); Iy.clear();
-
+        std::fill_n(mat,M*N,0);
         for(int k=0; k<M; k++){
             const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
             for(int l=0; l<jj.size(); l++){
