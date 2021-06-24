@@ -166,7 +166,6 @@ namespace bemtool {
       return block_mat;
     }
 
-    template<typename Matrix>
     void compute_block(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
@@ -204,7 +203,6 @@ namespace bemtool {
 
     }
 
-template<typename Matrix>
     void compute_block_w_mass(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat,double coef){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
@@ -251,7 +249,6 @@ template<typename Matrix>
 
     }
 
-    template<typename Matrix>
     void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
@@ -302,7 +299,6 @@ template<typename Matrix>
 
     }
 
-    template<typename Matrix>
     void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat,const std::map<int,Nlocx>& Ix_g,const std::map<int,Nlocx>& Iy_g){
         elt_mat = 0.; Ix.clear(); Iy.clear();
 
