@@ -185,18 +185,12 @@ class POT_Generator : public htool::IMatrix<Cplx>{
 public:
   POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):IMatrix(NbNode(geometry0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
 
-  Cplx get_coef(const int& i, const int& j) const {
-      Potential<KernelType>& V_local=V;
-    return V_local(geometry[i],dof.ToElt(j));
-}
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& I, const std::vector<int>& J) const{
+  void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     Potential<KernelType> V_local = V;
-    htool::SubMatrix<Cplx> mat(I,J);
-    for (int i=0; i<mat.nb_rows(); i++)
-        for (int j=0; j<mat.nb_cols(); j++)
-            mat(i,j) = V_local(geometry[I[i]],dof.ToElt(J[j]));
-    return mat;
-}
+    for (int i=0; i<M; i++)
+        for (int j=0; j<N; j++)
+            ptr[i+j*M] = V_local(geometry[rows[i]],dof.ToElt(cols[j]));
+  }
 
 };
 
