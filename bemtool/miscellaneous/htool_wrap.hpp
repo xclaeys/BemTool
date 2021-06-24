@@ -19,39 +19,9 @@ public:
     BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
     // {boundary=is_boundary_nodes(dof);}
 
-  Cplx get_coef(const int& i, const int& j) const {
-      std::vector<int> J(1,i);
-      std::vector<int> K(1,j);
-
-    // if (boundary[i]==1 && i==j){
-    //     return 1e30;
-    // }
-    // else {
-        htool::SubMatrix<Cplx> mat(J,K);
-        SubBIOp<BIOp<KernelType>> subV_local = subV;
-        subV_local.compute_block(J,K,mat);
-        return mat(0,0) ;
-    // }
-  }
-
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-    htool::SubMatrix<Cplx> mat(J,K);
+  void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_block(J,K,mat);
-    // for (int j=0;J.size();j++){
-    //     for (int k=0;K.size();k++){
-    //         if (boundary[J[j]]==1){
-    //             mat.set_row(j,std::vector<Cplx>(K.size(),0));
-    //         }
-    //         if (boundary[K[k]]==1){
-    //             mat.set_col(k,std::vector<Cplx>(J.size(),0));
-    //         }
-    //         if (boundary[J[j]]==1 && J[j]==K[k]){
-    //             mat(j,k)=1;
-    //         }
-    //     }
-    // }
-    return mat;
+    subV_local.compute_block(M,N,rows,cols,ptr);
   }
 
 };
@@ -67,28 +37,13 @@ public:
     BIO_Generator_w_mass(const Dof<Discretization>& dof0, const double& kappa,const double& coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa),coef(coef0) {}
     // {boundary=is_boundary_nodes(dof);}
 
-  Cplx get_coef(const int& i, const int& j) const {
-      std::vector<int> J(1,i);
-      std::vector<int> K(1,j);
 
-    // if (boundary[i]==1 && i==j){
-    //     return 1e30;
-    // }
-    // else {
-        htool::SubMatrix<Cplx> mat(J,K);
-        SubBIOp<BIOp<KernelType>> subV_local = subV;
-        subV_local.compute_block_w_mass(J,K,mat,coef);
-        return mat(0,0) ;
-    // }
-  }
 
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-    htool::SubMatrix<Cplx> mat(J,K);
+  void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_block_w_mass(J,K,mat,coef);
+    subV_local.compute_block_w_mass(M,N,rows,cols,ptr,coef);
 
-    return mat;
-  }
+}
 
 };
 
@@ -106,36 +61,22 @@ public:
     
     Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const double& mass_coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(1),mass_coef(mass_coef0) {}
 
-  Cplx get_coef(const int& i, const int& j) const {
-      std::vector<int> J(1,i);
-      std::vector<int> K(1,j);
 
-    // if (boundary[i]==1 && i==j){
-    //     return 1e30;
-    // }
-    // else {
-        htool::SubMatrix<Cplx> mat1(J,K);
-        htool::SubMatrix<Cplx> mat2(J,K);
-        SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
-        SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
-        sub1_local.compute_block(J,K,mat1);
-        sub2_local.compute_block_w_mass(J,K,mat2,mass_coef);
-        return combined_coef_1*mat1(0,0)+combined_coef_2*mat2(0,0) ;
-    // }
-  }
-
-
-
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
-    htool::SubMatrix<Cplx> mat1(J,K);
-    htool::SubMatrix<Cplx> mat2(J,K);
+  void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     SubBIOp<BIOp<KernelType1>> sub1_local = sub1;
     SubBIOp<BIOp<KernelType2>> sub2_local = sub2;
-    sub1_local.compute_block(J,K,mat1);
-    sub2_local.compute_block_w_mass(J,K,mat2,mass_coef);
+    sub1_local.compute_block(M,N,rows,cols,ptr);
+    std::transform(ptr, ptr+M*N, ptr,
+               std::bind(std::multiplies<Cplx>(), std::placeholders::_1, combined_coef_1));
+    std::vector<Cplx> tmp(M*N,0);
+    sub2_local.compute_block_w_mass(M,N,rows,cols,tmp.data(),mass_coef);
+    int size = M*N;
+    int incx(1), incy(1);
+    htool::Blas<Cplx>::axpy(&size, &combined_coef_2, tmp.data(),&incx,ptr,&incy);
 
-    return combined_coef_1*mat1+combined_coef_2*mat2;
-  }
+
+
+}
 
 };
 
@@ -181,25 +122,12 @@ public:
         }
     }
 
-  Cplx get_coef(const int& i, const int& j) const {
-      std::vector<int> J(1,i);
-      std::vector<int> K(1,j);
-    // if (boundary[i]==1 && i==j){
-    //     return 1e30;
-    // }
-    // else{
-    htool::SubMatrix<Cplx> mat(J,K);
-    SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
-    return mat(0,0);}
-  // }
 
-  htool::SubMatrix<Cplx> get_submatrix(const std::vector<int>& J, const std::vector<int>& K) const{
 
-    htool::SubMatrix<Cplx> mat(J,K);
+  void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
+
     SubBIOp<BIOp<KernelType>> subV_local = subV;
-    subV_local.compute_neumann_block(J,K,mat,Ix,Iy);
-    return mat;
+    subV_local.compute_neumann_block(M,N,rows,cols,ptr,Ix,Iy);
   }
 
 };

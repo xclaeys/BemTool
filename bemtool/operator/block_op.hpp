@@ -167,17 +167,17 @@ namespace bemtool {
     }
 
     template<typename Matrix>
-    void compute_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat){
+    void compute_block(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
-      for(int k=0; k<jjx.size(); k++){
+      for(int k=0; k<M; k++){
     const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
     for(int l=0; l<jj.size(); l++){
       const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
     }
       }
 
-      for(int k=0; k<jjy.size(); k++){
+      for(int k=0; k<N; k++){
     const std::vector<N2>& jj = dofy.ToElt(jjy[k]);
     for(int l=0; l<jj.size(); l++){
       const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
@@ -195,7 +195,7 @@ namespace bemtool {
       elt_mat = biop(jx,jy);
       for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
           for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
-          mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+          mat[nx[kx]+M*ny[ky]] += elt_mat(kx,ky);
         }}
         }}
 
@@ -205,17 +205,17 @@ namespace bemtool {
     }
 
 template<typename Matrix>
-    void compute_block_w_mass(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat,double coef){
+    void compute_block_w_mass(int M, int N, const int *const jjx, const int *const jjy, Cplx* mat,double coef){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
-      for(int k=0; k<jjx.size(); k++){
+      for(int k=0; k<M; k++){
     const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
     for(int l=0; l<jj.size(); l++){
       const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
     }
       }
 
-      for(int k=0; k<jjy.size(); k++){
+      for(int k=0; k<N; k++){
     const std::vector<N2>& jj = dofy.ToElt(jjy[k]);
     for(int l=0; l<jj.size(); l++){
       const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
@@ -233,7 +233,7 @@ template<typename Matrix>
       elt_mat = biop(jx,jy);
       for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
           for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
-          mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+          mat[nx[kx]+M*ny[ky]] += elt_mat(kx,ky);
         }}
         }}
 
@@ -241,7 +241,7 @@ template<typename Matrix>
         elt_mat=MassP1(dofx.get_elt(jx));
         for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
           for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
-          mat(nx[kx],ny[ky]) += coef*elt_mat(kx,ky);
+          mat[nx[kx]+M*ny[ky]] += coef*elt_mat(kx,ky);
         }}
         }}
       }
@@ -252,17 +252,17 @@ template<typename Matrix>
     }
 
     template<typename Matrix>
-    void compute_neumann_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat){
+    void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat){
       elt_mat = 0.; Ix.clear(); Iy.clear();
 
-      for(int k=0; k<jjx.size(); k++){
+      for(int k=0; k<M; k++){
 	const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
 	for(int l=0; l<jj.size(); l++){
 	  const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
 	}
       }
 
-      for(int k=0; k<jjy.size(); k++){
+      for(int k=0; k<N; k++){
 	const std::vector<N2>& jj = dofy.ToElt(jjy[k]);
 	for(int l=0; l<jj.size(); l++){
 	  const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
@@ -293,7 +293,7 @@ template<typename Matrix>
 	  elt_mat = biop(jx,jy);
 	  for(int kx=0; kx<nb_dof_loc_x; kx++){
 	      for(int ky=0; ky<nb_dof_loc_y; ky++){
-		  mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+		  mat[nx[kx]+M*ny[ky]] += elt_mat(kx,ky);
 		}
 	    }
     }
@@ -303,17 +303,17 @@ template<typename Matrix>
     }
 
     template<typename Matrix>
-    void compute_neumann_block(const std::vector<int>& jjx, const std::vector<int>& jjy, Matrix& mat,const std::map<int,Nlocx>& Ix_g,const std::map<int,Nlocx>& Iy_g){
+    void compute_neumann_block(int M, int N, const int *const jjx, const int *const jjy, Cplx *mat,const std::map<int,Nlocx>& Ix_g,const std::map<int,Nlocx>& Iy_g){
         elt_mat = 0.; Ix.clear(); Iy.clear();
 
-        for(int k=0; k<jjx.size(); k++){
+        for(int k=0; k<M; k++){
             const std::vector<N2>& jj = dofx.ToElt(jjx[k]);
             for(int l=0; l<jj.size(); l++){
                 const N2& j = jj[l]; Ix[j[0]][j[1]] = k;
             }
         }
 
-        for(int k=0; k<jjy.size(); k++){
+        for(int k=0; k<N; k++){
             const std::vector<N2>& jj = dofy.ToElt(jjy[k]);
             for(int l=0; l<jj.size(); l++){
                     const N2& j = jj[l]; Iy[j[0]][j[1]] = k;
@@ -348,7 +348,7 @@ template<typename Matrix>
                     elt_mat = biop(jx,jy);
                     for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
                         for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
-                        mat(nx[kx],ny[ky]) += elt_mat(kx,ky);
+                        mat[nx[kx]+M*ny[ky]] += elt_mat(kx,ky);
                       }}
                       }}
                 }
