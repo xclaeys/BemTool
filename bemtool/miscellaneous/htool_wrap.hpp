@@ -10,13 +10,13 @@
 namespace bemtool{
 
 template <typename KernelType, typename Discretization>
-class BIO_Generator : public htool::IMatrix<Cplx>{
+class BIO_Generator : public htool::VirtualGenerator<Cplx>{
   Dof<Discretization> dof;
   SubBIOp<BIOp<KernelType>> subV;
   // std::vector<int> boundary;
 
 public:
-    BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
+    BIO_Generator(const Dof<Discretization>& dof0, const double& kappa):VirtualGenerator(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {}
     // {boundary=is_boundary_nodes(dof);}
 
   void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
@@ -27,14 +27,14 @@ public:
 };
 
 template <typename KernelType, typename Discretization>
-class BIO_Generator_w_mass : public htool::IMatrix<Cplx>{
+class BIO_Generator_w_mass : public htool::VirtualGenerator<Cplx>{
   Dof<Discretization> dof;
   SubBIOp<BIOp<KernelType>> subV;
   // std::vector<int> boundary;
   double coef;
 
 public:
-    BIO_Generator_w_mass(const Dof<Discretization>& dof0, const double& kappa,const double& coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa),coef(coef0) {}
+    BIO_Generator_w_mass(const Dof<Discretization>& dof0, const double& kappa,const double& coef0):VirtualGenerator(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa),coef(coef0) {}
     // {boundary=is_boundary_nodes(dof);}
 
 
@@ -48,7 +48,7 @@ public:
 };
 
 template <typename KernelType1, typename KernelType2, typename Discretization>
-class Combined_BIO_Generator : public htool::IMatrix<Cplx>{
+class Combined_BIO_Generator : public htool::VirtualGenerator<Cplx>{
   Dof<Discretization> dof;
   SubBIOp<BIOp<KernelType1>> sub1;
   SubBIOp<BIOp<KernelType2>> sub2;
@@ -57,9 +57,9 @@ class Combined_BIO_Generator : public htool::IMatrix<Cplx>{
   double mass_coef;
 
 public:
-    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const Cplx& coef2,const double& mass_coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(coef2),mass_coef(mass_coef0) {}
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const Cplx& coef2,const double& mass_coef0):VirtualGenerator(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(coef2),mass_coef(mass_coef0) {}
     
-    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const double& mass_coef0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(1),mass_coef(mass_coef0) {}
+    Combined_BIO_Generator(const Dof<Discretization>& dof0, const double& kappa,const Cplx& coef1,const double& mass_coef0):VirtualGenerator(NbDof(dof0),NbDof(dof0)), dof(dof0),sub1(dof,dof,kappa),sub2(dof,dof,kappa),combined_coef_1(coef1), combined_coef_2(1),mass_coef(mass_coef0) {}
 
 
   void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
@@ -81,7 +81,7 @@ public:
 };
 
 template <typename KernelType, typename Discretization>
-class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
+class SubBIO_Neumann_Generator : public htool::VirtualGenerator<Cplx>{
     typedef typename BIOp<KernelType>::KernelTypeTrait  KernelTrait;
     typedef typename KernelTrait::ShapeFctX     PhiX;
     typedef typename KernelTrait::ShapeFctY     PhiY;
@@ -105,7 +105,7 @@ class SubBIO_Neumann_Generator : public htool::IMatrix<Cplx>{
     // std::vector<int> boundary;
 
 public:
-    SubBIO_Neumann_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):IMatrix(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {
+    SubBIO_Neumann_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):VirtualGenerator(NbDof(dof0),NbDof(dof0)), dof(dof0),subV(dof,dof,kappa) {
         // boundary=is_boundary_nodes(dof);
         for(int k=0; k<targets0.size(); k++){
             const std::vector<N2>& jj = dof.ToElt(targets0[k]);
@@ -133,14 +133,14 @@ public:
 };
 
 // template <typename KernelType, typename Discretization>
-// class SubBIO_Generator : public htool::IMatrix<Cplx>{
+// class SubBIO_Generator : public htool::VirtualGenerator<Cplx>{
 //   Dof<Discretization> dof;
 //   SubBIOp<BIOp<KernelType>> subV;
 //   std::vector<int> targets;
 //   std::vector<int> sources;
 //
 // public:
-//   SubBIO_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):IMatrix(targets0.size(),sources0.size()),dof(dof0),subV(dof,dof,kappa), targets(targets0),sources(sources0) {}
+//   SubBIO_Generator(const Dof<Discretization>& dof0, const double& kappa, const std::vector<int>& targets0 , const std::vector<int>& sources0):VirtualGenerator(targets0.size(),sources0.size()),dof(dof0),subV(dof,dof,kappa), targets(targets0),sources(sources0) {}
 //
 //   Cplx get_coef(const int& i, const int& j) const {
 //     // Get the rank of the process
@@ -177,13 +177,13 @@ public:
 
 
 template <typename KernelType, typename Discretization>
-class POT_Generator : public htool::IMatrix<Cplx>{
+class POT_Generator : public htool::VirtualGenerator<Cplx>{
   Potential<KernelType>& V;
   Dof<Discretization>& dof;
   Geometry& geometry;
 
 public:
-  POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):IMatrix(NbNode(geometry0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
+  POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):VirtualGenerator(NbNode(geometry0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
 
   void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     Potential<KernelType> V_local = V;
