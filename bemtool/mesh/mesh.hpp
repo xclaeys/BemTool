@@ -59,7 +59,7 @@ namespace bemtool{
             if(it==num.end()){return -1;}
             return it->second;}
         
-        friend const int Size(const EltData& data){return data.num.size();}
+        friend int Size(const EltData& data){return data.num.size();}
         
         friend std::ostream& operator<<(std::ostream& os, const EltData& ed){
             for(it_t it = ed.num.begin(); it != ed.num.end(); it++){
@@ -94,7 +94,7 @@ namespace bemtool{
         void Init(const int& nb_node){first.resize(nb_node,-1);}
         
         const e_t&                operator[](const int&    j) const {return elt[j];}
-        friend const int          NbElt     (const this_t& l)       {return l.elt.size();}
+        friend int          NbElt     (const this_t& l)       {return l.elt.size();}
         friend const std::vector<e_t>& EltOf     (const this_t& l)       {return l.elt;}
         
         const ed_t& operator[](const e_t& e) const{
@@ -167,10 +167,10 @@ namespace bemtool{
         template <typename m_t> int Push(Elt2D e, const m_t& m, const int& j){return elt2D.Push(e,m,j);}
         template <typename m_t> int Push(Elt3D e, const m_t& m, const int& j){return elt3D.Push(e,m,j);}
         
-        inline friend const int             NbNode    (const Geometry& g){return g.node.size();  }
-        inline friend const int             NbElt1D   (const Geometry& g){return NbElt(g.elt1D); }
-        inline friend const int             NbElt2D   (const Geometry& g){return NbElt(g.elt2D); }
-        inline friend const int             NbElt3D   (const Geometry& g){return NbElt(g.elt3D); }
+        inline friend int             NbNode    (const Geometry& g){return g.node.size();  }
+        inline friend int             NbElt1D   (const Geometry& g){return NbElt(g.elt1D); }
+        inline friend int             NbElt2D   (const Geometry& g){return NbElt(g.elt2D); }
+        inline friend int             NbElt3D   (const Geometry& g){return NbElt(g.elt3D); }
         inline friend const std::vector<Elt1D>&  Elt1DOf   (const Geometry& g){return EltOf(g.elt1D); }
         inline friend const std::vector<Elt2D>&  Elt2DOf   (const Geometry& g){return EltOf(g.elt2D); }
         inline friend const std::vector<Elt3D>&  Elt3DOf   (const Geometry& g){return EltOf(g.elt3D); }

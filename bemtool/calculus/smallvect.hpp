@@ -127,7 +127,7 @@ public:
   public:
     array<Dim,V_t>(){ construct_loop<this_t>::apply(*this); }
 
-    operator v_t* const(){return v_;}
+    operator v_t* (){return v_;}
 
     template <class r_t> array<Dim,V_t>(const r_t& r_){
       assign_loop<this_t,r_t>::apply(*this,r_);}
