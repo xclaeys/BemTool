@@ -21,6 +21,7 @@
 #define BEMTOOL_FEM_FEM_HPP
 #include "../quadrature/quad.hpp"
 #include "../mesh/mesh.hpp"
+#include "shapefct.hpp"
 
 
 namespace bemtool {
@@ -80,8 +81,58 @@ public:
 
 };
 
+// P0
+template <int dimX,int dimY>
+class LocalMatrix<BasisFct<0,dimX>, BasisFct<0,dimY>> {
+  typedef BasisFct<0,dimX> PhiX;
+  typedef BasisFct<0,dimY> PhiY;
+  static const int dim      = PhiX::dim;
+  static const int nb_dof_x = PhiX::nb_dof_loc;
+  static const int nb_dof_y = PhiY::nb_dof_loc;
+  typedef mat<nb_dof_x,nb_dof_y,Real>  ReturnType;
+  typedef Mesh<dim>                    MeshType;
+
+private:
+  const MeshType&     mesh;
+  ReturnType          inter;
+
+public:
+  LocalMatrix<PhiX,PhiY>(const MeshType& m): mesh(m) {};
+
+  const ReturnType& operator()(const int& l) {
+    const Elt<dim>& e = mesh[l];
+    inter(0,0) = Vol(e);
+    return inter;
+  }
+
+};
+
+// P1
+template <int dimX,int dimY>
+class LocalMatrix<BasisFct<1,dimX>, BasisFct<1,dimY>> {
+  typedef BasisFct<1,dimX> PhiX;
+  typedef BasisFct<1,dimY> PhiY;
+  static const int dim      = PhiX::dim;
+  static const int nb_dof_x = PhiX::nb_dof_loc;
+  static const int nb_dof_y = PhiY::nb_dof_loc;
+  typedef mat<nb_dof_x,nb_dof_y,Real>  ReturnType;
+  typedef Mesh<dim>                    MeshType;
+
+private:
+  const MeshType&     mesh;
+  ReturnType          inter;
+
+public:
+  LocalMatrix<PhiX,PhiY>(const MeshType& m): mesh(m) {};
+
+  const ReturnType& operator()(const int& l) {
+    const Elt<dim>& e = mesh[l];
+    inter = MassP1(e);
+    return inter;
+  }
+
+};
+
 }
-
-
 
 #endif

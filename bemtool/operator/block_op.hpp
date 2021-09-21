@@ -121,11 +121,12 @@ namespace bemtool {
     std::map<int,Nlocx>  Ix;
     std::map<int,Nlocy>  Iy;
 
+    LocalMatrix<PhiX,PhiY> Mloc;
 
   public:
     SubBIOp<BIOpType>(
 		      const DofX&     dofx0,
-		      const DofY&     dofy0, const double& kappa): biop(MeshOf(dofx0),MeshOf(dofy0),kappa), dofx(dofx0), dofy(dofy0){}
+		      const DofY&     dofy0, const double& kappa): biop(MeshOf(dofx0),MeshOf(dofy0),kappa), dofx(dofx0), dofy(dofy0), Mloc(MeshOf(dofx0)) {}
 
     const BlockMat& operator()(const std::vector<int>& jjx, const std::vector<int>& jjy){
       block_mat.Resize(jjx.size(),jjy.size());
@@ -236,7 +237,7 @@ namespace bemtool {
         }}
 
       if (jx==jy){
-        elt_mat=MassP1(dofx.get_elt(jx));
+        elt_mat=Mloc(jx);
         for(int kx=0; kx<nb_dof_loc_x; kx++){ if(nx[kx]!=-1){
           for(int ky=0; ky<nb_dof_loc_y; ky++){ if(ny[ky]!=-1){
           mat[nx[kx]+M*ny[ky]] += coef*elt_mat(kx,ky);
