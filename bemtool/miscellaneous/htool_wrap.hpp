@@ -248,18 +248,20 @@ public:
 
 template <typename KernelType, typename Discretization>
 class POT_Generator : public htool::VirtualGenerator<Cplx>{
-  Potential<KernelType>& V;
-  Dof<Discretization>& dof;
+  Potential<KernelType> V;
+  Dof<Discretization> dof;
   Geometry& geometry;
 
 public:
-  POT_Generator(Potential<KernelType>& V0, Dof<Discretization>& dof0, Geometry& geometry0):VirtualGenerator(NbNode(geometry0),NbDof(dof0)), V(V0), dof(dof0), geometry(geometry0) {}
+  POT_Generator(Dof<Discretization>& dof0, Geometry& geometry0, double kappa):VirtualGenerator(NbNode(geometry0),NbDof(dof0)), dof(dof0), geometry(geometry0), V(MeshOf(dof0),kappa) {}
 
   void copy_submatrix(int M, int N, const int *const rows, const int *const cols, Cplx *ptr) const {
     Potential<KernelType> V_local = V;
     for (int i=0; i<M; i++)
         for (int j=0; j<N; j++)
+        {
             ptr[i+j*M] = V_local(geometry[rows[i]],dof.ToElt(cols[j]));
+            }
   }
 
 };
