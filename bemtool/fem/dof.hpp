@@ -171,6 +171,26 @@ public:
       }
     }
   }
+  // special constructor for FreeFEM dof numbering
+  Dof<ShapeFct>(const typename Trait::mesh_t& m, bool numToFF):
+  mesh_p(&m), node_p(&GeometryOf(m)), nb_elt(NbElt(m)), offset(0) {
+    
+    const int nb_node = NbNode(*node_p);
+    const typename Trait::mesh_t&  mesh = *mesh_p;
+
+    nb_dof = nb_node;
+    elt_to_dof.resize(NbElt(mesh));
+    dof_to_elt.resize(nb_node);
+    std::vector<int> num(nb_node,-1);
+    for(int j=0; j<NbElt(mesh); j++){
+      array<Trait::dim+1,int> I = Num(mesh[j]);
+      for(int k=0; k<Trait::dim+1; k++){
+		elt_to_dof[j][k] = I[k] ;
+	    dof_to_elt[ I[k] ].push_back( N2_(j,k) );
+       }
+    }
+	
+  }
 
   typename Trait::R3loc operator()(const int& j) const {
     Elt<Trait::dim> e = (*mesh_p)[j];
@@ -195,6 +215,11 @@ public:
   const std::vector<N2>& ToElt(const int& j) const {
     assert(j>=offset && j<offset+nb_dof);
     return dof_to_elt[j-offset];}
+
+
+    const Elt<Trait::dim>& get_elt(int j) const{
+      return (*mesh_p)[j];
+    }
 
   friend const typename Trait::mesh_t&
   MeshOf(const this_t& dof){return *(dof.mesh_p);}
@@ -288,6 +313,67 @@ public:
     }
   }
 
+  // special constructor for FreeFEM dof numbering
+  Dof<ShapeFct>(const typename Trait::mesh_t& m, bool numToFF):
+  mesh_p(&m), node_p(&GeometryOf(m)), nb_elt(NbElt(m)), offset(0) {
+
+    const int dim = Trait::dim;
+    const int nb_edge_loc = Trait::nb_edge_loc;
+    const int nb_node = NbNode(*node_p);
+    const typename Trait::mesh_t&  mesh = *mesh_p;
+    nb_dof = 0;
+    elt_to_dof.resize(NbElt(mesh));
+
+    int end = -1;
+    std::vector<int>   num  (nb_node,-1);
+    std::vector<int>   begin(nb_node,-1);
+    std::vector<int>   next;
+    std::vector<Elt1D> edge;
+    std::vector<int>   numedge;
+    int nb_edge=0;
+
+    //numerotation dofs associes aux noeuds
+    for(int j=0; j<NbElt(mesh); j++){
+      array<dim+1,int> I = Num(mesh[j]);
+      for(int k=0; k<dim+1; k++){
+	if(num[I[k]]==-1){
+	  num[I[k]]=nb_dof;
+	  dof_to_elt.push_back(std::vector<N2>());
+	  nb_dof++;}
+	elt_to_dof[j][k] = num[I[k]];
+	dof_to_elt[num[I[k]]].push_back( N2_(j,k) );
+      }
+
+    //numerotation dofs associes aux aretes
+      array<nb_edge_loc,Elt1D> edge_loc = EdgesOf(mesh[j]);
+      for(int k=0; k<nb_edge_loc; k++){
+	bool exists = false;
+	Elt1D e = edge_loc[k]; Order(e);
+	for(int p=begin[Key(e)]; p!=end; p=next[p]){
+	  if(e==edge[p]){
+	    exists=true;
+	    int num_dof = numedge[p];
+	    elt_to_dof[j][dim+1+k] = num_dof;
+	    dof_to_elt[num_dof].push_back( N2_(j,dim+1+k) );
+	    break;
+	  }
+	}
+	if(!exists){
+	  next.push_back(begin[Key(e)]);
+    begin[Key(e)]=nb_edge;
+	  elt_to_dof[j][dim+1+k]=nb_dof;
+	  edge.push_back(e);
+    numedge.push_back(nb_dof);
+
+	  dof_to_elt.push_back(std::vector<N2>());
+	  dof_to_elt[nb_dof].push_back( N2_(j,dim+1+k) );
+
+	  nb_edge++;
+	  nb_dof++;
+	}
+      }
+    }
+  }
 
   typename Trait::R3loc operator()(const int&) const;
 

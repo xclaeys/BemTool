@@ -155,9 +155,12 @@ class Connected{
 };
 
 
-//===============================//
-//     Breadth First Search      //
-//===============================//
+  //===============================//
+  //     Breadth First Search      //
+  //===============================//
+  
+  
+  
   template <typename m_t>
   Connected<m_t>::Connected(const m_t& m): mesh(m) {
     
@@ -228,9 +231,14 @@ class Connected{
       exit(EXIT_FAILURE);
     }    
     
+    
+    
+    
   }
   
-  
+
+
+
   
 } // namespace bemtool
 

@@ -72,6 +72,10 @@ public:
     if(j<0){return none;}
     return normal[j];}
 
+  void set(const int& j, const R3& n) {
+    normal[j] = n;
+  }
+
   inline friend const m_t& MeshOf(const this_t& N) {return N.mesh;}
   inline friend void swap(this_t& N, const int& j){N[j] = (-1.)*N[j]; }
   inline friend void swap(this_t& N){

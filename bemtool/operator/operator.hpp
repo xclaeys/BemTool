@@ -250,6 +250,7 @@ typedef BIOpKernel<CST,CST_OP,2,P0_2D,P1_2D> CST_2D_P0xP1;
 typedef BIOpKernel<CST,CST_OP,2,P1_2D,P0_2D> CST_2D_P1xP0;
 typedef BIOpKernel<CST,CST_OP,1,P2_1D,P2_1D> CST_1D_P2xP2;
 typedef BIOpKernel<CST,CST_OP,2,P2_2D,P2_2D> CST_2D_P2xP2;
+
 }
 
 #endif

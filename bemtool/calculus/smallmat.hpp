@@ -260,7 +260,7 @@ typename m_t::v_t det(const m_t& M){
 
     if(m_t::nr== 3){
         return M(0,0)*( M(1,1)*M(2,2) - M(2,1)*M(1,2) )
-        + M(0,1)*( M(1,0)*M(2,2)-M(2,0)*M(1,2) )
+        - M(0,1)*( M(1,0)*M(2,2)-M(2,0)*M(1,2) )
         + M(0,2)*( M(1,0)*M(2,1)-M(2,0)*M(1,1) ); }
 
     if(m_t::nr > 3){
@@ -382,6 +382,20 @@ typedef mat<6,6,   Cplx>    C6x6;
 typedef mat<10,10, Cplx>    C10x10;
 typedef mat<3,2,   Cplx>    C3x2;
 typedef mat<2,3,   Cplx>    C2x3;
+typedef mat<3,1,   Cplx>    C3x1;
+  
+
+
+  template <int nr, int nc, typename v_t>
+  mat<nc,nr,v_t> transpose(const mat<nr,nc,v_t>& m0){
+    mat<nc,nr,v_t> m;
+    for(int j=0; j<nr; j++){
+      for(int k=0; k<nc; k++){
+	m(k,j)=m0(j,k);
+      }
+    }
+    return m;
+  }
 
 
 template <class x_t>
